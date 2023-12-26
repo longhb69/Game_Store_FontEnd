@@ -3,5 +3,26 @@
 @tailwind utilities;
 
 body {
-    background-color: #121212;
+    background-color: #121212; /*#121212 */
+}
+
+.slick {
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: white;
+    border: none;
+    outline: none;
+}
+
+.next {
+    right: -50px;
+}
+.pre {
+    left: -50px;
 }

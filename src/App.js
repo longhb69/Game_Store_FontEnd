@@ -2,6 +2,7 @@ import GameDeatail from './pages/GameDeatail';
 import './index.css';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import CategoryGame from './pages/CategoryGame';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
           <Routes>
               <Route path="" element={<Home/>}/>
               <Route path="/app/:slug" element={<GameDeatail/>}/>
+              <Route path="/category/:slug" element={<CategoryGame/>}/>
           </Routes>
     </BrowserRouter>
   );

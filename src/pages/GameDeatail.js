@@ -7,7 +7,7 @@ export default function GameDeatail() {
     const videoRef = useRef(null);
     const { slug } = useParams(); 
     const [game, setGame] = useState();
-
+    
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
         axios.get(url).then((response) => {
