@@ -67,21 +67,50 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect,useState } from 'react';
+import { baseUrl } from '../shared';
+import axios from 'axios';
 
 
 
 function Arrow({onClick, direction }) {
       return (
-        <div
-          className={`${direction === 'right' ? 'next' : 'pre'} slick`}
-          onClick={onClick}
-        >
-        <FontAwesomeIcon className='red' icon={direction === 'right' ? faChevronRight : faChevronLeft} />
-        </div>
+        <button className='w-30 h-30 mr-10'
+                onClick={onClick}>
+                <FontAwesomeIcon className='text-white text-5xl' icon={faChevronLeft} />
+        </button>
       );
   }
 
-const CategorySlider = ({ categories }) => {
+const CategorySlider = () => {
+  const [categories, setCategories] = useState();
+  const [next, setNext] = useState(null);
+  const [prev, setPrev] = useState(null);
+  const [last, setLast] = useState(null)
+
+  const url_category = baseUrl + 'api/category/'
+
+  function request(url) {
+    axios.get(url, {
+      method: 'GET',
+      'Content-Type': 'application/json',
+    }).then((response) => {
+      console.log(url)
+      setCategories(response.data.results)
+      setNext(response.data.links.next)
+      setPrev(response.data.links.previous)
+      setLast(response.data.total_pages)
+    })
+    .catch((e) => {
+      console.error('Error fetching data:', e);
+    })
+
+  }
+
+  useEffect(() => {
+    request(url_category)
+  }, [url_category])
+
   const gradientColors = [
           'from-lime-600',
           'from-rose-600',
@@ -108,28 +137,30 @@ const CategorySlider = ({ categories }) => {
 
   return (
     <div className="relative w-full max-w-screen-xl mx-auto">
-        {categories ? (
-              <Slider {...settings}>
-                    {categories.map((category, index) => (
-                    <Link to={`/category/${category.slug}`}>
-                      <div className="max-w-[150px] min-w-[150px] relative group mx-2">
-                        <div
-                          className={`gradient-overlay absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t ${gradientColors[index % gradientColors.length]} to-white-500`}
-                        ></div>
-                        <img
-                          className="mx-auto w-full h-auto"
-                          src={category.image}
-                          alt={category.name}
-                        />
-                        <span className="absolute bottom-0 left-0 right-0 bg-transparent text-white text-center py-2 font-bold">
-                          {category.name}
-                        </span>
-                        </div>
-                    </Link>
-                ))}
-              </Slider>
-        ): null}
-    </div>     
+      {categories ? (
+        <div className='flex justify-center sm:justify-start gap-4 '>
+          <Slider {...settings}>
+            {categories.map((category, index) => (
+              <Link to={`/category/${category.slug}`} key={category.id}>
+                <div className="max-w-[150px] min-w-[150px] relative group mx-2">
+                  <div
+                    className={`gradient-overlay absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t ${gradientColors[index % gradientColors.length]} to-white-500`}
+                  ></div>
+                  <img
+                    className="mx-auto w-full h-auto"
+                    src={category.image}
+                    alt={category.name}
+                  />
+                  <span className="absolute bottom-0 left-0 right-0 bg-transparent text-white text-center py-2 font-bold">
+                    {category.name}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </Slider>
+        </div>
+      ) : null}
+    </div>
   );
 };
 

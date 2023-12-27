@@ -5,7 +5,10 @@ import { baseUrl } from '../shared';
 import Swiper from 'swiper';
 import CategorySlider from '../components/CategorySlider';
 import Slider from '../components/Slider';
-
+import SwiperTest from '../components/SwiperTest';
+// <div className='flex  items-center justify-center'>
+// <SwiperTest/>
+// </div>
 export default function Home() {
     const [games, setGames] = useState();
     useEffect(() => {
