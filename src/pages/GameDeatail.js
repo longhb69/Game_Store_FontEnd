@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { baseUrl } from '../shared';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 export default function GameDeatail() {
@@ -8,7 +9,8 @@ export default function GameDeatail() {
     const { slug } = useParams(); 
     const [game, setGame] = useState();
     const [categories, setCategories] = useState();
-    
+    const navigate = useNavigate();
+
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
         axios.get(url).then((response) => {
@@ -22,61 +24,93 @@ export default function GameDeatail() {
             videoRef.current.play();
           }
       }, [game]);
+    function addCart(game_id) {
+        const url = baseUrl + 'cart/'
+        const data = {special:false,dlc:false,game_id:game_id, cart_id: 4515122064}
+        fetch(url,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }).then((response) => {
+            if (response.status === 403) {
+                navigate('/login')
+            }
+            else if(!response.ok) {
+                throw new Error('Something went wrong')
+            }
+            return response.json();
+        }).catch((e) => {
+        })
+    }
     return (
         <>  
             { game && (
                 <>
-                    <div className='mx-auto w-4/6'>
+                    <div className='mx-auto w-4/6 mt-20'>
                         <div className='text-white text-5xl'>
                             {game.name}
                         </div>
-                        <div>
-                            <div>
-                                <video ref={videoRef} className="video" controls preload="auto" muted>
-                                    <source src={game.video} type="video/mp4" />
-                                    <span>Your browser does not support the video tag.</span>
-                                </video>
+                        <div className='flex mt-5 max-w-7xl'>
+                            <div className='basis-2/3'>
+                                <div className=''>
+                                    <video ref={videoRef} className="max-w-full" controls preload="auto" muted>
+                                        <source src={game.video} type="video/mp4" />
+                                        <span>Your browser does not support the video tag.</span>
+                                    </video>
+                                </div>
                             </div>
-                            <div className='text-white'>
-                                <div>
+                            <div className='text-white basis-1/3 ml-7'>
+                                <div className='mb-3'>
                                     <img src={game.image}/>
                                 </div>
-                                <div>
-                                    <p className='text-white'>{game.overview_description}</p>
+                                <div className='mb-3'>
+                                    <p className='text-white text-sm'>{game.overview_description}</p>
                                 </div>
                                 <div>
+                                    <div className='flex flex-nowrap'>
+                                        <span className='basis-2/5 text-white'>RELEASE DATE:</span>
+                                        <span className='basis-3/5 text-white'>{game.year}</span>
+                                    </div>
+                                    <div className='flex flex-nowrap'>
+                                        <span className='basis-2/5 text-white'>Developer:</span>
+                                        <a href="#" className='basis-3/5 text-white'>null</a>
+                                    </div>
+                                    <div className='flex flex-nowrap'>
+                                        <span className='basis-2/5 text-white'>Publisher:</span>
+                                        <a href="#" className='basis-3/5 text-white'>null</a>
+                                    </div>
+                                </div>
+                                <div className=''>
                                     <div>
-                                        <span className='text-white'>RELEASE DATE:</span>
-                                        <span className='text-white'>{game.year}</span>
+                                        <p>{game.price}<span className="underline">đ</span></p>
                                     </div>
                                     <div>
-                                        <span className='text-white'>Developer:</span>
-                                        <span className='text-white'>null</span>
+                                        <button>
+                                            <span>BUY NOW</span>
+                                        </button>
+                                    </div>
+                                    <div>   
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                addCart(game.id)
+                                            }}
+                                        >
+                                            <span>ADD TO CART</span>
+                                        </button>
                                     </div>
                                     <div>
-                                        <span className='text-white'>Publisher:</span>
-                                        <span className='text-white'>null</span>
+                                        <button>
+                                            <span>ADD TO WISHLIST</span>
+                                        </button>
                                     </div>
-                                </div>
-                                <div>
-                                    <button>
-                                        <span>BUY NOW</span>
-                                    </button>
-                                </div>
-                                <div>
-                                    <button>
-                                        <span>ADD TO CART</span>
-                                    </button>
-                                </div>
-                                <div>
-                                    <button>
-                                        <span>ADD TO WISHLIST</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div>
+                        <div className='flex flex-row mb-10 mt-10'>
+                            <div className='flex flex-col px-5 border-r border-l'>
                                 <div className='text-white'>
                                     <div>
                                         <span>Genres</span>
@@ -85,7 +119,9 @@ export default function GameDeatail() {
                                         {categories 
                                             ? categories.map((category) => {
                                                 return (
-                                                    <span>{category.name}</span>
+                                                    <Link to={`/category/${category.slug}`} key={category.id}>
+                                                        <span className='mr-2 underline hover:no-underline'>{category.name},</span>
+                                                    </Link>
                                                 )
                                             })
                                         : null}
@@ -95,16 +131,16 @@ export default function GameDeatail() {
                         </div>
                         <div className='text-white'>
                             <div>
-                                <p>ABOUT THIS GAME</p>
-                                <p dangerouslySetInnerHTML={{ __html: game.detail_description }}></p>
+                                <h2 className='text-lg border-b'>ABOUT THIS GAME</h2>
+                                <p className='mt-5' dangerouslySetInnerHTML={{ __html: game.detail_description }}></p>
                             </div>             
                         </div>
                         <div className='text-white text-lg'>
-                            <div>
-                                <span>System Requirements</span>
+                            <div className='text-xl border-b py-2'>
+                                <span className=''>System Requirements</span>
                             </div>
-                            <div className='container'>
-                               <div className='MINIMUM div'>
+                            <div className='container flex'>
+                               <div className='MINIMUM div basis-1/2'>
                                     <ul>
                                        <strong>Minimum</strong>
                                        <br/>
@@ -132,7 +168,7 @@ export default function GameDeatail() {
                                        </ul>
                                     </ul>
                                </div>
-                               <div className='RECOMMENDED div'>
+                               <div className='RECOMMENDED div basis-1/2'>
                                     <ul>
                                     <strong>RECOMMENDED</strong>
                                     <br/>
