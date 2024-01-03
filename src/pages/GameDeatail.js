@@ -1,8 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { baseUrl } from '../shared';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { LoginContext } from '../App';
+import { useLogin } from '../LoginContext';
+import GameDLC from '../components/GameDLC';
 
 export default function GameDeatail() {
     const videoRef = useRef(null);
@@ -10,6 +13,8 @@ export default function GameDeatail() {
     const [game, setGame] = useState();
     const [categories, setCategories] = useState();
     const navigate = useNavigate();
+    const location = useLocation();
+    const [loggedIn, setLoggedIn] = useLogin()
 
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
@@ -21,7 +26,12 @@ export default function GameDeatail() {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.play();
+            try {
+                videoRef.current.play();
+            }
+            catch(e) {
+                console.log(e)
+            }
           }
       }, [game]);
     function addCart(game_id) {
@@ -30,18 +40,24 @@ export default function GameDeatail() {
         fetch(url,{
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('access'), 
             },
             body: JSON.stringify(data),
         }).then((response) => {
-            if (response.status === 403) {
-                navigate('/login')
+            console.log(localStorage.getItem('access'))
+            if (response.status === 403 || response.status === 401) {
+                setLoggedIn(false);
+                navigate('/login', {
+                    state: {
+                        previousUrl: location.pathname
+                    }
+                });
             }
             else if(!response.ok) {
                 throw new Error('Something went wrong')
             }
             return response.json();
-        }).catch((e) => {
         })
     }
     return (
@@ -52,10 +68,10 @@ export default function GameDeatail() {
                         <div className='text-white text-5xl'>
                             {game.name}
                         </div>
-                        <div className='flex mt-5 max-w-7xl'>
+                        <div className='flex mt-5 '>
                             <div className='basis-2/3'>
                                 <div className=''>
-                                    <video ref={videoRef} className="max-w-full" controls preload="auto" muted>
+                                    <video ref={videoRef} className="w-full h-full rounded" controls preload="auto" muted>
                                         <source src={game.video} type="video/mp4" />
                                         <span>Your browser does not support the video tag.</span>
                                     </video>
@@ -128,6 +144,27 @@ export default function GameDeatail() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div className='text-white text-lg'>
+                            {game.dlc && game.dlc.length > 0 ? (
+                                <>
+                                    <h2 className='mb-5'>Content For This Game</h2>
+                                    <div className='flex flex-col mb-5'>
+                                            {game.dlc.map((dlc) => {
+                                                return (
+                                                    <GameDLC
+                                                        key={dlc.id}
+                                                        id={dlc.id}
+                                                        name={dlc.name}
+                                                        slug={dlc.slug}
+                                                        price={dlc.price}
+                                                        cover={dlc.cover}
+                                                        image={dlc.image}/>
+                                                )
+                                            })}
+                                    </div>
+                                </>
+                            ) : null}
                         </div>
                         <div className='text-white'>
                             <div>

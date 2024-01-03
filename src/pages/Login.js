@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { baseUrl } from '../shared';
 import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LoginContext } from '../App';
+import { useAccount, useLogin } from '../LoginContext';
 
 export default function Login() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [incorrent, setIncorrent] = useState(false);
+    const [loggedIn, setLoggedIn] = useLogin()
+    const [account, setAccount] = useAccount()
+
+    const navigate = useNavigate()
     
+    const location = useLocation();
     
     function login(e) {
         e.preventDefault();
@@ -17,10 +26,28 @@ export default function Login() {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
-            console.log(response)
+          localStorage.setItem('access', response.data.access);
+          localStorage.setItem('refresh',response.data.refresh);
+          setLoggedIn(true)
+          const url2 = baseUrl + 'api/account/'
+          axios.get(url2, {
+            headers: {
+              Authorization: 'Bearer ' + response.data.access, 
+            }
+          })
+          .then((respone) => {
+            console.log("Username")
+            console.log(respone.data.username)
+            setAccount(respone.data.username);
+            localStorage.setItem('account', respone.data.username)
+          })
+          location.state.previousUrl ? navigate(location.state.previousUrl) : navigate('/')
         }).catch((e) => {
-
-        })
+          if(e.response && (e.response.status === 401 || e.response.status === 400)) {
+            setIncorrent(true)
+            console.log('Incorrect username or password');
+          }
+        });
     };
     return (
         <div className='text-white mx-auto'>
@@ -50,6 +77,7 @@ export default function Login() {
             }}
           />
         </label>
+        {incorrent ? <p className='text-red'>Incorrect username or password</p> : null}
         <br />
         <button type="submit">Login</button>
       </form>
