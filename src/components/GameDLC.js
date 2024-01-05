@@ -9,11 +9,11 @@ export default function GameDLC(props) {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const [loggedIn, setLoggedIn] = useLogin()
+    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
 
     function addCart(game_id) {
         const url = baseUrl + 'cart/'
-        const data = {special:false,dlc:true,game_id:game_id}
+        const data = {type: "dlc", base_game_id: game_id}
         fetch(url,{
             method: 'POST',
             headers: {
@@ -22,7 +22,6 @@ export default function GameDLC(props) {
             },
             body: JSON.stringify(data),
         }).then((response) => {
-            console.log(localStorage.getItem('access'))
             if (response.status === 403 || response.status === 401) {
                 setLoggedIn(false);
                 navigate('/login', {
@@ -34,6 +33,7 @@ export default function GameDLC(props) {
             else if(!response.ok) {
                 throw new Error('Something went wrong')
             }
+            getCartQuantity()
             return response.json();
         })
     }

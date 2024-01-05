@@ -9,7 +9,7 @@ export default function Login() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [incorrent, setIncorrent] = useState(false);
-    const [loggedIn, setLoggedIn] = useLogin()
+    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
     const [account, setAccount] = useAccount()
 
     const navigate = useNavigate()
@@ -36,11 +36,22 @@ export default function Login() {
             }
           })
           .then((respone) => {
-            console.log("Username")
-            console.log(respone.data.username)
             setAccount(respone.data.username);
             localStorage.setItem('account', respone.data.username)
           })
+          const url3 = baseUrl + 'cart/quantity';
+          axios.get(url3, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('access'), 
+            }
+          }).then((respone) => {
+              console.log(respone.data.quantity)
+              setCartQuantity(respone.data.quantity)
+          }).catch((e) => {
+            console.error('Error can not get quantity')
+          })
+
           location.state.previousUrl ? navigate(location.state.previousUrl) : navigate('/')
         }).catch((e) => {
           if(e.response && (e.response.status === 401 || e.response.status === 400)) {

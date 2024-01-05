@@ -4,14 +4,16 @@ import { LoginContext } from '../App';
 import { useAccount, useLogin } from '../LoginContext';
 
 export default function Header(props) {
-    const [loggedIn, setLoggedIn] = useLogin()
+    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity] = useLogin()
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
 
     function handleLogout(value) {
-        setLoggedIn(value)
+        navigate('');
+        setLoggedIn(value);
+        setAccount(null)
     }
     const handleSetUsername = (username) => {
         setUsername(username);
@@ -25,7 +27,7 @@ export default function Header(props) {
     }
     useEffect(() => {
         console.log(loggedIn)
-    })
+    }, [loggedIn])
     return (
         <>
             <div className='flex justify-between items-center mx-28 py-8'>
@@ -34,7 +36,20 @@ export default function Header(props) {
                 </div>
                 <div className='flex items-center'>
                     {account ? <p className='text-white text-xl mr-5'>{account}</p> : null}
-                    <Link to={'/cart'} className='text-white text-xl flex items-center'>Cart</Link>
+                    <div>
+                        <div>
+                            <li className='flex whitespace-nowrap items-center'>
+                                <div>
+                                    <Link to={'/cart'} className='text-white text-xl flex items-center p-2'>Cart</Link>
+                                </div>
+                                {cartQuantity !== 0 && loggedIn ? 
+                                    <div className='bg-white h-auto w-[30px] text-center rounded-xl ml-0.5'>
+                                        <span id="CartQuantityContainer" className='font-bold text-black '>{cartQuantity}</span>
+                                    </div>
+                                : null}
+                            </li>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
@@ -44,8 +59,7 @@ export default function Header(props) {
                         <button
                             className='text-white text-xl'
                             onClick={() => {
-                                setLoggedIn(false);
-                                setAccount(null)
+                                handleLogout(false)
                             }}
                             >  
                             Logout
@@ -54,7 +68,7 @@ export default function Header(props) {
                 :
                     <button
                         className='text-white text-xl'
-                        onClick={handleLogin}
+                        onClick={() => handleLogin}
                     >  
                         Login
                     </button>

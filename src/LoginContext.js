@@ -1,4 +1,4 @@
-import {useContext, useState, createContext, useEffect} from "react";
+import {useContext, useState, createContext, useEffect, useCallback} from "react";
 import { baseUrl } from './shared';
 import axios, { Axios } from 'axios';
 
@@ -17,6 +17,7 @@ export function LoginProvider({children}) {
         localStorage.access ? true : false
       )
     const [account, setAccount] = useState(null)
+    const [cartQuantity, setCartQuantity] = useState(0)
 
     function changeLoggedIn(value) {
         setLoggedIn(value)
@@ -24,6 +25,21 @@ export function LoginProvider({children}) {
           localStorage.clear();
         }
     }
+    const getCartQuantity = useCallback(() =>{
+        if(loggedIn) {
+          const url = baseUrl + 'cart/quantity';
+          axios.get(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('access'), 
+            }
+          }).then((respone) => {
+              setCartQuantity(respone.data.quantity)
+          }).catch((e) => {
+            console.error('Error can not get quantity')
+          })
+        }
+    })
     useEffect(() => {
         function refreshTokens() {
             if(localStorage.refresh) {
@@ -44,8 +60,11 @@ export function LoginProvider({children}) {
         refreshTokens();
         setInterval(refreshTokens(), minute * 3);
     }, [])
+    useEffect(() => {
+      getCartQuantity();
+    }, [])
     return (
-        <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
+        <LoginContext.Provider value={[loggedIn, changeLoggedIn, cartQuantity, setCartQuantity, getCartQuantity]}>
             <AccountContext.Provider value={[account, setAccount]}>
                 {children}
             </AccountContext.Provider>
