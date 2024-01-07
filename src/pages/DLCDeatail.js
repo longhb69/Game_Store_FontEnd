@@ -7,10 +7,12 @@ import { LoginContext } from '../App';
 import { useLogin } from '../LoginContext';
 
 export default function DLCDeatail() {
+    const slug = useParams().slug
+    console.log(slug)
     return (
         <>
             <div>
-                <p className='text-white'>DLC</p>
+                <p className='text-white'>DLC {slug}</p>
             </div>
         </>
     );

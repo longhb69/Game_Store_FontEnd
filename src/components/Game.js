@@ -9,7 +9,7 @@ export default function GameDeatail(props) {
     }
     return (
         <>  
-            <div className="h-full relative font-normal font-inter transition-transform transform transform group hover:brightness-105 hover:scale-105" >
+            <div className="h-full relative font-normal font-inter transition-transform transform transform group hover:brightness-110" >
                 <div className={`absolute -right-10 -top-9 bg-gray-800 text-white text-sm px-3 py-1 rounded ${ isHovered ? 'opacity-100' : 'opacity-0'}`}>
                             Add to Wishlist
                 </div>
@@ -24,7 +24,7 @@ export default function GameDeatail(props) {
                     </button>
                 </div>
                 <Link to={'/app/' + props.slug}>
-                    <img className="w-full h-2/3 object-fit rounded" src={props.cover}/>
+                    <img className="w-full h-2/3 object-fit rounded hover:scale-105" src={props.cover}/>
                     <p className="my-4" >{props.name}</p>
                     <p className="text-start">
                         {props.price}<span className="underline">đ</span>

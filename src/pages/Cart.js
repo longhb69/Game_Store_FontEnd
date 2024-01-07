@@ -3,13 +3,13 @@ import { baseUrl } from '../shared';
 import { useEffect, useState } from 'react';
 import { Link,useLocation, useNavigate } from 'react-router-dom';
 import { useLogin } from '../LoginContext';
+import CartItem from '../components/CartItem';
 
 export default function Cart() {
     const [cart, setCart] = useState();
     const navigate = useNavigate();
     const location = useLocation();
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin();
-
 
     useEffect(() => {
         const url = baseUrl + 'cart/'
@@ -34,7 +34,10 @@ export default function Cart() {
             return response.json();
         }).then((response) => {
             const reversedItems = response.items.reverse();
-            setCart({...cart, items:reversedItems})
+            const updateItem = {...cart, items:reversedItems}
+            setCart({...updateItem, pk:response.pk, total_price: parseFloat(response.total_price).toFixed(3)})
+        }).catch((e) => {
+            console.error('Error fetching cart data:', e);
         })
     }, [])
     
@@ -61,8 +64,8 @@ export default function Cart() {
     }
     return(
         <>
-            <div className='mx-auto w-3/4 mt-20'>
-                <div className='mb-5'>
+            <div className='mx-auto w-4/5 mt-20'>
+                <div className='mb-12'>
                     <h1>
                         <span className='text-5xl'>Your Shopping Cart</span>
                     </h1>
@@ -70,32 +73,20 @@ export default function Cart() {
                 <div className={`flex ${cart && cart.items.length <= 0 ? 'justify-center items-center'  : ''}`}>
                             {cart && cart.items.length > 0 ? (
                                 <>
-                                    <div className='flex flex-col gap-x-10 basis-4/6 mr-10'>
+                                    <div className='flex flex-col  gap-x-10 basis-4/6 mr-10'>
                                         {cart.items.map((item) => {
                                             return (
-                                                    <div key={item.pk} className='flex flex-row bg-[#0e141bcc] py-5 px-4 mb-4'>
-                                                        <div className=''>
-                                                            <Link to={item.type === 'game' ? '/app/'+item.slug : '/app/dlc/'+item.slug}>
-                                                                <img className='min-w-[150px] h-[200px] rounded object-fit hover:brightness-125' src={item.cover}/>
-                                                            </Link>
-                                                        </div>
-                                                        <div className='px-3 pt-3'>
-                                                            <Link to={item.type === 'game' ? '/app/'+item.slug : '/app/dlc/'+item.slug}>
-                                                                <p className='text-2xl hover:underline decoration-1'>{item.name}</p>
-                                                            </Link>
-                                                        </div>
-                                                        <div className='ml-auto	p-0 m-0'>
-                                                            <div className='text-right'>
-                                                                <div>{item.price}<span className='underline'>đ</span></div>
-                                                                <div>
-                                                                    <button className='text-gray-400 underline hover:no-underline'
-                                                                            onClick={() => handleDelete(item.id)}>
-                                                                        <span className=''>Remove</span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <CartItem
+                                                        key={cart.pk}
+                                                        id={item.id}
+                                                        slug={item.slug}
+                                                        type={item.type}
+                                                        name={item.name}
+                                                        price={item.price}
+                                                        cover={item.cover}
+                                                        dlcs = {item.dlcs}
+                                                        handleDelete={handleDelete}
+                                                        />
                                             );
                                         })}
                                     </div>
@@ -121,11 +112,32 @@ export default function Cart() {
                     {cart && cart.items.length > 0 ? 
                         <div className="basis-4/12">
                             <div>
-                                <div>
+                                <div className='text-3xl'>
                                     <span>Games Summary</span>
                                 </div>
+                                <div className='mt-2 text-lg'>
+                                        <div className='flex justify-between'>
+                                            <div className='mr-5'>
+                                                <span>Price</span>
+                                            </div>
+                                            <span>{cart.total_price}<span className='underline'>đ</span></span>
+                                        </div>
+                                </div>
+                                <div className='pt-6 border-t mt-8 border-gray-100 text-lg'>
+                                    <div className='flex justify-between'>
+                                        <div className='mr-5 font-bold'>
+                                            <span>Subtotal</span>
+                                        </div>
+                                        <span className='font-bold '>{cart.total_price}<span className='underline'>đ</span></span>
+                                    </div>
+                                </div>
+                                <div className='mt-5'>
+                                    <button className='w-full h-[50px] bg-[#0066CC] rounded font-medium	hover:brightness-125'>
+                                        <span>CHECK OUT</span>
+                                    </button>
+                                </div>
                             </div>  
-                    </div>
+                        </div>
                     : null}               
                 </div>
             </div>

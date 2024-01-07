@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { NavLink,Link, useNavigate, useLocation  } from 'react-router-dom';
 import { LoginContext } from '../App';
-import { useAccount, useLogin } from '../LoginContext';
+import { useAccount, useLogin, useCart } from '../LoginContext';
 
 export default function Header(props) {
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity] = useLogin()
+    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity] = useLogin();
+    const [itemsInCart, setItemsInCart,getItemInCart] = useCart();
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
@@ -13,7 +14,8 @@ export default function Header(props) {
     function handleLogout(value) {
         navigate('');
         setLoggedIn(value);
-        setAccount(null)
+        setAccount(null);
+        setItemsInCart(null)
     }
     const handleSetUsername = (username) => {
         setUsername(username);
@@ -68,7 +70,7 @@ export default function Header(props) {
                 :
                     <button
                         className='text-white text-xl'
-                        onClick={() => handleLogin}
+                        onClick={() => handleLogin()}
                     >  
                         Login
                     </button>

@@ -4,12 +4,16 @@ import axios, { Axios } from 'axios';
 
 const LoginContext = createContext();
 const AccountContext = createContext();
+const CartContext = createContext(); 
 
 export function useLogin() {
     return useContext(LoginContext);
 }
 export function useAccount() {
     return useContext(AccountContext);
+}
+export function useCart() {
+  return useContext(CartContext);
 }
 
 export function LoginProvider({children}) {
@@ -18,6 +22,7 @@ export function LoginProvider({children}) {
       )
     const [account, setAccount] = useState(null)
     const [cartQuantity, setCartQuantity] = useState(0)
+    const [itemsInCart, setItemsInCart] = useState()
 
     function changeLoggedIn(value) {
         setLoggedIn(value)
@@ -40,6 +45,23 @@ export function LoginProvider({children}) {
           })
         }
     })
+    const getItemInCart = useCallback(() => {
+      if(loggedIn) {
+        const url2 = baseUrl + 'cart/item-in-cart'
+          axios.get(url2, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('access'), 
+            }
+          }).then((response) => {
+              setItemsInCart(response.data)
+              console.log(response.data)
+          }).catch((e) => {
+            console.log('Error can not get items in cart', e)
+          })
+      }
+    })
+
     useEffect(() => {
         function refreshTokens() {
             if(localStorage.refresh) {
@@ -47,6 +69,7 @@ export function LoginProvider({children}) {
               axios.post(url, {
                 refresh: localStorage.refresh,
               }).then((respone) => {
+                console.log(respone.data.access)
                 localStorage.access = respone.data.access
                 localStorage.refresh = respone.data.refresh
                 setAccount(localStorage.account)
@@ -58,15 +81,20 @@ export function LoginProvider({children}) {
         }
         const minute = 1000 * 60 
         refreshTokens();
-        setInterval(refreshTokens(), minute * 3);
+        const intervalId = setInterval(() => {
+          refreshTokens()
+        }, minute*3)
     }, [])
+
     useEffect(() => {
       getCartQuantity();
     }, [])
     return (
         <LoginContext.Provider value={[loggedIn, changeLoggedIn, cartQuantity, setCartQuantity, getCartQuantity]}>
             <AccountContext.Provider value={[account, setAccount]}>
-                {children}
+                <CartContext.Provider value={[itemsInCart, setItemsInCart,getItemInCart]}>
+                  {children}
+                </CartContext.Provider>
             </AccountContext.Provider>
         </LoginContext.Provider>
     )

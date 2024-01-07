@@ -1,52 +1,39 @@
-import { useRef, useEffect, useState, useContext } from 'react';
+import { useRef, useEffect, useState, } from 'react';
 import { useParams } from 'react-router-dom';
 import { baseUrl } from '../shared';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { LoginContext } from '../App';
-import { useLogin } from '../LoginContext';
+import { useCart, useLogin } from '../LoginContext';
 import GameDLC from '../components/GameDLC';
-import { Swiper, SwiperSlide, useSwiper} from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import 'swiper/css';
-
-
+import GameImageVideo from '../components/GameImageVideo';
 
 
 export default function GameDeatail() {
-    const videoRef = useRef(null);
     const { slug } = useParams(); 
     const [game, setGame] = useState();
     const [categories, setCategories] = useState();
+    const [totalDlcPrice, setTotalDlcPrice] = useState();
     const navigate = useNavigate();
     const location = useLocation();
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
+    const [itemsInCart, setItemsInCart,getItemInCart] = useCart()
     const url = baseUrl + 'cart/'
-
-    const swiper = useSwiper();
 
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
         axios.get(url).then((response) => {
             setGame(response.data)
             setCategories(response.data.category)
+            var toalDLCPrice = 0
+            response.data.dlc.forEach(dlc => {
+                toalDLCPrice += parseFloat(dlc.price)
+            });
+            setTotalDlcPrice(toalDLCPrice.toFixed(3))
+        }).catch((e) => {
+            console.log(e)
         });
+        getItemInCart()
     }, []);
-
-    useEffect(() => {
-        if (videoRef.current) {
-            try {
-                videoRef.current.play();
-            }
-            catch(e) {
-                console.log(e)
-            }
-          }
-      }, [game]);
-
-    useEffect(() => {
-        console.log("Change")
-    }, [cartQuantity])
 
     function addCart(game_id) {
         const data = {type:'game', base_game_id: game_id}
@@ -70,6 +57,7 @@ export default function GameDeatail() {
                 throw new Error('Something went wrong')
             }
             getCartQuantity();
+            getItemInCart();
             return response.json();
         })
     }
@@ -100,80 +88,33 @@ export default function GameDeatail() {
                 throw new Error('Something went wrong')
             }
             getCartQuantity();
+            getItemInCart();
             return response.json();
         })
     }
-    const swiperContainerRef = useRef()
-    function prev() {
-        swiperContainerRef.current.swiper.slidePrev()
-    }
-    function next() {
-        swiperContainerRef.current.swiper.slideNext()
-    }
-    function test() {
-        const swiper = swiperContainerRef.current.swiper
-
-    }
-      
-    //   <div className=''>
-    //     <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
-    //         <SwiperSlide>
-    //             <video ref={videoRef} className="" controls preload="auto" muted>
-    //                 <source src={game.video} type="video/mp4" />
-    //                 <span>Your browser does not support the video tag.</span>
-    //             </video>
-    //         </SwiperSlide>
-    //     </Swiper>
-    //     </div>
-      
     return (
         <>  
             { game && (
                 <>
-                    <div className='mx-auto w-4/6 mt-20'>
+                    <div className='mx-auto w-4/6 mt-20 text-nowrap'>
                         <div className='text-white text-6xl'>
                             {game.name}
                         </div>
-                        <div className='flex mt-5 '>
+                        <div className='flex mt-5 flex-nowrap'>
                             <div className='basis-2/3'>
-                                    <div className='flex .main-container'>
-                                        <div className='absolute next-btn'>
-                                            next
-                                        </div>
-                                        <Swiper
-                                            ref={swiperContainerRef}
-                                            modules={[Navigation, A11y]}
-                                            navigation
-                                            className='swiper_slide'>
-                                            <SwiperSlide>
-                                                <video ref={videoRef} className="h-full" controls preload="auto" muted>
-                                                            <source src={game.video} type="video/mp4" />
-                                                            <span>Your browser does not support the video tag.</span>
-                                                </video>
-                                            </SwiperSlide>
-                                            <SwiperSlide>
-                                                <img src={game.image}>
-                                                </img>
-                                            </SwiperSlide>
-                                        </Swiper>
-                                        <div>
-                                            pre
-                                        </div>
-                                    </div>
-                                    <div className='button'>
-                                                <button onClick={() => prev()}>Prev</button>
-                                                <button onClick={() => next()}>Next</button>
-                                                <button onClick={() => test()}>Next</button>
-                                    </div>
+                                    <GameImageVideo
+                                        image={game.image}
+                                        video={game.video}
+                                        game_image={game.game_image}/>
                             </div>
-                            <div className='text-white basis-1/3 ml-7'>
-                                <div className='mb-3'>
+                            <div className='text-white basis-1/3 ml-7 min-w-[300px] '>
+                                <div className='mb-3 '>
                                     <img src={game.image}/>
                                 </div>
-                                <div className='mb-3'>
+                                <div className='mb-3 text-nowrap'>
                                     <p className='text-white text-sm'>{game.overview_description}</p>
                                 </div>
-                                <div>
+                                <div className='text-nowrap	'>
                                     <div className='flex flex-nowrap'>
                                         <span className='basis-2/5 text-white'>RELEASE DATE:</span>
                                         <span className='basis-3/5 text-white'>{game.year}</span>
@@ -203,7 +144,9 @@ export default function GameDeatail() {
                                                 addCart(game.id)
                                             }}
                                         >
-                                            <span>ADD TO CART</span>
+                                            {itemsInCart && itemsInCart.items_name.includes(game.slug) ? 
+                                                    <span>IN CART</span>
+                                                : <span>ADD TO CART</span>}
                                         </button>
                                     </div>
                                     <div>
@@ -238,7 +181,7 @@ export default function GameDeatail() {
                             {game.dlc && game.dlc.length > 0 ? (
                                 <>
                                     <h2 className='mb-5'>Content For This Game</h2>
-                                    <div className='flex flex-col mb-5'>
+                                    <div className='flex flex-col min-w-[900px]'>
                                             {game.dlc.map((dlc) => {
                                                 return (
                                                     <GameDLC
@@ -252,18 +195,20 @@ export default function GameDeatail() {
                                                 )
                                             })}
                                     </div>
-                                    <div className='flex flew-row'>
-                                        <div className='basis-3/4'>
+                                    <div className='flex flew-row min-w-[900px]'>
+                                        <div className='basis-2/3'>
                                             <div className='flex justify-end'>
-                                                <div>330</div>
-                                                <div className='ml-2 hover:hover:brightness-110 text-[#d2efa9] hover:text-white'>
-                                                    <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
-                                                            onClick={(e) => {
-                                                                e.preventDefault()
-                                                                addAllDlcToCart(game.id)
-                                                            }}>
-                                                        <span className=''>Add all DLC to Cart</span>
-                                                    </button>
+                                                <div className='flex p-1 pl-3 rounded bg-[#202020]'>
+                                                    <div className='flex items-center'>{totalDlcPrice}<span className='underline'>đ</span></div>
+                                                    <div className='ml-2 hover:hover:brightness-110 text-[#d2efa9] hover:text-white'>
+                                                        <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
+                                                                onClick={(e) => {
+                                                                    e.preventDefault()
+                                                                    addAllDlcToCart(game.id)
+                                                                }}>
+                                                            <span className=''>Add all DLC to Cart</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>                  

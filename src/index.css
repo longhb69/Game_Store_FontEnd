@@ -42,9 +42,31 @@ h2.bb_tag {
   
 }
 .swiper_slide {
-    width: 900px;
+    max-width: 900px;
     height: 500px;
-    
+    user-select: none;
+}
+.swiper_slide:hover > .swiper-button-prev{
+  opacity: 1
+}
+.swiper_slide:hover > .swiper-button-next{
+  opacity: 1
+}
+.swiper_slide .swiper-button-prev{
+  left: var(--swiper-navigation-sides-offset, 18px);
+  opacity: 0
+}
+.swiper_slide .swiper-button-next{
+  right: var(--swiper-navigation-sides-offset, 18px);
+  opacity: 0
+}
+
+.swiper_slide
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  opacity: 1;
+  cursor: auto;
+  pointer-events: none;
 }
 .button {
   color: aquamarine;
@@ -62,6 +84,7 @@ h2.bb_tag {
   color: aquamarine;
   transition: transform 0.5s ease-in-out;
 }
+
 
 
 
