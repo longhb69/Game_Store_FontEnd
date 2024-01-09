@@ -35,7 +35,7 @@ export default function Cart() {
         }).then((response) => {
             const reversedItems = response.items.reverse();
             const updateItem = {...cart, items:reversedItems}
-            setCart({...updateItem, pk:response.pk, total_price: parseFloat(response.total_price).toFixed(3)})
+            setCart({...updateItem, pk:response.pk, total_price: response.total_price})
         }).catch((e) => {
             console.error('Error fetching cart data:', e);
         })
@@ -64,7 +64,7 @@ export default function Cart() {
     }
     return(
         <>
-            <div className='mx-auto w-4/5 mt-20'>
+            <div className='mx-auto w-[70%] mt-20'>
                 <div className='mb-12'>
                     <h1>
                         <span className='text-5xl'>Your Shopping Cart</span>
@@ -73,7 +73,7 @@ export default function Cart() {
                 <div className={`flex ${cart && cart.items.length <= 0 ? 'justify-center items-center'  : ''}`}>
                             {cart && cart.items.length > 0 ? (
                                 <>
-                                    <div className='flex flex-col  gap-x-10 basis-4/6 mr-10'>
+                                    <div className='flex flex-col  gap-x-10 basis-9/12 mr-10'>
                                         {cart.items.map((item) => {
                                             return (
                                                     <CartItem
@@ -110,7 +110,7 @@ export default function Cart() {
                                 </>
                             }
                     {cart && cart.items.length > 0 ? 
-                        <div className="basis-4/12">
+                        <div className="basis-3/12">
                             <div>
                                 <div className='text-3xl'>
                                     <span>Games Summary</span>

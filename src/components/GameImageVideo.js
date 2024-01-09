@@ -29,11 +29,6 @@ export default function GameImageVideo(props) {
             }
           }
     }
-
-    useEffect(() => {
-        playvideo(true)
-    }, []);
-
     function VideoHandle() {
         const swiper = swiperContainerRef.current.swiper;
         const activeIndex = swiper.activeIndex;
@@ -73,9 +68,9 @@ export default function GameImageVideo(props) {
                 }}
             >
                 <SwiperSlide>
-                    <video ref={videoRef} className="h-full rounded" controls preload="auto" muted>
-                                <source src={props.video} type="video/mp4" />
-                                <span>Your browser does not support the video tag.</span>
+                    <video ref={videoRef} className="h-full rounded border border-[#5532db]" controls autoPlay muted>
+                        <source src={props.video} type="video/webm" />
+                        <span>Your browser does not support the video tag.</span>
                     </video>
                 </SwiperSlide>
                 {props.game_image && props.game_image.length > 0 ? 

@@ -15,6 +15,7 @@ export default function GameDeatail() {
     const [totalDlcPrice, setTotalDlcPrice] = useState();
     const navigate = useNavigate();
     const location = useLocation();
+    const [showAllDLC, setShowAllDLC] = useState(false); 
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
     const [itemsInCart, setItemsInCart,getItemInCart] = useCart()
     const url = baseUrl + 'cart/'
@@ -96,7 +97,7 @@ export default function GameDeatail() {
         <>  
             { game && (
                 <>
-                    <div className='mx-auto w-4/6 mt-20 text-nowrap'>
+                    <div className='mx-auto w-[70%] mt-2 text-nowrap'>
                         <div className='text-white text-6xl'>
                             {game.name}
                         </div>
@@ -180,35 +181,68 @@ export default function GameDeatail() {
                         <div className='text-white text-lg'>
                             {game.dlc && game.dlc.length > 0 ? (
                                 <>
-                                    <h2 className='mb-5'>Content For This Game</h2>
-                                    <div className='flex flex-col min-w-[900px]'>
-                                            {game.dlc.map((dlc) => {
+                                    <h2 className='mb-1'>Content For This Game</h2>
+                                    <div className='flex flex-col min-w-[900px] gap-4'>
+                                            {game.dlc.slice(0,5).map((dlc) => {
                                                 return (
-                                                    <GameDLC
-                                                        key={dlc.id}
-                                                        id={dlc.id}
-                                                        name={dlc.name}
-                                                        slug={dlc.slug}
-                                                        price={dlc.price}
-                                                        cover={dlc.cover}
-                                                        image={dlc.image}/>
+                                                    <div className='flex flew-row'>
+                                                        <GameDLC
+                                                            key={dlc.id}
+                                                            id={dlc.id}
+                                                            name={dlc.name}
+                                                            slug={dlc.slug}
+                                                            price={dlc.price}
+                                                            cover={dlc.cover}
+                                                            image={dlc.image}/>
+                                                    </div>
+                                                )
+                                            })}
+                                            {game.dlc.slice(5).map((dlc) => {
+                                                return (
+                                                    <div className={`${showAllDLC ? '' : 'hidden'} flex flew-row`}>
+                                                        <GameDLC
+                                                            key={dlc.id}
+                                                            id={dlc.id}
+                                                            name={dlc.name}
+                                                            slug={dlc.slug}
+                                                            price={dlc.price}
+                                                            cover={dlc.cover}
+                                                            image={dlc.image}/>
+                                                    </div>
                                                 )
                                             })}
                                     </div>
                                     <div className='flex flew-row min-w-[900px]'>
                                         <div className='basis-2/3'>
                                             <div className='flex justify-end'>
-                                                <div className='flex p-1 pl-3 rounded bg-[#202020]'>
-                                                    <div className='flex items-center'>{totalDlcPrice}<span className='underline'>đ</span></div>
-                                                    <div className='ml-2 hover:hover:brightness-110 text-[#d2efa9] hover:text-white'>
-                                                        <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
-                                                                onClick={(e) => {
-                                                                    e.preventDefault()
-                                                                    addAllDlcToCart(game.id)
-                                                                }}>
-                                                            <span className=''>Add all DLC to Cart</span>
-                                                        </button>
-                                                    </div>
+                                                <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-1' }`}>
+                                                        {game.dlc.length < 5 || showAllDLC? 
+                                                            <>
+                                                                <div className='flex items-center'>{totalDlcPrice}<span className='underline'>đ</span></div>
+                                                                <div className='ml-2 hover:brightness-110 text-[#d2efa9] hover:text-white'>
+                                                                    <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
+                                                                            onClick={(e) => {
+                                                                                e.preventDefault()
+                                                                                addAllDlcToCart(game.id)
+                                                                            }}>
+                                                                        <span className=''>Add all DLC to Cart</span>
+                                                                    </button>
+                                                                </div>
+                                                            </>
+                                                        :
+                                                        <>
+                                                            <div className='flex mr-3 items-center text-base text-cyan-500'>SHOWING 1-5 OF {game.dlc.length}</div>
+                                                            <div className='bg-[#202020] py-0.5 pl-6 pr-3 rounded-sm hover:brightness-110 cursor-pointer hover:bg-gradient-to-r from-[#06BFFF] to-[#2D73FF]'>
+                                                                <div className='pr-5 bg-[length:22px_22px] bg-[url(https://store.akamai.steamstatic.com/public/shared/images/popups/btn_arrow_down_padded.png)] bg-no-repeat bg-right'
+                                                                        onClick={(e) => {
+                                                                            e.preventDefault()
+                                                                            setShowAllDLC(true)
+                                                                        }}>
+                                                                    <span className='text-base'>SEE ALL</span>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                        }
                                                 </div>
                                             </div>
                                         </div>                  

@@ -29,6 +29,7 @@ export default function Login() {
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh',response.data.refresh);
           setLoggedIn(true)
+          console.log("LOgin?: ",loggedIn)
           const url2 = baseUrl + 'api/account/'
           axios.get(url2, {
             headers: {
@@ -46,7 +47,6 @@ export default function Login() {
                 Authorization: 'Bearer ' + localStorage.getItem('access'), 
             }
           }).then((respone) => {
-              console.log(respone.data.quantity)
               setCartQuantity(respone.data.quantity)
           }).catch((e) => {
             console.error('Error can not get quantity')

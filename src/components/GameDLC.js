@@ -47,13 +47,12 @@ export default function GameDLC(props) {
 
     return (
         <>
-        <div className='flex flew-row'>
-            <div className='block bg-gradient-to-r from-[#6164654D] to-blue-600 basis-2/3 rounded-lg mb-5'>
+            <div className='block bg-gradient-to-r from-[#6164654D] to-blue-600 basis-2/3 rounded-lg'>
                 <div className="flex flex-row">
                     <div className="basis-1/3 min-w-[200px] min-h-[100px]">
                         <div className="w-full h-full">
                             <Link className='block h-full w-full' to={'/app/dlc/' + props.slug} key={props.id}>
-                                <img className="w-full h-full object-fit block" src={props.image} alt={props.name}/>
+                                <img className="rounded-l w-full h-full object-fit block" src={props.image} alt={props.name}/>
                             </Link>
                         </div>
                     </div>
@@ -97,7 +96,6 @@ export default function GameDLC(props) {
             </div>
             <div className='space'>
             </div>
-        </div>
         </>
     );
 } 

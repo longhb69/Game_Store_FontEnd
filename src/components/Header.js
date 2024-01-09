@@ -8,8 +8,14 @@ export default function Header(props) {
     const [itemsInCart, setItemsInCart,getItemInCart] = useCart();
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false)
     const navigate = useNavigate();
     const location = useLocation();
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown)
+        console.log(showDropdown)
+    };
 
     function handleLogout(value) {
         navigate('');
@@ -30,51 +36,60 @@ export default function Header(props) {
     useEffect(() => {
         console.log(loggedIn)
     }, [loggedIn])
+
     return (
         <>
-            <div className='flex justify-between items-center mx-28 py-8'>
-                <div>
-                    <Link to={''} className='text-white'>STORE</Link>
-                </div>
-                <div className='flex items-center'>
-                    {account ? <p className='text-white text-xl mr-5'>{account}</p> : null}
-                    <div>
-                        <div>
-                            <li className='flex whitespace-nowrap items-center'>
-                                <div>
-                                    <Link to={'/cart'} className='text-white text-xl flex items-center p-2'>Cart</Link>
-                                </div>
-                                {cartQuantity !== 0 && loggedIn ? 
-                                    <div className='bg-white h-auto w-[30px] text-center rounded-xl ml-0.5'>
-                                        <span id="CartQuantityContainer" className='font-bold text-black '>{cartQuantity}</span>
-                                    </div>
-                                : null}
-                            </li>
-                        </div>
+            <div className='flex  sticky top-0 h-[100px] z-[999] bg-[#121212]'>
+                <div className='flex justify-between items-center ml-auto mr-auto w-[70%] max-w-[1600px]'>
+                    <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
+                        <Link to={''} className='text-white'>
+                            <img className='h-9' src='https://res.cloudinary.com/dfo61m8dy/image/upload/v1704796277/Store_yr1avb.svg'/>
+                        </Link>
                     </div>
-                </div>
-            </div>
-            <div>
-                {loggedIn ? 
-                    <>
-                        <p className='mx-5 text-white'>{username}</p>
+                    <div className='flex items-center'>
+                        {loggedIn ? 
+                            <>
+                                        <div className='dropdown cursor-pointer relative'>
+                                            <p className='account-name text-xl text-[#aaaaae] p-2 mr-2'>{account}</p> 
+                                            <div className='friendly-box friendly-box-top'></div>
+                                            <div className='friendly-box friendly-box-wide-adjust'></div>
+                                            <div className= 'flex flex-col items-center rounded-lg dropdown-menu bg-[#202024] p-2 pr-3'>
+                                                <button className='dropdown-btn'>Wallet</button>
+                                                <button className='dropdown-btn'>Account</button>
+                                                <button className='dropdown-btn'>Wishlist</button>
+                                                <div className='flex dropdown-btn dropdown-logout-btn'>
+                                                    <button onClick={() => handleLogout(false)} className='logout-btn'>
+                                                        Logout
+                                                    </button>
+                                                    <div className='logout-icon'></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <div>
+                                    <div>
+                                        <li className='flex whitespace-nowrap items-center'>
+                                            <div>
+                                                <Link to={'/cart'} className='text-[#aaaaae] hover:text-[#F0FFFF] text-xl flex items-center p-2'>Cart</Link>
+                                            </div>
+                                            {cartQuantity !== 0 && loggedIn ? 
+                                                <div id='cart-quantity-container' className='cart-quantity-container bg-white h-auto w-[30px] text-center rounded-xl ml-0.5'>
+                                                    <span id="CartQuantity" className='font-bold text-black '>{cartQuantity}</span>
+                                                </div>
+                                            : null}
+                                        </li>
+                                    </div>
+                                </div>
+                            </>
+                        :
                         <button
                             className='text-white text-xl'
-                            onClick={() => {
-                                handleLogout(false)
-                            }}
-                            >  
-                            Logout
+                            onClick={() => handleLogin()}
+                        >  
+                            Login
                         </button>
-                    </>
-                :
-                    <button
-                        className='text-white text-xl'
-                        onClick={() => handleLogin()}
-                    >  
-                        Login
-                    </button>
-                }
+                        }
+                    </div>
+                </div>
             </div>
         {props.children}
         </>
