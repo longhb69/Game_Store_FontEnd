@@ -4,9 +4,6 @@ import { useState } from 'react';
 export default function GameDeatail(props) {
     const [isHovered, setIsHovered] = useState(false);
 
-    function test(e) {
-        console.log("Tick")
-    }
     return (
         <>  
             <div className="h-full relative font-normal font-inter transition-transform transform transform group hover:brightness-110" >
@@ -14,7 +11,7 @@ export default function GameDeatail(props) {
                             Add to Wishlist
                 </div>
                 <div className='absolute top-0 right-0'>
-                    <button onClick={test} className='w-[30px] h-[30px] flex items-center justify-center'
+                    <button className='w-[30px] h-[30px] flex items-center justify-center'
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                     >

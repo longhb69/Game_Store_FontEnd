@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useCart, useLogin } from '../LoginContext';
 import GameDLC from '../components/GameDLC';
 import GameImageVideo from '../components/GameImageVideo';
+import Lottie from "lottie-react";
+import * as animationData from "../loading.json";
 
 
 export default function GameDeatail() {
@@ -19,6 +21,8 @@ export default function GameDeatail() {
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
     const [itemsInCart, setItemsInCart,getItemInCart] = useCart()
     const url = baseUrl + 'cart/'
+    const addCartRef = useRef()
+    const lottieRef = useRef();
 
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
@@ -57,6 +61,10 @@ export default function GameDeatail() {
             else if(!response.ok) {
                 throw new Error('Something went wrong')
             }
+            addCartRef.current.classList.add('loading');
+            setTimeout(() => {
+                addCartRef.current.classList.remove('loading')
+            }, 2000)
             getCartQuantity();
             getItemInCart();
             return response.json();
@@ -115,7 +123,7 @@ export default function GameDeatail() {
                                 <div className='mb-3 text-nowrap'>
                                     <p className='text-white text-sm'>{game.overview_description}</p>
                                 </div>
-                                <div className='text-nowrap	'>
+                                <div className='text-nowrap	text-sm'>
                                     <div className='flex flex-nowrap'>
                                         <span className='basis-2/5 text-white'>RELEASE DATE:</span>
                                         <span className='basis-3/5 text-white'>{game.year}</span>
@@ -129,29 +137,31 @@ export default function GameDeatail() {
                                         <a href="#" className='basis-3/5 text-white'>null</a>
                                     </div>
                                 </div>
-                                <div className=''>
-                                    <div>
+                                <div className='text-base flex flex-col'>
+                                    <div className='mt-1 text-lg'>
                                         <p>{game.price}<span className="underline">đ</span></p>
                                     </div>
-                                    <div>
-                                        <button>
-                                            <span>BUY NOW</span>
+                                    <div className='text-center rounded transition ease-in bg-[#5532db] mt-3 hover:bg-[#db55db] duration-[300ms] hover:font-semibold'>
+                                        <button className='p-3 w-full'>
+                                            <span className=''>BUY NOW</span>
                                         </button>
                                     </div>
-                                    <div>   
+                                    <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>   
+                                        <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/>
                                         <button
+                                            className='p-3 w-full'
                                             onClick={(e) => {
                                                 e.preventDefault()
                                                 addCart(game.id)
                                             }}
                                         >
                                             {itemsInCart && itemsInCart.items_name.includes(game.slug) ? 
-                                                    <span>IN CART</span>
-                                                : <span>ADD TO CART</span>}
+                                                <span className='cart-text'>IN CART</span>
+                                            : <span className='cart-text'>ADD TO CART</span>}
                                         </button>
                                     </div>
-                                    <div>
-                                        <button>
+                                    <div className='rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms]'>
+                                        <button className='p-3 w-full'>
                                             <span>ADD TO WISHLIST</span>
                                         </button>
                                     </div>
@@ -159,10 +169,10 @@ export default function GameDeatail() {
                             </div>
                         </div>
                         <div className='flex flex-row mb-10 mt-10'>
-                            <div className='flex flex-col px-5 border-r border-l'>
+                            <div className='flex flex-col px-5 border-r border-l border-[#F5F5F5]/[.6]'>
                                 <div className='text-white'>
                                     <div>
-                                        <span>Genres</span>
+                                        <span className='text-[#F5F5F5]/[.6]'>Genres</span>
                                     </div>
                                     <div>
                                         {categories 
@@ -207,7 +217,8 @@ export default function GameDeatail() {
                                                             slug={dlc.slug}
                                                             price={dlc.price}
                                                             cover={dlc.cover}
-                                                            image={dlc.image}/>
+                                                            image={dlc.image}
+                                                            />
                                                     </div>
                                                 )
                                             })}
@@ -215,10 +226,10 @@ export default function GameDeatail() {
                                     <div className='flex flew-row min-w-[900px]'>
                                         <div className='basis-2/3'>
                                             <div className='flex justify-end'>
-                                                <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-1' }`}>
+                                                <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-1'} bg-[#202020] rounded`}>
                                                         {game.dlc.length < 5 || showAllDLC? 
                                                             <>
-                                                                <div className='flex items-center'>{totalDlcPrice}<span className='underline'>đ</span></div>
+                                                                <div className='flex items-center pl-3'>{totalDlcPrice}<span className='underline'>đ</span></div>
                                                                 <div className='ml-2 hover:brightness-110 text-[#d2efa9] hover:text-white'>
                                                                     <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
                                                                             onClick={(e) => {
@@ -251,40 +262,40 @@ export default function GameDeatail() {
                                 </>
                             ) : null}
                         </div>
-                        <div className='text-white'>
+                        <div className='text-white mt-5'>
                             <div>
                                 <h2 className='text-lg border-b'>ABOUT THIS GAME</h2>
                                 <p className='mt-5' dangerouslySetInnerHTML={{ __html: game.detail_description }}></p>
                             </div>             
                         </div>
                         <div className='text-white text-lg'>
-                            <div className='text-xl border-b py-2'>
+                            <div className='text-xl border-b pb-[1px] my-5'>
                                 <span className=''>System Requirements</span>
                             </div>
-                            <div className='container flex'>
+                            <div className='container flex bg-[#202020] pt-3 px-10 pb-10 rounded'>
                                <div className='MINIMUM div basis-1/2'>
                                     <ul>
-                                       <strong>Minimum</strong>
+                                       <strong className='text-[#F5F5F5]/[.6]'>Minimum</strong>
                                        <br/>
                                        <ul>
-                                            <li>
-                                                <span>OS:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>OS:</span>
                                                 <p>{game.os_min}</p>
                                             </li>
-                                            <li>
-                                                <span>Processor:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Processor:</span>
                                                 <p>{game.processor_min}</p>
                                             </li>
-                                            <li>
-                                                <span>Memory:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Memory:</span>
                                                 <p>{game.memory_min}</p>
                                             </li>
-                                            <li>
-                                                <span>Graphics:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Graphics:</span>
                                                 <p>{game.graphics_min}</p>
                                             </li>
-                                            <li>
-                                                <span>Storage:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Storage:</span>
                                                 <p>{game.storage_min}</p>
                                             </li>   
                                        </ul>
@@ -292,27 +303,27 @@ export default function GameDeatail() {
                                </div>
                                <div className='RECOMMENDED div basis-1/2'>
                                     <ul>
-                                    <strong>RECOMMENDED</strong>
+                                    <strong className='text-[#F5F5F5]/[.6]'>RECOMMENDED</strong>
                                     <br/>
                                     <ul>
-                                            <li>
-                                                <span>OS:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>OS:</span>
                                                 <p>{game.os_rec}</p>
                                             </li>
-                                            <li>
-                                                <span>Processor:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Processor:</span>
                                                 <p>{game.processor_rec}</p>
                                             </li>
-                                            <li>
-                                                <span>Memory:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Memory:</span>
                                                 <p>{game.memory_rec}</p>
                                             </li>
-                                            <li>
-                                                <span>Graphics:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Graphics:</span>
                                                 <p>{game.graphics_rec}</p>
                                             </li>
-                                            <li>
-                                                <span>Storage:</span>
+                                            <li className='flex gap-3'>
+                                                <span className='text-[#F5F5F5]/[.6]'>Storage:</span>
                                                 <p>{game.storage_rec}</p>
                                             </li>   
                                     </ul>
@@ -320,7 +331,6 @@ export default function GameDeatail() {
                                </div>
                             </div>
                         </div>
-                        <p>{game.price}</p>
                     </div>
                 </>
             )};

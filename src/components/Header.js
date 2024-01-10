@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import { NavLink,Link, useNavigate, useLocation  } from 'react-router-dom';
-import { LoginContext } from '../App';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import { useAccount, useLogin, useCart } from '../LoginContext';
 
 export default function Header(props) {
@@ -8,14 +7,8 @@ export default function Header(props) {
     const [itemsInCart, setItemsInCart,getItemInCart] = useCart();
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
-    const [showDropdown, setShowDropdown] = useState(false)
     const navigate = useNavigate();
     const location = useLocation();
-
-    const toggleDropdown = () => {
-        setShowDropdown(!showDropdown)
-        console.log(showDropdown)
-    };
 
     function handleLogout(value) {
         navigate('');
@@ -33,10 +26,6 @@ export default function Header(props) {
             }
         });
     }
-    useEffect(() => {
-        console.log(loggedIn)
-    }, [loggedIn])
-
     return (
         <>
             <div className='flex  sticky top-0 h-[100px] z-[999] bg-[#121212]'>
@@ -49,22 +38,22 @@ export default function Header(props) {
                     <div className='flex items-center'>
                         {loggedIn ? 
                             <>
-                                        <div className='dropdown cursor-pointer relative'>
-                                            <p className='account-name text-xl text-[#aaaaae] p-2 mr-2'>{account}</p> 
-                                            <div className='friendly-box friendly-box-top'></div>
-                                            <div className='friendly-box friendly-box-wide-adjust'></div>
-                                            <div className= 'flex flex-col items-center rounded-lg dropdown-menu bg-[#202024] p-2 pr-3'>
-                                                <button className='dropdown-btn'>Wallet</button>
-                                                <button className='dropdown-btn'>Account</button>
-                                                <button className='dropdown-btn'>Wishlist</button>
-                                                <div className='flex dropdown-btn dropdown-logout-btn'>
-                                                    <button onClick={() => handleLogout(false)} className='logout-btn'>
-                                                        Logout
-                                                    </button>
-                                                    <div className='logout-icon'></div>
-                                                </div>
-                                            </div>
+                                <div className='dropdown cursor-pointer relative'>
+                                    <p className='account-name text-xl text-[#aaaaae] p-2 mr-2'>{account}</p> 
+                                    <div className='friendly-box friendly-box-top'></div>
+                                    <div className='friendly-box friendly-box-wide-adjust'></div>
+                                    <div className= 'flex flex-col items-center rounded-lg dropdown-menu bg-[#202024] p-2 pr-3'>
+                                        <button className='dropdown-btn'>Wallet</button>
+                                        <button className='dropdown-btn'>Account</button>
+                                        <button className='dropdown-btn'>Wishlist</button>
+                                        <div className='flex dropdown-btn dropdown-logout-btn'>
+                                            <button onClick={() => handleLogout(false)} className='logout-btn'>
+                                                Logout
+                                            </button>
+                                            <div className='logout-icon'></div>
                                         </div>
+                                    </div>
+                                </div>
                                 <div>
                                     <div>
                                         <li className='flex whitespace-nowrap items-center'>

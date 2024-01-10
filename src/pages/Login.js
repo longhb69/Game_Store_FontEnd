@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { baseUrl } from '../shared';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LoginContext } from '../App';
 import { useAccount, useLogin } from '../LoginContext';
 
 export default function Login() {

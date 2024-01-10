@@ -1,7 +1,5 @@
 import { Link} from 'react-router-dom';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { baseUrl } from '../shared';
 import { useLogin } from '../LoginContext';
 
 export default function CartItem(props) {

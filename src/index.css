@@ -9,17 +9,15 @@ body {
 #logo {
   transition: background-color .4s ease-in-out 
 }
-
 #logo:hover {
   background-color: #121212;
 }
+
 .dropdown-menu {
   position: absolute;
   left: 0;
   top: calc(100% + 1rem);
   padding: .75rem;
-  /* padding-left: 1.2rem; */
-  /* padding-right: 2rem; */
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px);
@@ -72,16 +70,11 @@ body {
   margin-left: 1rem;
   margin-top: 2px;
 }
-
 .logout-icon::after {
   content: url(https://res.cloudinary.com/dfo61m8dy/image/upload/v1704814246/arrow-right-to-bracket-solid_dfz5d2.svg);
   opacity: 0;
   filter: invert(100%) sepia(93%) saturate(220%) hue-rotate(295deg) brightness(109%) contrast(101%);
 }
-.dropdown-logout-btn {
-
-}
-
 .dropdown-logout-btn:hover > .logout-icon::after {
   opacity: 1;
 }
@@ -90,6 +83,7 @@ body {
   background-color: #2C2D2F;
   color: azure;
 }
+
 .bb_çul{
   color: #acb2b8;
   margin-left: 16px;
@@ -109,14 +103,33 @@ body {
     border: none;
     outline: none;
 }
-
+.lottie {
+  display: none;
+  height: 50px;
+  width: 100%;
+}
+.lottie-dlc {
+  display: none;
+  height: 45px;
+  width: 100%;
+}
+.loading .cart-text {
+  display: none;
+}
+.loading > .lottie {
+  display: flex;
+}
+.loading > .lottie-dlc {
+  display: flex;
+}
   
 h2.bb_tag {
     margin-top: 18px;
     margin-bottom: 0px;
     background-image: none;
-    font-size: 15px;
-    color: #2f89bc;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
     text-transform: none;
     letter-spacing: 0px;
 }
@@ -124,14 +137,18 @@ h2.bb_tag {
 .swiper-container {
   width: 100%;
   height: 100vh;
-  max-width: 940px;
+  max-width: 100px;
   margin: 0 auto;
   
 }
 .swiper_slide {
     max-width: 900px;
-    height: 500px;
+    height: 533px;
     user-select: none;
+}
+.swiper_slide_category {
+  height: 100%;
+  width: 1050px;
 }
 .swiper-button-next, .swiper-button-prev {
   transition-duration: 150ms;
@@ -165,10 +182,12 @@ h2.bb_tag {
   color: aquamarine;
   
 }
-
 .next-btn {
   transition: transform 0.5s ease-in-out;
-
+}
+.info-container {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
 .main-container:hover + .next-btn {
   transform: translateX(-100px)
@@ -178,6 +197,34 @@ h2.bb_tag {
   transition: transform 0.5s ease-in-out;
 }
 
-
+.backgroundoverlay {
+  position: absolute;
+  background-position-x: center;
+  width: 100%;
+  height: 750px;
+  object-fit: cover;
+  /* -webkit-mask-image: 
+  linear-gradient(180deg, black 58%, rgba(0, 0, 0, 0) 95%),
+  radial-gradient(15.77% 44.22% at 50% 104.95%, rgba(66, 66, 66, 0) 0%, #333333 100%),
+  radial-gradient(30.95% 86.8% at 30.69% 13.2%, rgba(66, 66, 66, 0.33) 0%, #333333 100%),
+  radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
+  radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
+  linear-gradient(180deg, #000000 90%, rgba(0, 0, 0, 0) 100%); */
+  -webkit-mask-image: 
+    linear-gradient(180deg, black 58%, rgba(0,0,0,0) 95%), 
+    radial-gradient(15.77% 44.22% at 50% 104.95%, rgba(66,66,66,0) 0%, #333333 100%),
+    radial-gradient(30.95% 86.8% at 30.69% 13.2%, rgba(66, 66, 66, 0.33) 0%, #333333 100%),
+    radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
+    radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
+    linear-gradient(180deg, #000000 90%, rgba(0, 0, 0, 0) 100%);
+  mask-image: 
+    linear-gradient(180deg, black 58%, rgba(0,0,0,0) 95%), 
+    radial-gradient(15.77% 44.22% at 50% 104.95%, rgba(66,66,66,0) 0%, #333333 100%),
+    radial-gradient(30.95% 86.8% at 30.69% 13.2%, rgba(66, 66, 66, 0.33) 0%, #333333 100%),
+    radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
+    radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
+    linear-gradient(180deg, #000000 90%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-composite: source-in;
+}
 
 

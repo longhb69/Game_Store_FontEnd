@@ -9,6 +9,9 @@ import SwiperTest from '../components/SwiperTest';
 // <div className='flex  items-center justify-center'>
 // <SwiperTest/>
 // </div>
+//Analogous #5532db #7032db #8F32db  ||Split-Complementary  #db5532 #db8F32   || Tetradic #32db55 #db5532  
+//||Split-Tetradic #5532db #db8F32  #32db55  ||#5532db #32db8F #db55db #8F32db, 
+//#280f63, #5532db, #3d0e4e    #2a0e4e, #5532db, #4e0e28   #2a0e4e, #5532db, #4e552a   #2a0e4e, #5532db, #4e2a0e
 export default function Home() {
     const [games, setGames] = useState();
     useEffect(() => {

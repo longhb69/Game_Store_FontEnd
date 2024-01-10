@@ -1,8 +1,9 @@
-import { LoginContext } from '../App';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCart, useLogin } from '../LoginContext';
 import { baseUrl } from '../shared';
-import { useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import Lottie from "lottie-react";
+import * as animationData from "../loading.json";
 
 
 //from-[#6164654D] to-[blue-500]    #E2F4FF4D
@@ -11,6 +12,8 @@ export default function GameDLC(props) {
     const location = useLocation();
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
     const [itemsInCart, setItemsInCart,getItemInCart] = useCart()
+    const addCartRef = useRef()
+    const lottieRef = useRef();
 
     function addCart(game_id) {
         const url = baseUrl + 'cart/'
@@ -34,6 +37,10 @@ export default function GameDLC(props) {
             else if(!response.ok) {
                 throw new Error('Something went wrong')
             }
+            addCartRef.current.classList.add('loading');
+            setTimeout(() => {
+                addCartRef.current.classList.remove('loading')
+            }, 2000)
             getCartQuantity();
             getItemInCart();
             return response.json();
@@ -47,7 +54,7 @@ export default function GameDLC(props) {
 
     return (
         <>
-            <div className='block bg-gradient-to-r from-[#6164654D] to-blue-600 basis-2/3 rounded-lg'>
+            <div className='block bg-gradient-to-r from-[#2a0e4e] to-[#5532db] basis-2/3 rounded-lg'>
                 <div className="flex flex-row">
                     <div className="basis-1/3 min-w-[200px] min-h-[100px]">
                         <div className="w-full h-full">
@@ -56,7 +63,7 @@ export default function GameDLC(props) {
                             </Link>
                         </div>
                     </div>
-                    <div className="right ml-5 mt-3">
+                    <div className="right ml-3 mt-1">
                         <div>
                             <Link className='block' to={'/app/dlc/' + props.slug} key={props.id}>
                                 <h3 >
@@ -66,26 +73,28 @@ export default function GameDLC(props) {
                         </div>
                         <div className='flex gap-4 mt-2'>
                             <div className='mr-3'>
-                                <div className='text-[#75b022] text-lg font-semibold'>   
+                                <div className='text-[#32db55] text-lg font-semibold p-1.5'>   
                                     <span>{props.price}<span className='underline'>đ</span></span>
                                 </div>
                             </div>
                             <div>
-                                <div>
+                                <div ref={addCartRef} className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] max-h-[43px] min-w-[80px]'>
+                                    <Lottie className='lottie-dlc' lottieRef={lottieRef} animationData={animationData} loop={true}/>
                                     <button 
+                                        className='p-1.5'
                                         onClick={(e) => {
                                             e.preventDefault()
                                             addCart(props.id)
                                         }}>
                                         {itemsInCart && itemsInCart.items_name.includes(props.slug) ? 
-                                            <span>IN CART</span>
-                                        : <span>ADD TO CART</span>}
+                                            <span className='cart-text'>IN CART</span>
+                                        : <span className='cart-text'>ADD TO CART</span>}
                                     </button>
                                 </div>
                             </div>
                             <div>
-                                <div>
-                                    <button>
+                                <div className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms]'>
+                                    <button className='p-1.5'>
                                         <span>ADD TO WISHLIST</span>
                                     </button>
                                 </div>
