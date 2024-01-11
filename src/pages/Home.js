@@ -23,7 +23,7 @@ export default function Home() {
 
     return( 
             <div className=''>
-                <div className='m-20 flex gap-7'>
+                <div className='m-20 flex flex-wrap gap-7'>
                     {games ? (
                         <>
                             {games.map((game) => {

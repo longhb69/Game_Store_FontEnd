@@ -86,10 +86,11 @@ const CategorySlider = () => {
   const [categories, setCategories] = useState();
   const [next, setNext] = useState(null);
   const [prev, setPrev] = useState(null);
-  const [last, setLast] = useState(null)
+  const [last, setLast] = useState(null);
+  let random;
 
   const url_category = baseUrl + 'api/category/'
-
+  random = Math.floor(Math.random() * (5 - 1) + 1)
   function request(url) {
     axios.get(url, {
       method: 'GET',
@@ -144,7 +145,7 @@ const CategorySlider = () => {
               <Link to={`/category/${category.slug}`} key={category.id}>
                 <div className="max-w-[150px] min-w-[150px] relative group mx-2">
                   <div
-                    className={`gradient-overlay absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t ${gradientColors[index % gradientColors.length]} to-white-500`}
+                    className={`gradient-overlay absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t ${gradientColors[(index+random) % gradientColors.length]} to-white-500`}
                   ></div>
                   <img
                     className="mx-auto w-full h-auto"

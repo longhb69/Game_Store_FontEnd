@@ -64,9 +64,9 @@ export default function GameDeatail() {
             addCartRef.current.classList.add('loading');
             setTimeout(() => {
                 addCartRef.current.classList.remove('loading')
+                getCartQuantity();
+                getItemInCart();
             }, 2000)
-            getCartQuantity();
-            getItemInCart();
             return response.json();
         })
     }
