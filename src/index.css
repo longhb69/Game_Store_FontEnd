@@ -142,8 +142,8 @@ h2.bb_tag {
   
 }
 .swiper_slide {
-    max-width: 900px;
-    height: 533px;
+    max-width: 1100px;
+    height: 550px;
     user-select: none;
 }
 .swiper_slide_category {
@@ -196,7 +196,68 @@ h2.bb_tag {
   color: aquamarine;
   transition: transform 0.5s ease-in-out;
 }
+.smaler-swiper {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  transition: all 250ms ease-in-out 0s;
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  width: 500%;
+}
+.smaler-swiper2 {
+  max-height: 100%;
 
+}
+.custom-slide .swiper-slide-active{
+  width: 100%;
+}
+.custom-slide {
+  width: 100%;
+}
+.swiper-li {
+  max-width: 140px;
+  position: relative;
+  flex-shrink: 0;
+  flex-basis: calc(6.66667% - 10px);
+}
+.swiper-btn {
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.7);  
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  background: none;
+  line-height: 1;
+  font-family: Inter,sans-serif;
+  font-weight: 400;
+}
+.css {
+  flex: 1 1 0%;
+}
+.css-1 {
+  position: relative;
+  padding-bottom: calc(9/16 * 100%);
+}
+.css-2 {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 200ms ease-in-out 0s;
+}
+.css-3 {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 125ms ease-in-out 450ms;
+}
 .backgroundoverlay {
   position: absolute;
   background-position-x: center;
