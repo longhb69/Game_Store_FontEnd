@@ -30,11 +30,11 @@ export default function Header(props) {
         <>
             <div className='flex  sticky top-0 h-[100px] z-[999] bg-[#121212]'>
                 <div className='flex justify-between items-center ml-auto mr-auto w-[70%] max-w-[1600px]'>
-                    <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
-                        <Link to={''} className='text-white'>
+                    <Link to={''}>
+                        <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
                             <img className='h-9' src='https://res.cloudinary.com/dfo61m8dy/image/upload/v1704796277/Store_yr1avb.svg'/>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
                     <div className='flex items-center'>
                         {loggedIn ? 
                             <>

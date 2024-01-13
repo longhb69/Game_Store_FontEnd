@@ -58,7 +58,7 @@ export default function Cart() {
                         items: updateItems
                     }
                 })
-                getCartQuantity()
+                getCartQuantity();
             }
         })
     }

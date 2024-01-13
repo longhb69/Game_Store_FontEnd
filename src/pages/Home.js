@@ -6,6 +6,7 @@ import Swiper from 'swiper';
 import CategorySlider from '../components/CategorySlider';
 import Slider from '../components/Slider';
 import SwiperTest from '../components/SwiperTest';
+import Carousel from '../components/Carousel';
 // <div className='flex  items-center justify-center'>
 // <SwiperTest/>
 // </div>
@@ -14,16 +15,24 @@ import SwiperTest from '../components/SwiperTest';
 //#280f63, #5532db, #3d0e4e    #2a0e4e, #5532db, #4e0e28   #2a0e4e, #5532db, #4e552a   #2a0e4e, #5532db, #4e2a0e
 export default function Home() {
     const [games, setGames] = useState();
+    const [newfeatured, setNewfeatured] = useState();
     useEffect(() => {
         const url = baseUrl + 'api/game/'
         axios.get(url).then((response) => {
             setGames(response.data)
         });
+        const url2 = baseUrl + 'api/newfeatured/'
+        axios.get(url2).then((response) => {
+            setNewfeatured(response.data)
+        });
     }, [])
 
     return( 
-            <div className=''>
-                <div className='m-20 flex flex-wrap gap-7'>
+            <div className='mx-auto w-[70%]'>
+                <Carousel
+                    newfeatured={newfeatured}
+                />
+                <div className='flex flex-wrap gap-7'>
                     {games ? (
                         <>
                             {games.map((game) => {
