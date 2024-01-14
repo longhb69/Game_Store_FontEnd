@@ -66,7 +66,6 @@ export default function GameImageVideo(props) {
                     modules={[Navigation, A11y]}
                     navigation
                     rewind
-                    speed={900}
                     className='swiper_slide '
                     onSlideChange={() => VideoHandle()}
                     style={{
@@ -117,7 +116,6 @@ export default function GameImageVideo(props) {
                             '--swiper-theme-color': '#fff',
                             '--swiper-navigation-size': '30px',
                             '.swiper-slide-active ': '2px',
-                            
                         }}
                     >
                         <SwiperSlide style={{width: '200px'}}>

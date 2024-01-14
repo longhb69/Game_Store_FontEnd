@@ -326,6 +326,30 @@ h2.bb_tag {
 .carouselThumbnail {
   z-index: 1;
 }
-
+.wrapper-item {
+  animation-name: hide;
+  animation-duration: 0.6s;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+@keyframes hide {
+  0% {
+    opacity: 1;
+    margin-bottom: 16px;
+    padding: 20px 16px;
+  }
+  75% {
+    opacity: 0;
+    height: 100%;
+    margin-bottom: 16px;
+    padding: 20px 16px;
+  }
+  100% {
+    opacity: 0;
+    height: 0px;
+    padding: 0px;
+    margin-bottom: 0;
+  }
+}
 
 

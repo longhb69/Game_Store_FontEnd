@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { Link,useLocation, useNavigate } from 'react-router-dom';
 import { useLogin } from '../LoginContext';
 import CartItem from '../components/CartItem';
+import Checkout from '../components/Checkout';
 
 export default function Cart() {
     const [cart, setCart] = useState();
     const navigate = useNavigate();
     const location = useLocation();
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin();
+    const [buttonCheckout, setButonCheckout] = useState(false);
 
     useEffect(() => {
         const url = baseUrl + 'cart/'
@@ -40,31 +42,41 @@ export default function Cart() {
             console.error('Error fetching cart data:', e);
         })
     }, [])
-    
+
     function handleDelete(item_id) {
-        const url = baseUrl + `cart/cartitem/delete/${item_id}`
+        const divElement = document.getElementById(item_id);
+        divElement.style.animationPlayState = 'running';
+        const url = baseUrl + `cart/cartitem/delete/${item_id}`;
         axios.delete(url, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('access'), 
             },
         }).then((response) => {
-            if(response.status >= 200 && response.status < 300) {
-                setCart((prevCart) => {
-                    const updateItems = prevCart.items.filter(item => item.id != item_id);
-                    console.log(prevCart)
-                    return {
-                        ...prevCart,
-                        items: updateItems
-                    }
-                })
-                getCartQuantity();
+            if (response.status >= 200 && response.status < 300) {
+                setTimeout(() => {
+                    setCart((prevCart) => {
+                        const updatedItems = prevCart.items.filter(item => item.id !== item_id);
+                        let newTotal = 0;
+                        updatedItems.forEach(element => {
+                            newTotal += parseFloat(element.price.replace(/,/g, ''));
+                        });
+                        return {
+                            ...prevCart,
+                            items: updatedItems,
+                            total_price: newTotal.toLocaleString(),
+                        };
+                    });
+                    getCartQuantity();
+                }, 600);
             }
-        })
+        }).catch((error) => {
+            console.error('Error deleting item:', error);
+        });
     }
     return(
         <>
-            <div className='mx-auto w-[70%] mt-20'>
+            <div className='mx-auto w-[70%] mt-10'>
                 <div className='mb-12'>
                     <h1>
                         <span className='text-5xl'>Your Shopping Cart</span>
@@ -132,7 +144,8 @@ export default function Cart() {
                                     </div>
                                 </div>
                                 <div className='mt-5'>
-                                    <button className='w-full h-[50px] bg-[#0066CC] rounded font-medium	hover:brightness-125'>
+                                    <button className='w-full h-[50px] bg-[#32db55] rounded font-medium	hover:brightness-125 text-[#000000]'
+                                        onClick={() => setButonCheckout(true)}>
                                         <span>CHECK OUT</span>
                                     </button>
                                 </div>
@@ -141,6 +154,9 @@ export default function Cart() {
                     : null}               
                 </div>
             </div>
+            <Checkout trigger={buttonCheckout}
+                setTrigger={setButonCheckout}
+                cart={cart}/>
         </>
     )
 }

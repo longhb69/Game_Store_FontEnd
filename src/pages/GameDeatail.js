@@ -67,7 +67,7 @@ export default function GameDeatail() {
                 addCartRef.current.classList.remove('loading')
                 getCartQuantity();
                 getItemInCart();
-            }, 2000)
+            }, 100)
             return response.json();
         })
     }
@@ -99,6 +99,7 @@ export default function GameDeatail() {
             }
             getCartQuantity();
             getItemInCart();
+            navigate('/cart');
             return response.json();
         })
     }
