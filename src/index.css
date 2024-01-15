@@ -352,4 +352,17 @@ h2.bb_tag {
   }
 }
 
+.overlay {
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none; /* Initially, allow interaction with elements underneath */
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto; /* Disable interaction with elements underneath when active */
+}
+body.overlay-active {
+  overflow: hidden;
+}
 

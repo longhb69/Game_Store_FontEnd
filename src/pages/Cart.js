@@ -14,6 +14,15 @@ export default function Cart() {
     const [buttonCheckout, setButonCheckout] = useState(false);
 
     useEffect(() => {
+        if(buttonCheckout){
+            document.body.classList.add('overlay-active');
+        }
+        else {
+            document.body.classList.remove('overlay-active');
+        }
+    }, [buttonCheckout])
+
+    useEffect(() => {
         const url = baseUrl + 'cart/'
         fetch(url, {
             method: "GET",
@@ -76,7 +85,7 @@ export default function Cart() {
     }
     return(
         <>
-            <div className='mx-auto w-[70%] mt-10'>
+            <div className={`mx-auto w-[70%] mt-10 overlay ${buttonCheckout ? '' : 'active'}`}>
                 <div className='mb-12'>
                     <h1>
                         <span className='text-5xl'>Your Shopping Cart</span>
@@ -144,7 +153,7 @@ export default function Cart() {
                                     </div>
                                 </div>
                                 <div className='mt-5'>
-                                    <button className='w-full h-[50px] bg-[#32db55] rounded font-medium	hover:brightness-125 text-[#000000]'
+                                    <button className='w-full h-[50px] bg-[#32db55] rounded font-medium	hover:brightness-125 text-[#000000] transition ease-in duration-[150ms]'
                                         onClick={() => setButonCheckout(true)}>
                                         <span>CHECK OUT</span>
                                     </button>
@@ -156,7 +165,8 @@ export default function Cart() {
             </div>
             <Checkout trigger={buttonCheckout}
                 setTrigger={setButonCheckout}
-                cart={cart}/>
+                cart={cart}
+                />
         </>
     )
 }

@@ -81,13 +81,10 @@ export function LoginProvider({children}) {
         }
         const minute = 1000 * 60 
         refreshTokens();
+        getCartQuantity();
         const intervalId = setInterval(() => {
           refreshTokens()
         }, minute*3)
-    }, [])
-
-    useEffect(() => {
-      getCartQuantity();
     }, [])
     return (
         <LoginContext.Provider value={[loggedIn, changeLoggedIn, cartQuantity, setCartQuantity, getCartQuantity]}>

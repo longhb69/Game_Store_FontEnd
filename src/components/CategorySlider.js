@@ -143,7 +143,7 @@ const CategorySlider = () => {
           <Slider {...settings}>
             {categories.map((category, index) => (
               <Link to={`/category/${category.slug}`} key={category.id}>
-                <div className="max-w-[150px] min-w-[150px] relative group mx-2">
+                <div className="max-w-[150px] min-w-[150px] min-h-[200px] relative group mx-2">
                   <div
                     className={`gradient-overlay absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t ${gradientColors[(index+random) % gradientColors.length]} to-white-500`}
                   ></div>

@@ -9,6 +9,7 @@ import GameImageVideo from '../components/GameImageVideo';
 import Lottie from "lottie-react";
 import * as animationData from "../loading.json";
 import SystemRequirements from '../components/SystemRequirements';
+import Checkout from '../components/Checkout';
 
 
 export default function GameDeatail() {
@@ -16,6 +17,7 @@ export default function GameDeatail() {
     const [game, setGame] = useState();
     const [categories, setCategories] = useState();
     const [totalDlcPrice, setTotalDlcPrice] = useState();
+    const [buttonBuynow, setButonBuynow] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const [showAllDLC, setShowAllDLC] = useState(false); 
@@ -24,6 +26,15 @@ export default function GameDeatail() {
     const url = baseUrl + 'cart/'
     const addCartRef = useRef()
     const lottieRef = useRef();
+
+    useEffect(() => {
+        if(buttonBuynow){
+            document.body.classList.add('overlay-active');
+        }
+        else {
+            document.body.classList.remove('overlay-active');
+        }
+    }, [buttonBuynow])
 
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
@@ -107,7 +118,7 @@ export default function GameDeatail() {
         <>  
             { game && (
                 <>
-                    <div className='mx-auto w-[70%] mt-2 text-nowrap'>
+                    <div className={`mx-auto w-[70%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
                         <div className='text-white text-6xl'>
                             {game.name}
                         </div>
@@ -251,7 +262,8 @@ export default function GameDeatail() {
                                                 <p>{game.price}<span className="underline">đ</span></p>
                                             </div>
                                             <div className='text-center rounded transition ease-in bg-[#5532db] mt-3 hover:bg-[#db55db] duration-[300ms] hover:font-semibold'>
-                                                <button className='p-3 w-full'>
+                                                <button className='p-3 w-full'
+                                                    onClick={() => setButonBuynow(true)}>
                                                     <span className=''>BUY NOW</span>
                                                 </button>
                                             </div>
@@ -297,6 +309,9 @@ export default function GameDeatail() {
                     </div>
                 </>
             )};
+        <Checkout trigger={buttonBuynow}
+                setTrigger={setButonBuynow}
+                game={game}/>
         </>
     )
 }

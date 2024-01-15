@@ -11,6 +11,7 @@ import axios, { Axios } from 'axios';
 import { LoginProvider } from './LoginContext';
 import DLCDeatail from './pages/DLCDeatail';
 import Cart from './pages/Cart';
+import Success from './pages/Success';
 
 //export const LoginContext = createContext();
 export const UserContext = createContext();
@@ -57,6 +58,7 @@ function App() {
                   <Route path="/category/:slug" element={<CategoryGame/>}/>
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/cart" element={<Cart/>}/>
+                  <Route path="/cart/success" element={<Success/>}/>
               </Routes>
             </Header>
         </BrowserRouter>
