@@ -365,4 +365,8 @@ h2.bb_tag {
 body.overlay-active {
   overflow: hidden;
 }
-
+.thankyou {
+  inset: 50% auto auto 50%;
+  transform: translate(-50%,-50%);
+  outline: none;
+}

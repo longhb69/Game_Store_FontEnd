@@ -12,7 +12,7 @@ import { LoginProvider } from './LoginContext';
 import DLCDeatail from './pages/DLCDeatail';
 import Cart from './pages/Cart';
 import Success from './pages/Success';
-
+import NotFound from './pages/NotFound';
 //export const LoginContext = createContext();
 export const UserContext = createContext();
 
@@ -58,7 +58,8 @@ function App() {
                   <Route path="/category/:slug" element={<CategoryGame/>}/>
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/cart" element={<Cart/>}/>
-                  <Route path="/cart/success" element={<Success/>}/>
+                  <Route path="/cart/success/:id" element={<Success/>}/>
+                  <Route path="/404" element={<NotFound/>}/>
               </Routes>
             </Header>
         </BrowserRouter>
