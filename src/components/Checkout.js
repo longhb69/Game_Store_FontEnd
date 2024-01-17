@@ -5,8 +5,8 @@ import { baseUrl } from '../shared';
 import { useState } from 'react';
 
 export default function Checkout(props) {
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin();
-    const [itemsInCart, setItemsInCart,getItemInCart] = useCart();
+    const [loggedIn, setLoggedIn] = useLogin();
+    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const navigate = useNavigate();
     const [account] = useAccount();
     function Checkout() {

@@ -23,6 +23,7 @@ export function LoginProvider({children}) {
     const [account, setAccount] = useState(null)
     const [cartQuantity, setCartQuantity] = useState(0)
     const [itemsInCart, setItemsInCart] = useState()
+    const [libary, setLibary] = useState()
 
     function changeLoggedIn(value) {
         setLoggedIn(value)
@@ -61,6 +62,19 @@ export function LoginProvider({children}) {
           })
       }
     })
+    const getLibary = useCallback(() => {
+      const url3 = baseUrl + 'api/account/game_in_libary'
+      axios.get(url3, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('access'), 
+        }
+      }).then((respone) => {
+        setLibary(respone.data)
+      }).catch((e) => {
+        console.log('Error can not get libary', e)
+      })
+    })
 
     useEffect(() => {
         function refreshTokens() {
@@ -82,14 +96,15 @@ export function LoginProvider({children}) {
         const minute = 1000 * 60 
         refreshTokens();
         getCartQuantity();
+        getLibary();
         const intervalId = setInterval(() => {
           refreshTokens()
         }, minute*3)
     }, [])
     return (
-        <LoginContext.Provider value={[loggedIn, changeLoggedIn, cartQuantity, setCartQuantity, getCartQuantity]}>
-            <AccountContext.Provider value={[account, setAccount]}>
-                <CartContext.Provider value={[itemsInCart, setItemsInCart,getItemInCart]}>
+        <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
+            <AccountContext.Provider value={[account, setAccount, libary, setLibary, getLibary]}>
+                <CartContext.Provider value={[itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity]}>
                   {children}
                 </CartContext.Provider>
             </AccountContext.Provider>

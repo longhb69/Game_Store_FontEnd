@@ -2,7 +2,7 @@ import axios from 'axios';
 import { baseUrl } from '../shared';
 import { useEffect, useState } from 'react';
 import { Link,useLocation, useNavigate } from 'react-router-dom';
-import { useLogin } from '../LoginContext';
+import { useCart, useLogin } from '../LoginContext';
 import CartItem from '../components/CartItem';
 import Checkout from '../components/Checkout';
 
@@ -10,7 +10,8 @@ export default function Cart() {
     const [cart, setCart] = useState();
     const navigate = useNavigate();
     const location = useLocation();
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin();
+    const [loggedIn, setLoggedIn] = useLogin();
+    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const [buttonCheckout, setButonCheckout] = useState(false);
 
     useEffect(() => {

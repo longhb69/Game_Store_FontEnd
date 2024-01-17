@@ -9,8 +9,8 @@ export default function Carousel(props) {
     const [activeSlide, setActiveSlide] = useState(0)
     const swiperRef = useRef(null);
     const navigate = useNavigate();
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin();
-    const [itemsInCart, setItemsInCart,getItemInCart] = useCart();
+    const [loggedIn, setLoggedIn] = useLogin();
+    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const location = useLocation();
 
     function addCart(game_id) {
@@ -55,7 +55,7 @@ export default function Carousel(props) {
                             <Swiper
                                 ref={swiperRef}
                                 modules={[Autoplay]}
-                                //autoplay={{ delay: 4400, disableOnInteraction: false }}
+                                autoplay={{ delay: 4200, disableOnInteraction: false }}
                                 loop
                                 speed={700}
                                 className='carousel-swiper'
@@ -66,9 +66,9 @@ export default function Carousel(props) {
                             {props.newfeatured.map((game, index) => {
                                 return (
                                     <SwiperSlide>
-                                        <div className='h-full w-[1050px] relative cursor-pointer'>
-                                            <Link to={`/app/${game.slug}`} className='w-full h-full block'>
-                                                    <img className='object-cover rounded-lg' src={game.background}/>
+                                        <div className='h-full w-[1050px] relative cursor-pointer rounded-xl'>
+                                            <Link to={`/app/${game.slug}`} className='w-full h-full block rounded-xl'>
+                                                    <img className='object-cover rounded-xl' src={game.background}/>
                                                 <div className={`absolute z-[1] left-[32px] w-[320px] bottom-[40px] flex flex-col items-start pointer-events-none transition-opacity duration-300 ease-in-out`}>
                                                     <div>
                                                         <div className='overflow-hidden break-words	text-lg'>

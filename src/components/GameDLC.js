@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useCart, useLogin } from '../LoginContext';
+import { useAccount, useCart, useLogin } from '../LoginContext';
 import { baseUrl } from '../shared';
 import { useRef, useEffect } from 'react';
 import Lottie from "lottie-react";
@@ -10,8 +10,9 @@ import * as animationData from "../loading.json";
 export default function GameDLC(props) {
     const navigate = useNavigate();
     const location = useLocation();
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
-    const [itemsInCart, setItemsInCart,getItemInCart] = useCart()
+    const [loggedIn, setLoggedIn] = useLogin()
+    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
+    const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const addCartRef = useRef()
     const lottieRef = useRef();
 
@@ -77,27 +78,37 @@ export default function GameDLC(props) {
                                     <span>{props.price}<span className='underline'>đ</span></span>
                                 </div>
                             </div>
-                            <div className=''>
-                                <div ref={addCartRef} className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] min-w-[80px]'>
-                                    <Lottie className='lottie-dlc' lottieRef={lottieRef} animationData={animationData} loop={true}/>
-                                    <button 
-                                        className='p-1.5'
-                                        onClick={(e) => {
-                                            e.preventDefault()
-                                            addCart(props.id)
-                                        }}>
-                                        {itemsInCart && itemsInCart.items_name.includes(props.slug) ? 
-                                            <span className='cart-text'>IN CART</span>
-                                        : <span className='cart-text'>ADD TO CART</span>}
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <div className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] mr-2'>
-                                    <button className='p-1.5'>
-                                        <span>ADD TO WISHLIST</span>
-                                    </button>
-                                </div>
+                            <div className='flex gap-5'>
+                                {libary ? libary.items_name.includes(props.slug) ? (
+                                    <div className='text-center rounded n bg-[#32db8F]/[0.8] mt-3 select-none'>
+                                        <button className='p-3 w-full' style={{pointerEvents: 'none'}}>
+                                            <span className=''>IN LIBARY</span>
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <>
+                                    <div ref={addCartRef} className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] min-w-[80px] max-h-[40px]'>
+                                        <Lottie className='lottie-dlc' lottieRef={lottieRef} animationData={animationData} loop={true}/>
+                                        <button 
+                                            className='p-1.5'
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                addCart(props.id)
+                                            }}>
+                                            {itemsInCart && itemsInCart.items_name.includes(props.slug) ? 
+                                                <span className='cart-text'>IN CART</span>
+                                            : <span className='cart-text'>ADD TO CART</span>}
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <div className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] mr-2'>
+                                            <button className='p-1.5'>
+                                                <span>ADD TO WISHLIST</span>
+                                            </button>
+                                        </div>
+                                    </div>                
+                                    </>
+                                ) : null}
                             </div>
                         </div>
                     </div>

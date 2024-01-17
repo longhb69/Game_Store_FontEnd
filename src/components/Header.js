@@ -3,8 +3,8 @@ import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import { useAccount, useLogin, useCart } from '../LoginContext';
 
 export default function Header(props) {
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity] = useLogin();
-    const [itemsInCart, setItemsInCart,getItemInCart] = useCart();
+    const [loggedIn, setLoggedIn] = useLogin();
+    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
     const navigate = useNavigate();

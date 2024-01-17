@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { baseUrl } from '../shared';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { useCart, useLogin } from '../LoginContext';
+import { useAccount, useCart, useLogin } from '../LoginContext';
 import GameDLC from '../components/GameDLC';
 import GameImageVideo from '../components/GameImageVideo';
 import Lottie from "lottie-react";
@@ -21,8 +21,9 @@ export default function GameDeatail() {
     const navigate = useNavigate();
     const location = useLocation();
     const [showAllDLC, setShowAllDLC] = useState(false); 
-    const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
-    const [itemsInCart, setItemsInCart,getItemInCart] = useCart()
+    const [loggedIn, setLoggedIn] = useLogin();
+    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
+    const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const url = baseUrl + 'cart/'
     const addCartRef = useRef()
     const lottieRef = useRef();
@@ -49,7 +50,8 @@ export default function GameDeatail() {
         }).catch((e) => {
             console.log(e)
         });
-        getItemInCart()
+        getItemInCart();
+        
     }, []);
 
     function addCart(game_id) {
@@ -261,31 +263,42 @@ export default function GameDeatail() {
                                             <div className='mt-1 text-lg'>
                                                 <p>{game.price}<span className="underline">đ</span></p>
                                             </div>
-                                            <div className='text-center rounded transition ease-in bg-[#5532db] mt-3 hover:bg-[#db55db] duration-[300ms] hover:font-semibold'>
-                                                <button className='p-3 w-full'
-                                                    onClick={() => setButonBuynow(true)}>
-                                                    <span className=''>BUY NOW</span>
-                                                </button>
-                                            </div>
-                                            <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>   
-                                                <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/>
-                                                <button
-                                                    className='p-3 w-full'
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        addCart(game.id)
-                                                    }}
-                                                >
-                                                    {itemsInCart && itemsInCart.items_name.includes(game.slug) ? 
-                                                        <span className='cart-text'>IN CART</span>
-                                                    : <span className='cart-text'>ADD TO CART</span>}
-                                                </button>
-                                            </div>
-                                            <div className='rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms]'>
-                                                <button className='p-3 w-full'>
-                                                    <span>ADD TO WISHLIST</span>
-                                                </button>
-                                            </div>
+                                            {libary ? libary.items_name.includes(game.slug) ? (
+                                                <div className='text-center rounded n bg-[#5532db] mt-3 opacity-[0.6] select-none'>
+                                                    <button className='p-3 w-full' style={{pointerEvents: 'none'}}>
+                                                        <span className=''>IN LIBARY</span>
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className='text-center rounded transition ease-in bg-[#5532db] mt-3 hover:bg-[#db55db] duration-[300ms] hover:font-semibold'>
+                                                        <button className='p-3 w-full' onClick={() => setButonBuynow(true)}>
+                                                            <span className=''>BUY NOW</span>
+                                                        </button>
+                                                    </div>
+                                                    <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>
+                                                        <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/>
+                                                        <button
+                                                            className='p-3 w-full'
+                                                            onClick={(e) => {
+                                                                e.preventDefault()
+                                                                addCart(game.id)
+                                                            }}
+                                                        >
+                                                            {itemsInCart && itemsInCart.items_name.includes(game.slug) ? (
+                                                                <span className='cart-text'>IN CART</span>
+                                                            ) : (
+                                                                <span className='cart-text'>ADD TO CART</span>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                    <div className='rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms]'>
+                                                        <button className='p-3 w-full'>
+                                                            <span>ADD TO WISHLIST</span>
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
