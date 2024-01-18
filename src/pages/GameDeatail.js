@@ -120,7 +120,7 @@ export default function GameDeatail() {
         <>  
             { game && (
                 <>
-                    <div className={`mx-auto w-[70%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
+                    <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
                         <div className='text-white text-6xl'>
                             {game.name}
                         </div>
@@ -240,7 +240,7 @@ export default function GameDeatail() {
                                 <div className='flex sticky top-[100px] mt-5 flex-nowrap w-full'>
                                     <div className=' text-white ml-7 w-[100%]'>
                                         <div className='mb-3 '>
-                                            <img src={game.image}/>
+                                            <img className='rounded' src={game.image}/>
                                         </div>
                                         <div className='mb-3 text-nowrap'>
                                             <p className='text-white text-base'>{game.overview_description}</p>

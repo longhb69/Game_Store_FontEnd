@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide, useSwiper} from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { useEffect, useRef, useState } from "react";
 
-const background = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1704889982/library_hero_rqdfxb.jpg'
 
 export default function CategoryPageSlider(props) {
     const swiperContainerRef = useRef();
@@ -29,7 +28,7 @@ export default function CategoryPageSlider(props) {
         <>
         <div ref={backgroundRef} className={`backgroundoverlay`}></div>
         <div className="z-[1]">
-            <div className="text-5xl font-bold mx-auto max-w-[1050px] mt-[6rem] uppercase">
+            <div className="text-5xl font-bold mx-auto max-w-[1050px] mt-[4rem] uppercase">
                 {props.name}
             </div> 
             <div className="relative h-[360px] mt-7">

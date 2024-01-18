@@ -13,6 +13,7 @@ import DLCDeatail from './pages/DLCDeatail';
 import Cart from './pages/Cart';
 import Success from './pages/Success';
 import NotFound from './pages/NotFound';
+import FillterPage from './pages/FilterPage';
 //export const LoginContext = createContext();
 export const UserContext = createContext();
 
@@ -59,6 +60,7 @@ function App() {
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/cart" element={<Cart/>}/>
                   <Route path="/cart/success/:id" element={<Success/>}/>
+                  <Route path="fillter/:slug" element={<FillterPage/>}/>
                   <Route path="/404" element={<NotFound/>}/>
               </Routes>
             </Header>

@@ -6,11 +6,11 @@ export default function GameDeatail(props) {
 
     return (
         <>  
-            <div className="h-full relative font-normal font-inter transition-transform transform transform group hover:brightness-110" >
-                <div className={`absolute -right-10 -top-9 bg-gray-800 text-white text-sm px-3 py-1 rounded ${ isHovered ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="relative h-full font-normal font-inter transition-transform transform transform group " >
+                <div className={`absolute -right-10 -top-9 bg-gray-800 text-white text-sm px-3 py-1 hidden rounded ${ isHovered ? 'opacity-100' : 'opacity-0'}`}>
                             Add to Wishlist
                 </div>
-                <div className='absolute top-0 right-0'>
+                <div className='absolute top-0 right-0 hidden'>
                     <button className='w-[30px] h-[30px] flex items-center justify-center'
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
@@ -20,12 +20,23 @@ export default function GameDeatail(props) {
                     </svg>
                     </button>
                 </div>
+
                 <Link to={'/app/' + props.slug}>
-                    <img className="w-full h-2/3 object-fit rounded hover:scale-105" src={props.cover}/>
-                    <p className="my-4" >{props.name}</p>
-                    <p className="text-start">
-                        {props.price}<span className="underline">đ</span>
-                    </p>
+                    <div className='h-full'>
+                        <div className='flex flex-col h-full'>
+                            <div className='block h-[77%] w-full mb-[10px] rounded relative'>
+                                <div className='w-full h-full'>
+                                        <img className="w-full h-full rounded" loading='lazy' src={props.cover}/>
+                                </div>
+                            </div>
+                            <div className='text-base flex flex-col font-normal grow shrink-0'>
+                                <div className='overflow-hidden'>{props.name}</div>
+                                <div className='flex items-center mt-1'>
+                                    <div>{props.price}<span className="underline">đ</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </Link>
             </div>
         </>

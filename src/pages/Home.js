@@ -7,6 +7,8 @@ import CategorySlider from '../components/CategorySlider';
 import Slider from '../components/Slider';
 import SwiperTest from '../components/SwiperTest';
 import Carousel from '../components/Carousel';
+import TopSellers from '../components/TopSellers';
+import MostPopular from '../components/MostPopular';
 // <div className='flex  items-center justify-center'>
 // <SwiperTest/>
 // </div>
@@ -28,32 +30,21 @@ export default function Home() {
     }, [])
 
     return( 
-            <div className='mx-auto w-[70%]'>
+            <div className='mx-auto w-[75%]'>
                 <Carousel
                     newfeatured={newfeatured}
                 />
-                <div className='flex flex-wrap gap-7'>
-                    {games ? (
-                        <>
-                            {games.map((game) => {
-                                return (
-                                    <div className='min-w-[180px] max-w-[180px] h-100 w-1/5'>
-                                        <Game
-                                            key={game.id}
-                                            name={game.name}
-                                            slug={game.slug}
-                                            price={game.price}
-                                            image={game.image}
-                                            cover={game.cover}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </>
-                    ) : null}
+                <div className='mt-5'>
+                    <MostPopular/>
                 </div>
-                <div className='flex  items-center justify-center'>
+                <div className='mt-5'>
+                    <TopSellers/>
+                </div>
+                <div className='flex items-center justify-center mt-5'>
                     <Slider/>
+                </div>
+                <div className='h-[500px]'>
+
                 </div>
             </div>
             

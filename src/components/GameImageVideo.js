@@ -82,14 +82,14 @@ export default function GameImageVideo(props) {
                     {props.game_image && props.game_image.length > 0 ? 
                         props.game_image.map((image, index) => (
                             <SwiperSlide key={index}>
-                                <img src={image.image} className='h-full w-full'></img>
+                                <img src={image.image} className='h-full w-full' loading='lazy'></img>
                             </SwiperSlide>
                         ))
                     : null}
                 </Swiper>
             </div>
             <div className='flex items-center justify-between mt-[20px] overflow-hidden '>
-                {props.game_image && props.game_image.length > 4 ?
+                {props.game_image && props.game_image.length > 3 ?
                     <div className='flex'>
                         <button className='w-[18px] h-[18px] rotate-180'
                             onClick={() => prev()}
@@ -122,7 +122,7 @@ export default function GameImageVideo(props) {
                             <div className='relative'
                                 onClick={() => changeSlide(0)}
                             >
-                                <img src={props.image} className={`${currentSlide===0 ? 'border border-[#fff] opacity-[1]' : 'opacity-[0.6]'} hover:opacity-[1] cursor-pointer max-w-[180px] h-[90px] transition-opacity ease-in-out duration-[450ms]`}></img>
+                                <img src={props.image} className={`${currentSlide===0 ? 'border border-[#fff] opacity-[1]' : 'opacity-[0.6]'} hover:opacity-[1] cursor-pointer max-w-[180px] h-[90px] transition-opacity ease-in-out duration-[450ms]`} loading='lazy'></img>
                                 <div className='z-[1] absolute h-[20px] top-[30px] left-[82px] w-[20px]'>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 11 14"><path d="M0 0v14l11-7z" fill="#8F32db" fill-rule="nonzero"></path></svg>
                                 </div>
@@ -142,7 +142,7 @@ export default function GameImageVideo(props) {
                     </Swiper>
                 : null}
                 </div>
-                {props.game_image && props.game_image.length > 4 ?
+                {props.game_image && props.game_image.length > 3 ?
                     <div className='flex justify-center items-center px-2 py-1 rounded-full'>
                         <button className='w-[18px] h-[18px] pb-10'
                             onClick={() => next()}

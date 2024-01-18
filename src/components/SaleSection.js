@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function SaleSection(props) {
     return (
-        <div className="bg-gradient-to-t from-[#2C3037] to-[#505F6E]">
+        <div className="bg-gradient-to-t from-[#2C3037] to-[#505F6E] mt-6">
             <div>
                 <div className="flex px-[16px] py-[4px] w-full items-center text-[#c6d4df]">
                     <div className="border-b-2 p-[4px] mb-[4px] mr-[8px] whitespace-nowrap cursor-pointer text-[#fff]">All ITEMS</div>

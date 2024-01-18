@@ -208,7 +208,7 @@ h2.bb_tag {
 }
 .carousel-swiper {
   height: 100%;
-  max-width: 1050px;
+  max-width: 1150px;
 }
 .smaler-swiper2 {
   max-height: 100%;
@@ -318,7 +318,11 @@ h2.bb_tag {
 .addbackground {
   background-color: rgba(256,256,256, 0.1);
 }
-
+.carouselThumbnail.removebackground::before {
+  transition: transform 0s; /* Cancel the transition */
+  transform: scaleX(0);
+  visibility: hidden;
+}
 .carouselThumbnail.slide::before{
   transform: scaleX(1);
   visibility: visible; 
@@ -326,6 +330,8 @@ h2.bb_tag {
 .carouselThumbnail {
   z-index: 1;
 }
+
+
 .wrapper-item {
   animation-name: hide;
   animation-duration: 0.6s;
@@ -370,3 +376,18 @@ body.overlay-active {
   transform: translate(-50%,-50%);
   outline: none;
 }
+.arrow-left:hover {
+  background: linear-gradient(to right, rgba(85,50,219,0.8) 5%, rgba(85,50,219,0) 95%);
+}
+.arrow-right:hover {
+  background: linear-gradient(to left, rgba(85,50,219,0.8) 5%, rgba(85,50,219,0) 95%);
+}
+.css-5a {
+  flex: 1 1 100%;
+  -webkit-box-flex: 1;
+  overflow: hidden;
+}
+.most-popular-swiper {
+  width: calc(100%);
+}
+

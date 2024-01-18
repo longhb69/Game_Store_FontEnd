@@ -44,7 +44,9 @@ export default function Carousel(props) {
         setActiveSlide(swiperRef.current.swiper.realIndex)
     }
     function Silde(index) {
+       
         swiperRef.current.swiper.slideTo(index);
+        //swiperRef.current.swiper.autoplay.start();
     }
     return (
         <>
@@ -56,7 +58,7 @@ export default function Carousel(props) {
                                 ref={swiperRef}
                                 modules={[Autoplay]}
                                 autoplay={{ delay: 4200, disableOnInteraction: false }}
-                                loop
+                                //loop
                                 speed={700}
                                 className='carousel-swiper'
                                 onSlideChange={() => {
@@ -66,7 +68,7 @@ export default function Carousel(props) {
                             {props.newfeatured.map((game, index) => {
                                 return (
                                     <SwiperSlide>
-                                        <div className='h-full w-[1050px] relative cursor-pointer rounded-xl'>
+                                        <div className='h-full w-full relative cursor-pointer rounded-xl'>
                                             <Link to={`/app/${game.slug}`} className='w-full h-full block rounded-xl'>
                                                     <img className='object-cover rounded-xl' src={game.background}/>
                                                 <div className={`absolute z-[1] left-[32px] w-[320px] bottom-[40px] flex flex-col items-start pointer-events-none transition-opacity duration-300 ease-in-out`}>
@@ -109,11 +111,11 @@ export default function Carousel(props) {
                                         <li className='rounded-2xl flex h-[20%] overflow-hidden] mb-2'>
                                             <div className='w-full h-full'>
                                                 <Link>
-                                                    <div className={`carouselThumbnail ${index === activeSlide? 'slide addbackground' : ''} p-4 rounded-2xl relative`}
+                                                    <div className={`carouselThumbnail ${index === activeSlide? ' slide addbackground' : 'removebackground'} p-4 rounded-2xl relative`}
                                                         onClick={(e) => Silde(index)}>
                                                         <div className='pr-[10px] w-full h-full relative flex justify-start items-center cursor-pointer'>
                                                             <div className='min-w-[63px] my-auto h-[80px] w-[63px] rounded-lg overflow-hidden z-[1] mr-[15px]'>
-                                                                <img className='w-full h-full object-fit' src={game.cover}/>
+                                                                <img className='thumbnail-image w-full h-full object-fit' src={game.cover}/>
                                                             </div>
                                                             <div className='font-base z-[1] leading-5'>
                                                                 <div className='overflow-hidden'>{game.name}</div>

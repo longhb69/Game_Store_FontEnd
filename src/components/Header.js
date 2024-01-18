@@ -29,7 +29,7 @@ export default function Header(props) {
     return (
         <>
             <div className='flex  sticky top-0 h-[100px] z-[900] bg-[#121212]'>
-                <div className='flex justify-between items-center ml-auto mr-auto w-[70%] max-w-[1600px]'>
+                <div className='flex justify-between items-center ml-auto mr-auto w-[75%] max-w-[1600px]'>
                     <Link to={''}>
                         <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
                             <img className='h-9' src='https://res.cloudinary.com/dfo61m8dy/image/upload/v1704796277/Store_yr1avb.svg'/>
