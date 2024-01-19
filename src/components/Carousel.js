@@ -71,28 +71,28 @@ export default function Carousel(props) {
                                         <div className='h-full w-full relative cursor-pointer rounded-xl'>
                                             <Link to={`/app/${game.slug}`} className='w-full h-full block rounded-xl'>
                                                     <img className='object-cover rounded-xl' src={game.background}/>
-                                                <div className={`absolute z-[1] left-[32px] w-[320px] bottom-[40px] flex flex-col items-start pointer-events-none transition-opacity duration-300 ease-in-out`}>
+                                                <div className={`absolute z-[1] left-[38px] w-[320px] bottom-[50px] flex flex-col items-start pointer-events-none transition-opacity duration-300 ease-in-out`}>
                                                     <div>
-                                                        <div className='overflow-hidden break-words	text-lg'>
+                                                        <div className='overflow-hidden break-words	text-lg mb-2 font-bold'>
                                                             {game.name}
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <div className='text-lg'>
+                                                        <div className='text-lg font-medium'>
                                                             <span>
                                                                 {game.price}<span className='underline'>đ</span>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div className='mt-[10px]'>
+                                                    <div className='mt-2'>
                                                         <div className='flex'>
-                                                            <Link to={`/app/${game.slug}`} className='mr-[10px] min-w-[150px] relative items-center text-[#000] h-[50px] w-auto bg-[#fff] justify-center text-center rounded-sm inline-flex'>
+                                                            <Link to={`/app/${game.slug}`} className='mr-[10px] min-w-[120px] relative items-center text-[#000] h-[40px] w-auto bg-[#fff] justify-center text-center rounded-sm inline-flex rounded'>
                                                                 BUY NOW
                                                             </Link>
-                                                            <button className='mr-[10px] min-w-[150px] relative items-center text-[#fff] h-[50px] bg-transparent w-auto  justify-center text-center rounded-sm inline-flex hover:bg-[#db55db] pointer-events-auto'
+                                                            {/* <button className='mr-[10px] min-w-[150px] relative items-center text-[#fff] h-[50px] bg-transparent w-auto  justify-center text-center rounded-sm inline-flex hover:bg-[#db55db] pointer-events-auto'
                                                                 onClick={() => addCart(game.id)}>
                                                                 <span>ADD TO CART</span>
-                                                            </button>
+                                                            </button> */}
                                                         </div>
                                                     </div>
                                                 </div>

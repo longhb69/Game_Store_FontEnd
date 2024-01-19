@@ -25,7 +25,7 @@ export default function GameDeatail(props) {
                     <div className='h-full'>
                         <div className='flex flex-col h-full'>
                             <div className='block h-[77%] w-full mb-[10px] rounded relative'>
-                                <div className='w-full h-full'>
+                                <div className='w-full h-full rounded hover-affect'>
                                         <img className="w-full h-full rounded" loading='lazy' src={props.cover}/>
                                 </div>
                             </div>

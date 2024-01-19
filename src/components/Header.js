@@ -9,6 +9,7 @@ export default function Header(props) {
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
+    const [isInputFocused, setIsInputFocused] = useState(false);
 
     function handleLogout(value) {
         navigate('');
@@ -28,13 +29,36 @@ export default function Header(props) {
     }
     return (
         <>
-            <div className='flex  sticky top-0 h-[100px] z-[900] bg-[#121212]'>
-                <div className='flex justify-between items-center ml-auto mr-auto w-[75%] max-w-[1600px]'>
-                    <Link to={''}>
-                        <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
-                            <img className='h-9' src='https://res.cloudinary.com/dfo61m8dy/image/upload/v1704796277/Store_yr1avb.svg'/>
+            <div className='flex sticky top-0 h-[100px] z-[900] bg-[#121212]'>
+                <div className='flex justify-between ml-auto mr-auto w-[75%] max-w-[1600px]'>
+                    <div className='flex justify-center items-center'>
+                        <Link to={''}>
+                            <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
+                                <img className='h-9' src='https://res.cloudinary.com/dfo61m8dy/image/upload/v1704796277/Store_yr1avb.svg'/>
+                            </div>
+                        </Link>
+                        <div className='flex h-[55px] ml-5 '>
+                            <div className={`flex items-center rounded-[40px] my-2 min-w-[240px] w-[240px] ${isInputFocused ? 'bg-[#fff]/[.1]' : 'bg-[#202020]'} transition ease-in-out duration-100`}>
+                                <div className='flex shirk-0 h-full m-[13.62px]'>
+                                    <button className='cursor-default text-[#F5F5F5]/[.6]'>
+                                        <span className='h-[13px] w-[13px] block'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 21 20" preserveAspectRatio="xMidYMid meet"><g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65" fill="none" fill-rule="evenodd"><circle cx="7.70710678" cy="7.70710678" r="7"></circle><path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path></g></svg>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div className='w-full h-full'>
+                                    <div className='items-center flex h-full w-full'>
+                                        <input className={`mr-[13.62px] text-[#F5F5F5] border-none overflow-hidden whitespace-nowrap w-full outline-0 ${isInputFocused ? 'bg-transparent' : 'bg-[#202020] transition ease-in-out duration-100'}`}
+                                        placeholder='Search Store'
+                                        onFocus={() => setIsInputFocused(true)}
+                                        onBlur={() => setIsInputFocused(false)}/>
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
                         </div>
-                    </Link>
+                    </div>
                     <div className='flex items-center'>
                         {loggedIn ? 
                             <>

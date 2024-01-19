@@ -16,7 +16,7 @@ export default function TopSellers() {
         <>
             <div className='flex justify-between items-center mb-[15px]'>
                 <h2 className='text-lg'>Top Sellers</h2>
-                <Link to={'/fillter/topsellers'} className='text-center items-center text-sm inline-flex font-base rounded border leading-normal  border-[#fff]/[.6] px-5'>VIEW MORE</Link>
+                <Link to={'/fillter/topsellers'} className='text-center text-[11px] items-center justify-center font-base text-sm inline-flex rounded border leading-normal  border-[#fff]/[.6] px-3 py-1 transition ease-in-out hover:border-[#fff]/[.3]'>VIEW MORE</Link>
             </div>
             <div className='flex items-stretch w-full top-sellers-container h-full'>
                 {games ? (

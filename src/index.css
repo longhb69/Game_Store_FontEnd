@@ -391,3 +391,52 @@ body.overlay-active {
   width: calc(100%);
 }
 
+.css-17::before {
+  content: ' ';
+  transition: all 125ms ease-in-out;
+  position: absolute;
+  background-color: #202020;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  left: 0;
+  top: 0;
+}
+
+.link-arrow {
+  transition: transform 125ms ease-in-out;
+}
+.link-title:hover .link-arrow {
+  transform: translateX(4px)
+}
+
+.hover-affect {
+  background: linear-gradient(to bottom, rgb(43,43,43), rgb(32,32,32));
+}
+.hover-affect::after {
+  -webkit-transition: opacity 125ms ease-in-out;
+  transition: opacity 125ms ease-in-out;
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left:0;
+  bottom: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 3px;
+}
+.hover-affect:hover::after {
+  opacity: 0.1;
+}
+
+.slider-thumbs {
+  background-color: hsla(202,60%,100%,0.2);
+  transition: background-color 0.2s;
+}
+.focus {
+  background-color: hsla(202,60%,100%,0.4);
+}
