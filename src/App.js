@@ -6,48 +6,16 @@ import CategoryGame from './pages/CategoryGame';
 import Header from './components/Header';
 import Login from './pages/Login';
 import { createContext, useEffect, useState } from 'react';
-import { baseUrl } from './shared';
-import axios, { Axios } from 'axios';
 import { LoginProvider } from './LoginContext';
 import DLCDeatail from './pages/DLCDeatail';
 import Cart from './pages/Cart';
 import Success from './pages/Success';
 import NotFound from './pages/NotFound';
 import FillterPage from './pages/FilterPage';
-//export const LoginContext = createContext();
+import Search from './pages/Search';
 export const UserContext = createContext();
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(
-    localStorage.access ? true : false
-  )
-  const [username, setUsername] = useState()
-  // function changeLoggedIn(value) {
-  //   setLoggedIn(value)
-  //   if(value === false) {
-  //     localStorage.clear();
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   function refreshTokens() {
-  //       if(localStorage.refresh) {
-  //         const url = baseUrl + 'api/token/refresh/';
-  //         axios.post(url, {
-  //           refresh: localStorage.refresh,
-  //         }).then((respone) => {
-  //           console.log(respone.data)
-  //           localStorage.access = respone.data.access
-  //           localStorage.refresh = respone.data.refresh
-  //           setLoggedIn(true)
-  //         })
-  //       }
-  //   }
-  //   const minute = 1000 * 60 
-  //   refreshTokens();
-  //   setInterval(refreshTokens(), minute * 5)
-  // })
-  
   return (
     <LoginProvider>
         <BrowserRouter>
@@ -61,6 +29,7 @@ function App() {
                   <Route path="/cart" element={<Cart/>}/>
                   <Route path="/cart/success/:id" element={<Success/>}/>
                   <Route path="fillter/:slug" element={<FillterPage/>}/>
+                  <Route path="search/:q" element={<Search/>}/>
                   <Route path="/404" element={<NotFound/>}/>
               </Routes>
             </Header>
@@ -68,5 +37,4 @@ function App() {
     </LoginProvider>
   );
 }
-
 export default App;

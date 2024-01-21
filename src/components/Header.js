@@ -1,15 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import { useAccount, useLogin, useCart } from '../LoginContext';
+import axios from 'axios'
+import { baseUrl } from '../shared';
 
 export default function Header(props) {
     const [loggedIn, setLoggedIn] = useLogin();
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
+    const [query, setQuery] = useState();
+    const [typing, setTyping] = useState(true);
+    const typeFieldRef = useRef();
     const navigate = useNavigate();
     const location = useLocation();
     const [isInputFocused, setIsInputFocused] = useState(false);
+    const searchRef = useRef();
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'Enter') {
+                GoToSearch(query);
+                resetInputField();
+            }
+        };
+        const divElement = searchRef.current;
+        // Cleanup: remove the event listener when the component unmounts
+        divElement.addEventListener('keydown', handleKeyPress);
+        return () => {
+            divElement.removeEventListener('keydown', handleKeyPress);
+          };
+    }, [query])
+
+    const handleInputChange = (event) => {
+        setQuery(event.target.value);
+    };
+    const GoToSearch = (query) => {
+        navigate(`search/${query}`);
+    };
+    const resetInputField = () => {
+        typeFieldRef.current.value = ""
+    };
 
     function handleLogout(value) {
         navigate('');
@@ -38,7 +69,9 @@ export default function Header(props) {
                             </div>
                         </Link>
                         <div className='flex h-[55px] ml-5 '>
-                            <div className={`flex items-center rounded-[40px] my-2 min-w-[240px] w-[240px] ${isInputFocused ? 'bg-[#fff]/[.1]' : 'bg-[#202020]'} transition ease-in-out duration-100`}>
+                            <div 
+                                ref={searchRef}
+                                className={`flex items-center rounded-[40px] my-2 min-w-[240px] w-[240px] ${isInputFocused ? 'bg-[#fff]/[.1]' : 'bg-[#202020]'} transition ease-in-out duration-100`}>
                                 <div className='flex shirk-0 h-full m-[13.62px]'>
                                     <button className='cursor-default text-[#F5F5F5]/[.6]'>
                                         <span className='h-[13px] w-[13px] block'>
@@ -48,10 +81,14 @@ export default function Header(props) {
                                 </div>
                                 <div className='w-full h-full'>
                                     <div className='items-center flex h-full w-full'>
-                                        <input className={`mr-[13.62px] text-[#F5F5F5] border-none overflow-hidden whitespace-nowrap w-full outline-0 ${isInputFocused ? 'bg-transparent' : 'bg-[#202020] transition ease-in-out duration-100'}`}
-                                        placeholder='Search Store'
-                                        onFocus={() => setIsInputFocused(true)}
-                                        onBlur={() => setIsInputFocused(false)}/>
+                                        <input 
+                                            ref={typeFieldRef}
+                                            name="query"
+                                            onChange={handleInputChange}
+                                            className={`mr-[13.62px] text-[#F5F5F5] border-none overflow-hidden whitespace-nowrap w-full outline-0 ${isInputFocused ? 'bg-transparent' : 'bg-[#202020] transition ease-in-out duration-100'}`}
+                                            placeholder='Search Store'
+                                            onFocus={() => setIsInputFocused(true)}
+                                            onBlur={() => setIsInputFocused(false)}/>
                                     </div>
                                 </div>
                                 <div>

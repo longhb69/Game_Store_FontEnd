@@ -4,7 +4,7 @@ import { baseUrl } from '../shared';
 import Slider from '../components/Slider';
 import Carousel from '../components/Carousel';
 import TopSellers from '../components/TopSellers';
-import MostPopular from '../components/BrowseSlider';
+import BrowseSlider from '../components/BrowseSlider';
 
 //Analogous #5532db #7032db #8F32db  ||Split-Complementary  #db5532 #db8F32   || Tetradic #32db55 #db5532  
 //||Split-Tetradic #5532db #db8F32  #32db55  ||#5532db #32db8F #db55db #8F32db, 
@@ -13,6 +13,7 @@ export default function Home() {
     const [games, setGames] = useState();
     const [newfeatured, setNewfeatured] = useState();
     const mostPopularUrl = baseUrl + 'api/mostpopular'
+    const newRelease = baseUrl + 'api/newrelease'
     useEffect(() => {
         const url = baseUrl + 'api/game/'
         axios.get(url).then((response) => {
@@ -30,15 +31,15 @@ export default function Home() {
                     newfeatured={newfeatured}
                 />
                 <div className='mt-5'>
-                    <MostPopular 
+                    <BrowseSlider 
                         url={mostPopularUrl}
                         title={'Popular'}
                         linkable={true}
                         slug={'mostpopular'}/>
                 </div>
                 <div className='mt-5'>
-                    <MostPopular 
-                        url={mostPopularUrl}
+                    <BrowseSlider 
+                        url={newRelease}
                         title={'New Release'}
                         linkable={false}
                     />

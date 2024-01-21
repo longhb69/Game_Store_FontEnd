@@ -269,13 +269,6 @@ h2.bb_tag {
   height: 750px;
   object-fit: cover;
   background-repeat: no-repeat;
-  /* -webkit-mask-image: 
-  linear-gradient(180deg, black 58%, rgba(0, 0, 0, 0) 95%),
-  radial-gradient(15.77% 44.22% at 50% 104.95%, rgba(66, 66, 66, 0) 0%, #333333 100%),
-  radial-gradient(30.95% 86.8% at 30.69% 13.2%, rgba(66, 66, 66, 0.33) 0%, #333333 100%),
-  radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
-  radial-gradient(51.31% 143.89% at 49.99% 24.75%, #000000 0%, #000000 52.6%, rgba(0, 0, 0, 0.18) 83.33%, rgba(0, 0, 0, 0) 95.31%),
-  linear-gradient(180deg, #000000 90%, rgba(0, 0, 0, 0) 100%); */
   -webkit-mask-image: 
     linear-gradient(180deg, black 58%, rgba(0,0,0,0) 95%), 
     radial-gradient(15.77% 44.22% at 50% 104.95%, rgba(66,66,66,0) 0%, #333333 100%),
@@ -401,6 +394,9 @@ body.overlay-active {
   border-radius: 100%;
   left: 0;
   top: 0;
+}
+.css-17:hover::before {
+  background-color: hsla(202,60%,100%,0.2);
 }
 
 .link-arrow {

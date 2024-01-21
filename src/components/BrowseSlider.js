@@ -1,11 +1,7 @@
-import { Swiper, SwiperSlide, useSwiper} from 'swiper/react';
-import { Autoplay,Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide} from 'swiper/react';
 import { Link,useNavigate,useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { baseUrl } from '../shared';
-import Game from './Game';
 import axios from 'axios';
-
 
 export default function MostPopular(props) {
     const [games, setGames] = useState();
@@ -14,20 +10,28 @@ export default function MostPopular(props) {
     const [beginSlide, setBeginSlide] = useState(true);
     useEffect(() => {
         axios.get(props.url).then((response) => {
-            setGames(response.data.results)
+            setGames(response.data)
+            init();
         })
     }, [])
+    function init() {
+        if(swiperRef.current?.swiper.slides.length < 6) {
+            setBeginSlide(true);
+            setEndSlide(true);
+        }
+    }
     function next() {
         swiperRef.current.swiper.slideNext();
-        if(swiperRef.current.swiper.isEnd) {
-            console.log('end')
-        }
     }
     function prev() {
         swiperRef.current.swiper.slidePrev();
     }
     function handlePosition() {
-        if(swiperRef.current.swiper.isEnd) {
+        if(!swiperRef.current.swiper.isEnd && !swiperRef.current.swiper.isBeginning) {
+            setEndSlide(false);
+            setBeginSlide(false);
+        }
+        else if(swiperRef.current.swiper.isEnd) {
             setEndSlide(true);
             setBeginSlide(false);
         }
@@ -58,8 +62,8 @@ export default function MostPopular(props) {
                         </>
                         }
                         <div className='flex'>
-                            <div className={`ml-[10px] ${beginSlide ? 'pointer-events-none cursor-default' : ' '}`}>
-                                <button className={`css-17 relative w-[30px] h-[30px] flex items-center justify-center `}
+                            <div className={`ml-[10px] ${beginSlide ? 'pointer-events-none cursor-default' : ''}`}>
+                                <button className={`css-17 relative w-[30px] h-[30px] flex items-center justify-center`}
                                     onClick={() => prev()}>
                                     <span className={`lock w-[12px] h-[12px] scale-x-[-1] ${beginSlide ? 'opacity-[0.5] select-none' : ''}`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full ${beginSlide ? 'pointer-events-none select-none' : ' '}`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
@@ -70,7 +74,7 @@ export default function MostPopular(props) {
                                 <button className='css-17 relative w-[30px] h-[30px] flex items-center justify-center'
                                     onClick={() => next()}>
                                     <span className={`block w-[12px] h-[12px] z-[1] ${endSlide ? 'opacity-[0.5]' : ' '}`}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full ${beginSlide ? 'pointer-events-none select-none' : ' '}`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full ${endSlide ? 'pointer-events-none select-none' : ' '}`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
                                     </span>
                                 </button>
                             </div>
@@ -89,6 +93,13 @@ export default function MostPopular(props) {
                         onSlideChange={() => {
                             handlePosition();
                         }}
+                        {...{
+                            lazy: {
+                              loadPrevNext: false,
+                              loadPrevNextAmount: 0, 
+                              loadOnTransitionStart: true,
+                            }
+                          }}
                     >
                         {games.map((game) => {
                             return (
