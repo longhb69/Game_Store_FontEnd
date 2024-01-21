@@ -9,8 +9,9 @@ export default function Header(props) {
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const [account, setAccount] = useAccount();
     const [username, setUsername] = useState('');
-    const [query, setQuery] = useState();
-    const [typing, setTyping] = useState(true);
+    const [typing, setTyping] = useState(false)
+    const [query, setQuery] = useState("");
+    const [result, setResult] = useState();
     const typeFieldRef = useRef();
     const navigate = useNavigate();
     const location = useLocation();
@@ -58,10 +59,31 @@ export default function Header(props) {
             }
         });
     }
+    useEffect(() => {
+        if(query.trim() !== "") {
+            console.log("fetch")
+            fetchData();
+            setTyping(true)
+        } 
+        else {
+            setTyping(false)
+        }
+    }, [query])
+    const fetchData = async() => {
+        const url = baseUrl + `search?q=${query}`
+        try {
+            const response = await axios.get(url)
+            const data = await response.data;
+            setResult(data)
+        }
+        catch(e) {
+            console.log(e)
+        }
+    }
     return (
         <>
             <div className='flex sticky top-0 h-[100px] z-[900] bg-[#121212]'>
-                <div className='flex justify-between ml-auto mr-auto w-[75%] max-w-[1600px]'>
+                <div className='flex justify-between ml-auto mr-auto w-[75%] max-w-[1600px] relative'>
                     <div className='flex justify-center items-center'>
                         <Link to={''}>
                             <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>
@@ -80,7 +102,7 @@ export default function Header(props) {
                                     </button>
                                 </div>
                                 <div className='w-full h-full'>
-                                    <div className='items-center flex h-full w-full'>
+                                    <div className='items-center flex h-full w-full text-sm'>
                                         <input 
                                             ref={typeFieldRef}
                                             name="query"
@@ -89,6 +111,63 @@ export default function Header(props) {
                                             placeholder='Search Store'
                                             onFocus={() => setIsInputFocused(true)}
                                             onBlur={() => setIsInputFocused(false)}/>
+                                    </div>
+                                    <div className={`search-live-container ${typing && isInputFocused ? 'opacity-1' : 'opacity-0 hidden'}`}>
+                                        <div className='shadow-[0px_5px_10px_rgba(0,0,0,0.3)] rounded px-2.5 py-5 bg-[#202020] text-center]'>
+                                            <span className='transition'>
+                                                <div className='h-full w-[490px] max-w-[490px] text-left'>
+                                                    <ul className='p-0 m-0 list-none ml-3.5'>
+                                                        {result && result.length > 0 ? 
+                                                                <>
+                                                                {result.map((game) => {
+                                                                    return (
+                                                                        <li className='w-full'>
+                                                                            <div className='h-[46px] max-h-[46px] my-2'>
+                                                                                <a className='text-left game-display relative overflow-hidden text-ellipsis	whitespace-nowrap w-full h-full max-w-[100%] flex items-center'
+                                                                                    href={`/app/${game.slug}`}>
+                                                                                    <div className='transition w-full flex items-center h-full opacity-1'>
+                                                                                        <div className='mr-3.5 rounded shrink-0 overflow-hidden w-[37px] h-full'>
+                                                                                            <div className='relative w-full h-full pb-[calc(4/3 * 100%)]'>
+                                                                                                <div className='items-center flex h-full w-full absolute overflow-hidden'>
+                                                                                                    <div className='w-full h-full'>
+                                                                                                        <img className='transition ease-in-out delay-[450ms] absolute w-full h-full opacity-1' 
+                                                                                                            src={game.cover}/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div className='overflow-hidden text-ellipsis whitespace-nowrap shrink-1 max-w-[100%]'>
+                                                                                            <span className='transition'>
+                                                                                                <strong className='game-display-title'>{game.name}</strong>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+                                                                        </li>
+                                                                    );
+                                                                })}
+                                                            </>
+                                                        : 
+                                                            <li>
+                                                                <div className='overflow-hidden text-ellipsis whitespace-nowrap w-full max-w-full h-[34px] flex items-center'>
+                                                                    <div className="overflow-hidden text-ellipsis whitespace-nowrap w-full max-w-full shrink-1">
+                                                                        <span>No matching title found</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <a className='flex h-[34px] items-center w-full max-w-[100%] overflow-hidden text-ellipsis whitespace-nowrap text-[#F5F5F5]/[.6]'>
+                                                                        <div className='underline w-full items-center flex'>
+                                                                            <span>Browse all titles</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div>

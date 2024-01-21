@@ -1,52 +1,21 @@
-import { Swiper, SwiperSlide, useSwiper} from 'swiper/react';
-import { Autoplay,Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Link,useNavigate,useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-import { baseUrl } from '../shared';
+import { Swiper, SwiperSlide} from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import { Link,useLocation } from 'react-router-dom';
+import { useRef, useState } from 'react';
 import { useCart, useLogin } from '../LoginContext';
 
 export default function Carousel(props) {
     const [activeSlide, setActiveSlide] = useState(0)
     const swiperRef = useRef(null);
-    const navigate = useNavigate();
     const [loggedIn, setLoggedIn] = useLogin();
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
-    const location = useLocation();
-
-    function addCart(game_id) {
-        const url = baseUrl + 'cart/'
-        const data = {type:'game', base_game_id: game_id}
-        fetch(url,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + localStorage.getItem('access'), 
-            },
-            body: JSON.stringify(data),
-        }).then((response) => {
-            if (response.status === 403 || response.status === 401) {
-                setLoggedIn(false);
-                navigate('/login', {
-                    state: {
-                        previousUrl: location.pathname
-                    }
-                });
-            }
-            else if(!response.ok) {
-                throw new Error('Something went wrong')
-            }
-            getCartQuantity();
-            getItemInCart();
-            return response.json();
-        })
-    }
+    
     function handSlideChange() {
-        setActiveSlide(swiperRef.current.swiper.realIndex)
+        setActiveSlide(swiperRef.current.swiper.realIndex);
+        console.log(activeSlide)
     }
     function Silde(index) {
-       
         swiperRef.current.swiper.slideTo(index);
-        //swiperRef.current.swiper.autoplay.start();
     }
     return (
         <>
@@ -57,8 +26,10 @@ export default function Carousel(props) {
                             <Swiper
                                 ref={swiperRef}
                                 modules={[Autoplay]}
-                                autoplay={{ delay: 4200, disableOnInteraction: false }}
+                                autoplay={{ delay: 7200, disableOnInteraction: false }}
                                 //loop
+                                allowTouchMove={false}
+                                noSwiping={true}
                                 speed={700}
                                 className='carousel-swiper'
                                 onSlideChange={() => {
@@ -111,13 +82,13 @@ export default function Carousel(props) {
                                         <li className='rounded-2xl flex h-[20%] overflow-hidden] mb-2'>
                                             <div className='w-full h-full'>
                                                 <Link>
-                                                    <div className={`carouselThumbnail ${index === activeSlide? ' slide addbackground' : 'removebackground'} p-4 rounded-2xl relative`}
+                                                    <div className={`carouselThumbnail ${index === activeSlide ? ' slide addbackground' : 'removebackground'} p-4 rounded-2xl relative`}
                                                         onClick={(e) => Silde(index)}>
                                                         <div className='pr-[10px] w-full h-full relative flex justify-start items-center cursor-pointer'>
                                                             <div className='min-w-[63px] my-auto h-[80px] w-[63px] rounded-lg overflow-hidden z-[1] mr-[15px]'>
                                                                 <img className='thumbnail-image w-full h-full object-fit' src={game.cover}/>
                                                             </div>
-                                                            <div className='font-base z-[1] leading-5'>
+                                                            <div className='font-medium text-[16px] z-[1] leading-6'>
                                                                 <div className='overflow-hidden'>{game.name}</div>
                                                             </div>
                                                         </div>

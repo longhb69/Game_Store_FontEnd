@@ -9,14 +9,14 @@ export default function Checkout(props) {
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const navigate = useNavigate();
     const [account] = useAccount();
-    function Checkout() {
-        const url = baseUrl + 'cart/checkout_cart/'
-        axios.post(url,null,{
+
+    function Checkout(url,data=null) {
+        axios.post(url,data,{
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + localStorage.getItem('access'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('access'),
             },
-          }
+        }
         ).then((response) => {
             if (response.status < 200 || response.status >= 300) {
                 navigate('/404')
@@ -26,6 +26,17 @@ export default function Checkout(props) {
                 getCartQuantity();
             }
         })
+    }
+    function CheckoutFromCart(fromcart = true) {
+        if(fromcart) {
+            const url = baseUrl + 'cart/checkout_cart'
+            Checkout(url);
+        }
+        else {
+            const url = baseUrl + 'cart/checkout'
+            const data = {game_id: props.game.id}
+            Checkout(url,data)
+        }
     }
     return (props.trigger ? (
         <>
@@ -125,7 +136,7 @@ export default function Checkout(props) {
                             </div>
                             <div className="mt-5 pl-1 w-full h-4/6">
                                 <button className="rounded w-full px-4 py-5 bg-[#32db55] hover:brightness-110 transition ease-in duration-[150ms]"
-                                    onClick={() => Checkout()}>
+                                    onClick={() =>  CheckoutFromCart(props.game ? false : true)}>
                                     PLACE ORDER
                                 </button>
                             </div>

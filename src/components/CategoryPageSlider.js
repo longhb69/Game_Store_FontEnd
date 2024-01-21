@@ -61,7 +61,7 @@ export default function CategoryPageSlider(props) {
                                         <div className="w-full max-w-[1100px] h-[400px] flex bg-[#0000004f] info-container">
                                             <Link to={`/app/${game.slug}`} className="h-[350px] w-[360px]">
                                                 <div className="h-[92%] w-full">
-                                                    <img className="h-full w-full" src={game.cover}/>
+                                                    <img className="h-full w-full" src={game.cover} loading="lazy"/>
                                                 </div>
                                                 <div className="bg-[#000] flex items-center">
                                                     <span className="ml-auto flex">

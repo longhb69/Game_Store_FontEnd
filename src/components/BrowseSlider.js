@@ -63,7 +63,7 @@ export default function MostPopular(props) {
                         }
                         <div className='flex'>
                             <div className={`ml-[10px] ${beginSlide ? 'pointer-events-none cursor-default' : ''}`}>
-                                <button className={`css-17 relative w-[30px] h-[30px] flex items-center justify-center`}
+                                <button className={` ${beginSlide ? 'css-172': 'css-17'} relative w-[30px] h-[30px] flex items-center justify-center`}
                                     onClick={() => prev()}>
                                     <span className={`lock w-[12px] h-[12px] scale-x-[-1] ${beginSlide ? 'opacity-[0.5] select-none' : ''}`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full ${beginSlide ? 'pointer-events-none select-none' : ' '}`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
@@ -71,7 +71,7 @@ export default function MostPopular(props) {
                                 </button>
                             </div>
                             <div className={`ml-[10px] ${endSlide ? 'pointer-events-none cursor-default' : ' '}`}>
-                                <button className='css-17 relative w-[30px] h-[30px] flex items-center justify-center'
+                                <button className={`${endSlide ? 'css-172': 'css-17'} relative w-[30px] h-[30px] flex items-center justify-center`}
                                     onClick={() => next()}>
                                     <span className={`block w-[12px] h-[12px] z-[1] ${endSlide ? 'opacity-[0.5]' : ' '}`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full ${endSlide ? 'pointer-events-none select-none' : ' '}`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
