@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../shared';
 import FillterGame from '../components/FillterGame';
@@ -8,13 +8,13 @@ export default function Search() {
     const params = useParams();
     const [games, setGames] = useState();
     const [categories, setCategories] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [btnActive, setBtnActive] = useState(false);
     const [loading, setLoading] = useState(true);
     const [tags, setTags] = useState([]);
     const [tagIds, setTagIds] = useState([]);
-
+    const [query2, setQuery] = useState(params.q);
+    const inputRef = useRef();
+    
     let getData = (query='') => {
         setLoading(true)
         const url = tags && tags.length > 0
@@ -29,31 +29,22 @@ export default function Search() {
             setLoading(false);
         });;
     }
-    let searchData = () => {
-        getData(params.q)
+    let searchData = (query2=params.q) => {
+        getData(query2)
     }
-    function fetchData()  {
-        try {
-          axios.get(`${baseUrl}api/category/?page=${currentPage}`).then((response) => {
-            setCategories((prevCategories) => [...prevCategories, ...response.data.results]);
-            setTotalPages(response.data.total_pages);
-            setCurrentPage(response.data.current_page);
-          })
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
     useEffect(() => {
-        fetchData();
+        axios.get(`${baseUrl}api/category2/`).then((response) => {
+            setCategories(response.data)
+        })
+        
     }, [])
     useEffect(() => {
-        console.log("current", currentPage);
-        console.log("Total", totalPages);
-    }, [currentPage, totalPages]);
-
+        getData(query2);
+    }, [tags])
     useEffect(() => {
-        searchData();
-    }, [tags,params])
+        getData(params.q)
+        setQuery(params.q)
+    }, [params])
 
     function fillter(game_name,  id) {
         if(tagIds.includes(id)) {
@@ -67,6 +58,12 @@ export default function Search() {
             setTags((prevTags) => [...prevTags || null, game_name]);
         }
     }
+    const handleInputChange = (event) => {
+        setQuery(event.target.value);
+    };
+    useEffect(() => {
+        searchData(query2);
+    }, [query2])
     return (
         <>
             <div className='w-[75%] h-[1450px] mx-auto max-w-[1600px]'>
@@ -78,23 +75,33 @@ export default function Search() {
                                     <div className='w-full overflow-hidden'>
                                         <div>
                                             <div className='flex h-[54px] justify-between pt-2 flex items-center'>
-                                                <div className='px-4'>Fillters ({tagIds.length})</div>
-                                                <button className='text-center items-center cursor-pointer flex px-3.5 py-3'>
+                                                <div className=''>Fillters ({tagIds.length})</div>
+                                                <button className='text-xs text-center items-center cursor-pointer flex py-3'>
                                                     <div onClick={() => {
                                                         setTagIds([])
                                                         setTags([])
+                                                        setQuery("")
                                                     }}>RESET</div>
                                                 </button>
                                             </div>
                                         </div>
                                         <div>
-                                            <div className='px-3.5 mb-4'>
-                                                <div className='relative'>
+                                            <div className='mb-4'>
+                                                <div className='relative text-sm'>
                                                     <span className='absolute left-[10px] block top-[13px] w-3 h-3 z-1'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 21 20" preserveAspectRatio="xMidYMid meet"><g transform="scale(1 -1) rotate(-45 -11.93502884 -2)" stroke="currentColor" stroke-width="1.65" fill="none" fill-rule="evenodd"><circle cx="7.70710678" cy="7.70710678" r="7"></circle><path d="M15.2071068 8.62132034h5.6923881" stroke-linecap="square"></path></g></svg>
                                                     </span>
-                                                    <input type="text" placeholder='Keywords' className='pr-[30px] pl-[40px] rounded bg-none outline-none w-full h-[40px] bg-[#202020]'>
+                                                    <input  
+                                                        ref = {inputRef}
+                                                        value={query2}
+                                                        onChange={handleInputChange}
+                                                        type="text" placeholder='Keywords' className='pr-[30px] pl-[40px] rounded bg-none outline-none w-full h-[40px] bg-[#202020]'>
                                                     </input>
+                                                    <button className='reset-btn absolute p-1 right-[10px] top-[12.5px]' onClick={(e) => {setQuery("")}}>
+                                                        <span className='block w-[14px] h-[10.5px]'>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 14 15"><g fill="currentColor" fill-rule="evenodd"><path d="M.98959236 14.21751442L13.71751442 1.48959236l-.70710678-.70710678L.28248558 13.51040764z"></path><path d="M.28248558 1.48959236l12.72792206 12.72792206.70710678-.70710678L.98959236.78248558z"></path></g></svg>
+                                                        </span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,7 +128,7 @@ export default function Search() {
                                                             return (
                                                                 <div>
                                                                     <div>
-                                                                        <div className={`items-center flex font-medium justify-between opacity-[0.6] px-3.5 py-5 mb-2 w-full rounded  ${tagIds.includes(index) ? 'bg-[#fff]/[0.1]' : '' } hover:opacity-[1] cursor-pointer`}
+                                                                        <div className={`items-center flex font-medium justify-between opacity-[0.6] px-3.5 py-5 mb-2 w-full rounded  ${tagIds.includes(index) ? 'bg-[#fff]/[0.1] opacity-[1]' : '' } hover:opacity-[1] cursor-pointer`}
                                                                             onClick={(e) => {
                                                                                 fillter(category.name, index)
                                                                             }}>

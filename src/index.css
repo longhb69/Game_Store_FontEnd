@@ -510,3 +510,16 @@ input {
   margin: 6px 14px;
   opacity: 0.1;
 }
+
+.reset-btn::before {
+  transition: border 125ms ease-in-out;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  pointer-events: none;
+}
