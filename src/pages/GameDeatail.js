@@ -80,7 +80,7 @@ export default function GameDeatail() {
                 addCartRef.current.classList.remove('loading')
                 getCartQuantity();
                 getItemInCart();
-            }, 100)
+            }, 1000)
             return response.json();
         })
     }
@@ -263,13 +263,13 @@ export default function GameDeatail() {
                                             <div className='mt-1 text-lg'>
                                                 <p>{game.price}<span className="underline">đ</span></p>
                                             </div>
-                                            {libary ? libary.items_name.includes(game.slug) ? (
+                                            {libary && libary.items_name.includes(game.slug) ? (
                                                 <div className='text-center rounded n bg-[#5532db] mt-3 opacity-[0.6] select-none'>
                                                     <button className='p-3 w-full' style={{pointerEvents: 'none'}}>
                                                         <span className=''>IN LIBARY</span>
                                                     </button>
                                                 </div>
-                                            ) : (
+                                            ) : 
                                                 <>
                                                     <div className='text-center rounded transition ease-in bg-[#5532db] mt-3 hover:bg-[#db55db] duration-[300ms] hover:font-semibold'>
                                                         <button className='p-3 w-full' onClick={() => setButonBuynow(true)}>
@@ -298,7 +298,7 @@ export default function GameDeatail() {
                                                         </button>
                                                     </div>
                                                 </>
-                                            ) : null}
+                                            }                 
                                         </div>
                                     </div>
                                 </div>

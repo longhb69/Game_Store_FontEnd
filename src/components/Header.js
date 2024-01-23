@@ -3,11 +3,12 @@ import { Link, useNavigate, useLocation  } from 'react-router-dom';
 import { useAccount, useLogin, useCart } from '../LoginContext';
 import axios from 'axios'
 import { baseUrl } from '../shared';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export default function Header(props) {
     const [loggedIn, setLoggedIn] = useLogin();
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
-    const [account, setAccount] = useAccount();
+    const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const [username, setUsername] = useState('');
     const [typing, setTyping] = useState(false)
     const [query, setQuery] = useState("");
@@ -16,6 +17,7 @@ export default function Header(props) {
     const navigate = useNavigate();
     const location = useLocation();
     const [isInputFocused, setIsInputFocused] = useState(false);
+    const [onHover, setOnHover] = useState(true);
     const searchRef = useRef();
 
     useEffect(() => {
@@ -23,6 +25,8 @@ export default function Header(props) {
             if (event.key === 'Enter') {
                 GoToSearch(query);
                 resetInputField();
+                setOnHover(false);
+                setIsInputFocused(false);
             }
         };
         const divElement = searchRef.current;
@@ -47,7 +51,8 @@ export default function Header(props) {
         navigate('');
         setLoggedIn(value);
         setAccount(null);
-        setItemsInCart(null)
+        setItemsInCart(null);
+        setLibary(null);
     }
     const handleSetUsername = (username) => {
         setUsername(username);
@@ -110,65 +115,75 @@ export default function Header(props) {
                                             className={`mr-[13.62px] text-[#F5F5F5] border-none overflow-hidden whitespace-nowrap w-full outline-0 ${isInputFocused ? 'bg-transparent' : 'bg-[#202020] transition ease-in-out duration-100'}`}
                                             placeholder='Search Store'
                                             onFocus={() => setIsInputFocused(true)}
-                                            onBlur={() => setIsInputFocused(false)}/>
+                                            onBlur={() => setIsInputFocused(false)}
+                                            />
                                     </div>
-                                    <div className={`search-live-container ${typing && isInputFocused ? 'opacity-1' : 'opacity-0 hidden'}`}>
-                                        <div className='shadow-[0px_5px_10px_rgba(0,0,0,0.3)] rounded px-2.5 py-5 bg-[#202020] text-center]'>
-                                            <span className='transition'>
-                                                <div className='h-full w-[490px] max-w-[490px] text-left'>
-                                                    <ul className='p-0 m-0 list-none ml-3.5'>
-                                                        {result && result.length > 0 ? 
-                                                                <>
-                                                                {result.map((game) => {
-                                                                    return (
-                                                                        <li className='w-full'>
-                                                                            <div className='h-[46px] max-h-[46px] my-2'>
-                                                                                <a className='text-left game-display relative overflow-hidden text-ellipsis	whitespace-nowrap w-full h-full max-w-[100%] flex items-center'
-                                                                                    href={`/app/${game.slug}`}>
-                                                                                    <div className='transition w-full flex items-center h-full opacity-1'>
-                                                                                        <div className='mr-3.5 rounded shrink-0 overflow-hidden w-[37px] h-full'>
-                                                                                            <div className='relative w-full h-full pb-[calc(4/3 * 100%)]'>
-                                                                                                <div className='items-center flex h-full w-full absolute overflow-hidden'>
-                                                                                                    <div className='w-full h-full'>
-                                                                                                        <img className='transition ease-in-out delay-[450ms] absolute w-full h-full opacity-1' 
-                                                                                                            src={game.cover}/>
+                                    {(isInputFocused || onHover) && typing  ? 
+                                        <div className={`search-live-container`}
+                                            onMouseEnter={(e) => {
+                                                setOnHover(true);
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                setOnHover(false);
+                                            }}
+                                            >
+                                            <div className='shadow-[0px_5px_10px_rgba(0,0,0,0.3)] rounded px-2.5 py-5 bg-[#202020] text-center]'>
+                                                <span className='transition'>
+                                                    <div className='h-full w-[490px] max-w-[490px] text-left'>
+                                                        <ul className='p-0 m-0 list-none ml-3.5'>
+                                                            {result && result.length > 0 ? 
+                                                                    <>
+                                                                    {result.map((game) => {
+                                                                        return (
+                                                                            <li className='w-full'>
+                                                                                <div className='h-[46px] max-h-[46px] my-2'>
+                                                                                    <a className='text-left game-display relative overflow-hidden text-ellipsis	whitespace-nowrap w-full h-full max-w-[100%] flex items-center'
+                                                                                        href={`/app/${game.slug}`}>
+                                                                                        <div className='transition w-full flex items-center h-full opacity-1'>
+                                                                                            <div className='mr-3.5 rounded shrink-0 overflow-hidden w-[37px] h-full'>
+                                                                                                <div className='relative w-full h-full pb-[calc(4/3 * 100%)]'>
+                                                                                                    <div className='items-center flex h-full w-full absolute overflow-hidden'>
+                                                                                                        <div className='w-full h-full'>
+                                                                                                            <img className='transition ease-in-out delay-[450ms] absolute w-full h-full opacity-1' 
+                                                                                                                src={game.cover}/>
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
+                                                                                            <div className='overflow-hidden text-ellipsis whitespace-nowrap shrink-1 max-w-[100%]'>
+                                                                                                <span className='transition'>
+                                                                                                    <strong className='game-display-title'>{game.name}</strong>
+                                                                                                </span>
+                                                                                            </div>
                                                                                         </div>
-                                                                                        <div className='overflow-hidden text-ellipsis whitespace-nowrap shrink-1 max-w-[100%]'>
-                                                                                            <span className='transition'>
-                                                                                                <strong className='game-display-title'>{game.name}</strong>
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </div>
-                                                                        </li>
-                                                                    );
-                                                                })}
-                                                            </>
-                                                        : 
-                                                            <li>
-                                                                <div className='overflow-hidden text-ellipsis whitespace-nowrap w-full max-w-full h-[34px] flex items-center'>
-                                                                    <div className="overflow-hidden text-ellipsis whitespace-nowrap w-full max-w-full shrink-1">
-                                                                        <span>No matching title found</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <a className='flex h-[34px] items-center w-full max-w-[100%] overflow-hidden text-ellipsis whitespace-nowrap text-[#F5F5F5]/[.6]'>
-                                                                        <div className='underline w-full items-center flex'>
-                                                                            <span>Browse all titles</span>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </li>
+                                                                        );
+                                                                    })}
+                                                                </>
+                                                            : 
+                                                                <li>
+                                                                    <div className='overflow-hidden text-ellipsis whitespace-nowrap w-full max-w-full h-[34px] flex items-center'>
+                                                                        <div className="overflow-hidden text-ellipsis whitespace-nowrap w-full max-w-full shrink-1">
+                                                                            <span>No matching title found</span>
                                                                         </div>
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                        }
-                                                    </ul>
-                                                </div>
-                                            </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <a className='flex h-[34px] items-center w-full max-w-[100%] overflow-hidden text-ellipsis whitespace-nowrap text-[#F5F5F5]/[.6]'>
+                                                                            <div className='underline w-full items-center flex'>
+                                                                                <span>Browse all titles</span>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                     : null}
                                 </div>
                                 <div>
                                 </div>

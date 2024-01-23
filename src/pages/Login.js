@@ -9,7 +9,7 @@ export default function Login() {
     const [password, setPassword] = useState();
     const [incorrent, setIncorrent] = useState(false);
     const [loggedIn, setLoggedIn, cartQuantity, setCartQuantity, getCartQuantity] = useLogin()
-    const [account, setAccount] = useAccount()
+    const [account, setAccount, libary, setLibary, getLibary] = useAccount()
 
     const navigate = useNavigate()
     
@@ -28,7 +28,7 @@ export default function Login() {
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh',response.data.refresh);
           setLoggedIn(true)
-          console.log("LOgin?: ",loggedIn)
+          getLibary();
           const url2 = baseUrl + 'api/account/'
           axios.get(url2, {
             headers: {

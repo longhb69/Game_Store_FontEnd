@@ -454,12 +454,15 @@ body.overlay-active {
   background-color: hsla(202,60%,100%,0.4);
 }
 
-.genre-btn {
+.genre-btn-up, .genre-btn-down {
   transition: transform 0.25s cubic-bezier(0.215, 0.61, 0.355, 1) 0s, opacity 0.125s ease-in-out 0s;
 }
 
-.genre-btn:hover {
-  transform: rotate(360deg);
+.genre-btn-up {
+  transform: rotate(270deg);
+}
+.genre-btn-down {
+  transform: rotate(270eg);
 }
 
 input {
@@ -497,4 +500,13 @@ input {
 
 .game-display:hover .game-display-title {
   text-decoration: underline;
+}
+
+.fillter-container::after{ 
+  content: "";
+  background-color: rgb(245, 245, 245);
+  display: block;
+  height: 1px;
+  margin: 6px 14px;
+  opacity: 0.1;
 }

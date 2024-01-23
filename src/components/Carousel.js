@@ -12,7 +12,6 @@ export default function Carousel(props) {
     
     function handSlideChange() {
         setActiveSlide(swiperRef.current.swiper.realIndex);
-        console.log(activeSlide)
     }
     function Silde(index) {
         swiperRef.current.swiper.slideTo(index);
@@ -76,10 +75,10 @@ export default function Carousel(props) {
                         </div>
                         <div className='ml-[30px] basis-1/4'>
                             <ul className='h-full w-full flex flex-col relative'>
-                                <li></li>
+                                
                                 {props.newfeatured.map((game, index) => {
                                     return (
-                                        <li className='rounded-2xl flex h-[20%] overflow-hidden] mb-2'>
+                                        <li className='rounded-2xl flex h-[20%] overflow-hidden] '>
                                             <div className='w-full h-full'>
                                                 <Link>
                                                     <div className={`carouselThumbnail ${index === activeSlide ? ' slide addbackground' : 'removebackground'} p-4 rounded-2xl relative`}
