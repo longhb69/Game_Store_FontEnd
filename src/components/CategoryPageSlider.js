@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom"
 import { Swiper, SwiperSlide, useSwiper} from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Navigation,EffectFade, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { useEffect, useRef, useState } from "react";
 
 
@@ -42,7 +42,9 @@ export default function CategoryPageSlider(props) {
                 </button>
                 <Swiper
                     ref={swiperContainerRef}
-                    modules={[Navigation,Pagination, A11y]}
+                    speed={30}
+                    allowTouchMove={false}
+                    noSwiping={true}
                     rewind
                     className='swiper_slide_category'
                     style={{
@@ -60,7 +62,7 @@ export default function CategoryPageSlider(props) {
                                     <SwiperSlide>
                                         <div className="w-full max-w-[1100px] h-[400px] flex bg-[#0000004f] info-container">
                                             <Link to={`/app/${game.slug}`} className="h-[350px] w-[360px]">
-                                                <div className="h-[92%] w-full">
+                                                <div className="h-[92%] w-full css-90">
                                                     <img className="h-full w-full" src={game.cover} loading="lazy"/>
                                                 </div>
                                                 <div className="bg-[#000] flex items-center">

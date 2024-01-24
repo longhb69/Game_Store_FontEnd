@@ -51,7 +51,7 @@ export default function GameDeatail() {
             console.log(e)
         });
         getItemInCart();
-        
+        getLibary();
     }, []);
 
     function addCart(game_id) {
@@ -121,7 +121,7 @@ export default function GameDeatail() {
             { game && (
                 <>
                     <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
-                        <div className='text-white text-6xl'>
+                        <div className='text-white text-6xl mb-2'>
                             {game.name}
                         </div>
                         <div className='flex'>
@@ -162,7 +162,7 @@ export default function GameDeatail() {
                                             <div className='flex flex-wrap flex-col gap-4'>
                                                     {game.dlc.slice(0,5).map((dlc) => {
                                                         return (
-                                                            <div className='flex flew-row w-ful'>
+                                                            <div className='flex flew-row w-full max-h-[140px]'>
                                                                 <GameDLC
                                                                     key={dlc.id}
                                                                     id={dlc.id}
@@ -190,7 +190,7 @@ export default function GameDeatail() {
                                                         )
                                                     })}
                                             </div>
-                                            <div className='flex flew-row min-w-[880px]'>
+                                            <div className='flex flew-row '>
                                                 <div className='ml-auto'>
                                                     <div className='flex justify-end'>
                                                         <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-2'} bg-[#202020] rounded`}>

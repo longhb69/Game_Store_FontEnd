@@ -14,6 +14,7 @@ export default function CategoryGame() {
         axios.get(url).then((response) => {
             setGames(response.data)
             setLoading(false)
+            console.log(response.data)
         })
     }, [])
     return (
@@ -27,7 +28,7 @@ export default function CategoryGame() {
                         name={slug}
                         games={games}
                     />
-                    <div className="mx-auto mb-5 w-[60%] mt-[100px]">
+                    <div className="mx-auto mb-5 w-[60%] mt-[90px] z-[99] max-w-[950px]">
                         <SaleSection 
                             games={games}
                         />

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../shared';
 import FillterGame from '../components/FillterGame';
@@ -14,6 +14,7 @@ export default function Search() {
     const [tagIds, setTagIds] = useState([]);
     const [query2, setQuery] = useState(params.q);
     const inputRef = useRef();
+    const loadingitems = Array.from({ length: 10 })
     
     let getData = (query='') => {
         setLoading(true)
@@ -23,10 +24,11 @@ export default function Search() {
 
         axios.get(url).then((response) => {
             setGames(response.data);
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
         }).catch((error) => {
             console.error('Error fetching data:', error);
-            setLoading(false);
         });;
     }
     let searchData = (query2=params.q) => {
@@ -150,7 +152,20 @@ export default function Search() {
                                     <section className="h-full">
                                         <div className='m-w-[none] h-full mx-auto'>
                                             {loading ? 
-                                                <p>Loading</p>
+                                                <section className='h-full'>
+                                                    <section className='mb-4 w-full mt-5'>
+                                                        <ul className='list-none content-stretch flex flex-wrap w-full items-stretch gap-10'>
+                                                            {loadingitems.map((item) => (
+                                                                <li className='mb-[90px] transition ease-in-out duration-[125ms] w-[calc(25%-65px)] max-h-[300px] min-w-[200px]'>
+                                                                    <div className='rounded w-full h-[270px] skeleton'></div>
+                                                                    <div className='mt-5 rounded-md w-full h-[20px] skeleton rounded-md'></div>
+                                                                    <div className='mt-2 w-full h-[20px]  skeleton rounded-md'></div>
+                                                                    <div className='mt-5 w-[30%] h-[20px] mr-auto skeleton rounded-md'></div>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </section>
+                                                </section>
                                             : 
                                                 <section className='h-full'>
                                                     {games && games.length > 0 ? <>

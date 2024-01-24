@@ -12,8 +12,8 @@ import BrowseSlider from '../components/BrowseSlider';
 export default function Home() {
     const [games, setGames] = useState();
     const [newfeatured, setNewfeatured] = useState();
-    const mostPopularUrl = baseUrl + 'api/mostpopular'
-    const newRelease = baseUrl + 'api/newrelease'
+    const mostPopularUrl = baseUrl + 'api/most-popular'
+    const newRelease = baseUrl + 'api/new-release'
     useEffect(() => {
         const url = baseUrl + 'api/game/'
         axios.get(url).then((response) => {
@@ -35,7 +35,7 @@ export default function Home() {
                         url={mostPopularUrl}
                         title={'Popular'}
                         linkable={true}
-                        slug={'mostpopular'}/>
+                        slug={'most-popular'}/>
                 </div>
                 <div className='mt-5'>
                     <BrowseSlider 

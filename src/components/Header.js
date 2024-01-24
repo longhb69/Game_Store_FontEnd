@@ -88,7 +88,7 @@ export default function Header(props) {
     return (
         <>
             <div className='flex sticky top-0 h-[100px] z-[900] bg-[#121212]'>
-                <div className='flex justify-between ml-auto mr-auto w-[75%] max-w-[1600px] relative'>
+                <div className='flex justify-between mx-auto w-[75%] max-w-[1600px] relative'>
                     <div className='flex justify-center items-center'>
                         <Link to={''}>
                             <div id='logo' className='p-2 bg-[#5532db] rounded border border-[#fff]'>

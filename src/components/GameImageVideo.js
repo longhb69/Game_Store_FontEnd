@@ -1,8 +1,8 @@
 import { useRef,useEffect,useState } from 'react';
 import { Swiper, SwiperSlide, useSwiper} from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
-//#5532db
+
 export default function GameImageVideo(props) {
     const swiperContainerRef = useRef()
     const videoRef = useRef(null);
@@ -46,13 +46,17 @@ export default function GameImageVideo(props) {
             playvideo(true)
         }
     }
+    function main_prev() {
+        swiperContainerRef.current.swiper.slidePrev()
+    }
     function prev() {
         miniSwiperRef.current.swiper.slidePrev()
-        //setCurrentSlide(swiperContainerRef.current.swiper.activeIndex)
+    }
+    function main_next() {
+        swiperContainerRef.current.swiper.slideNext();
     }
     function next() {
         miniSwiperRef.current.swiper.slideNext()
-        //setCurrentSlide(swiperContainerRef.current.swiper.activeIndex)
     }
     function changeSlide(index) {
         swiperContainerRef.current.swiper.slideTo(index)
@@ -66,13 +70,18 @@ export default function GameImageVideo(props) {
                     modules={[Navigation, A11y]}
                     navigation
                     rewind
-                    className='swiper_slide '
+                    className='swiper_slide'
                     onSlideChange={() => VideoHandle()}
                     style={{
                         '--swiper-theme-color': '#fff',
                         '--swiper-navigation-size': '30px',
                     }}
                 >
+                    <button className='swiper-button-prev w-[18px] h-[18px] rotate-180' onClick={() => main_prev()}>
+                        <span className=''>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                        </span>
+                    </button>
                     <SwiperSlide>
                         <video ref={videoRef} className="h-full w-full rounded object-cover" controls autoPlay muted>
                             <source src={props.video} type="video/webm" />
@@ -82,21 +91,23 @@ export default function GameImageVideo(props) {
                     {props.game_image && props.game_image.length > 0 ? 
                         props.game_image.map((image, index) => (
                             <SwiperSlide key={index}>
-                                <img src={image.image} className='h-full w-full' loading='lazy'></img>
+                                <img src={image.image} className='h-full w-full'></img>
                             </SwiperSlide>
                         ))
                     : null}
+                    <button className='w-[18px] h-[18px] pb-10 swiper-button-next' onClick={() => main_next()}>
+                        <span className=''>
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                        </span>
+                    </button>
                 </Swiper>
             </div>
             <div className='flex items-center justify-between mt-[20px] overflow-hidden '>
                 {props.game_image && props.game_image.length > 3 ?
                     <div className='flex'>
-                        <button className='w-[18px] h-[18px] rotate-180'
-                            onClick={() => prev()}
-                        >
+                        <button className='w-[18px] h-[18px] rotate-180'  onClick={() => prev()}>
                             <span className=''>
-                                <svg
-                                    className='rotate-180 w-[20px] h-[20px]' 
+                                <svg className='rotate-180 w-[20px] h-[20px]' 
                                     xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
                             </span>
                         </button>
@@ -119,10 +130,8 @@ export default function GameImageVideo(props) {
                         }}
                     >
                         <SwiperSlide style={{width: '200px'}}>
-                            <div className='relative'
-                                onClick={() => changeSlide(0)}
-                            >
-                                <img src={props.image} className={`${currentSlide===0 ? 'border border-[#fff] opacity-[1]' : 'opacity-[0.6]'} hover:opacity-[1] cursor-pointer max-w-[180px] h-[90px] transition-opacity ease-in-out duration-[450ms]`} loading='lazy'></img>
+                            <div className='relative' onClick={() => changeSlide(0)}>
+                                <img src={props.image} className={`${currentSlide===0 ? 'border border-[#fff] opacity-[1]' : 'opacity-[0.6]'} hover:opacity-[1] cursor-pointer max-w-[180px] h-[80px] transition-opacity ease-in-out duration-[450ms]`} loading='lazy'></img>
                                 <div className='z-[1] absolute h-[20px] top-[30px] left-[82px] w-[20px]'>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 11 14"><path d="M0 0v14l11-7z" fill="#8F32db" fill-rule="nonzero"></path></svg>
                                 </div>
@@ -130,11 +139,11 @@ export default function GameImageVideo(props) {
                         </SwiperSlide>
                         {props.game_image && props.game_image.length > 0 ? 
                             props.game_image.map((image, index) => (
-                                <SwiperSlide style={{width: '200px'}} key={index}>
-                                    <div className={`h-full`}
+                                <SwiperSlide style={{width: '200px', borderRadius: '4px'}} key={index}>
+                                    <div className={`h-full rounded`}
                                         onClick={() => changeSlide(index+1)}
                                     >
-                                        <img src={image.image} className={`${index===currentSlide-1 ? 'border border-[#fff] opacity-[1]' : 'opacity-[0.6]'}  hover:opacity-[1]  cursor-pointer  max-w-[180px] h-[90px] transition-opacity ease-in-out duration-[450ms]`}></img>
+                                        <img src={image.image} className={`rounded ${index===currentSlide-1 ? 'border border-[#fff] opacity-[1]' : 'opacity-[0.6]'}  hover:opacity-[1]  cursor-pointer  max-w-[180px] h-[80px] transition-opacity ease-in-out duration-[450ms]`}></img>
                                     </div>
                                 </SwiperSlide>
                             ))
@@ -144,18 +153,15 @@ export default function GameImageVideo(props) {
                 </div>
                 {props.game_image && props.game_image.length > 3 ?
                     <div className='flex justify-center items-center px-2 py-1 rounded-full'>
-                        <button className='w-[18px] h-[18px] pb-10'
-                            onClick={() => next()}
-                        >
+                        <button className='w-[18px] h-[18px] pb-10' onClick={() => next()}>
                             <span className=''>
-                                <svg
-                                    className='' 
-                                    xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
                             </span>
                         </button>
                     </div>
                 :<div></div>}
             </div>
+            
         </>
     );
 }

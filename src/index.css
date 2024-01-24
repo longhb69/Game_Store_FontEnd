@@ -152,6 +152,22 @@ h2.bb_tag {
   height: 100%;
   width: 1050px;
 }
+
+
+.swiper-button-prev, .swiper-button-next {
+  position: absolute;
+  top: var(--swiper-navigation-top-offset, 50%);
+  width: calc(var(--swiper-navigation-size) / 44 * 27);
+  height: var(--swiper-navigation-size);
+  margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--swiper-navigation-color, var(--swiper-theme-color));
+  display: block;
+}
 .swiper-button-next, .swiper-button-prev {
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
@@ -165,11 +181,11 @@ h2.bb_tag {
   opacity: 1
 }
 .swiper_slide .swiper-button-prev{
-  left: var(--swiper-navigation-sides-offset, 50px);
+  left: var(--swiper-navigation-sides-offset, 50px); 
   opacity: 0
 }
 .swiper_slide .swiper-button-next{
-  right: var(--swiper-navigation-sides-offset, 60px);
+  right: var(--swiper-navigation-sides-offset, 60px); 
   opacity: 0
 }
 
@@ -180,10 +196,7 @@ h2.bb_tag {
   cursor: auto;
   pointer-events: none;
 }
-.button {
-  color: aquamarine;
-  
-}
+
 .next-btn {
   transition: transform 0.5s ease-in-out;
 }
@@ -214,7 +227,6 @@ h2.bb_tag {
 }
 .smaler-swiper2 {
   max-height: 100%;
-
 }
 .custom-slide .swiper-slide-active{
   width: 100%;
@@ -523,3 +535,38 @@ input {
   border-radius: 4px;
   pointer-events: none;
 }
+
+.css-29:nth-child(5n+1) {
+  margin-left: 0;
+}
+
+.category-game-containter {
+  background:  radial-gradient(ellipse at top left, #42454c99, #25282e66);
+  backdrop-filter: blur(15px);
+  transition-property: background-color;
+  transition-duration: .2s;
+  transition-timing-function: ease;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
+}
+
+.custom-slide {
+  transition-duration: 990ms;
+    transform: translate3d(-7350px, 0px, 0px);
+    transition-delay: 100ms;
+}
+
+
+
+/* loading */
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+  0%{
+    background-color: hsl(200, 5%, 54%);
+  }
+  100%{
+    background-color: hsl(210, 3%, 14%);
+  }
+}
+

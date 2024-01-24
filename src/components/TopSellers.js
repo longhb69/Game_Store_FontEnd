@@ -7,16 +7,16 @@ import { Link } from 'react-router-dom';
 export default function TopSellers() {
     const [games, setGames] = useState();
     useEffect(() => {
-        const url = baseUrl + 'api/topsellers'
+        const url = baseUrl + 'api/top-sellers'
         axios.get(url).then((response) => {
-            setGames(response.data.results)
+            setGames(response.data)
         })
     }, [])
     return(
         <>
             <div className='flex justify-between items-center mb-[15px]'>
                 <h2 className='text-lg'>Top Sellers</h2>
-                <Link to={'/fillter/topsellers'} className='text-center text-[11px] items-center justify-center font-base text-sm inline-flex rounded border leading-normal  border-[#fff]/[.6] px-3 py-1 transition ease-in-out hover:border-[#fff]/[.3]'>VIEW MORE</Link>
+                <Link to={'/fillter/top-sellers'} className='text-center text-[11px] items-center justify-center font-base text-sm inline-flex rounded border leading-normal  border-[#fff]/[.6] px-3 py-1 transition ease-in-out hover:border-[#fff]/[.3]'>VIEW MORE</Link>
             </div>
             <div className='flex items-stretch w-full top-sellers-container h-full'>
                 {games ? (
