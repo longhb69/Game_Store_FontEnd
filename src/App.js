@@ -13,6 +13,7 @@ import Success from './pages/Success';
 import NotFound from './pages/NotFound';
 import FillterPage from './pages/FilterPage';
 import Search from './pages/Search';
+import SignUp from './pages/SignUp';
 export const UserContext = createContext();
 
 function App() {
@@ -25,12 +26,13 @@ function App() {
                   <Route path="/app/:slug" element={<GameDeatail/>}/>
                   <Route path="/app/dlc/:slug" element={<DLCDeatail/>}/>
                   <Route path="/category/:slug" element={<CategoryGame/>}/>
-                  <Route path="/login" element={<Login/>}/>
                   <Route path="/cart" element={<Cart/>}/>
                   <Route path="/cart/success/:id" element={<Success/>}/>
                   <Route path="fillter/:slug" element={<FillterPage/>}/>
                   <Route path="search/:q" element={<Search/>}/>
                   <Route path="/404" element={<NotFound/>}/>
+                  <Route path="/login" element={<Login/>}/>
+                  <Route path="/signup" element={<SignUp/>}/>
               </Routes>
             </Header>
         </BrowserRouter>

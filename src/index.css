@@ -53,7 +53,7 @@ body {
   transform: translateY(0);
 }
 .dropdown:hover > .account-name {
-  color: azure;
+  color: #8F32db;
 }
 .dropdown-btn {
   transition-duration: 150ms;
@@ -145,7 +145,7 @@ h2.bb_tag {
 }
 .swiper_slide {
     max-width: 1100px;
-    height: 550px;
+    height: 560px;
     user-select: none;
 }
 .swiper_slide_category {
@@ -177,7 +177,7 @@ h2.bb_tag {
   opacity: 1
 }
 .swiper_slide:hover > .swiper-button-next{
-  right: var(--swiper-navigation-sides-offset, 30px);
+  right: var(--swiper-navigation-sides-offset, 16px);
   opacity: 1
 }
 .swiper_slide .swiper-button-prev{
@@ -548,13 +548,154 @@ input {
   transition-timing-function: ease;
   box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
 }
-
-.custom-slide {
-  transition-duration: 990ms;
-    transform: translate3d(-7350px, 0px, 0px);
-    transition-delay: 100ms;
+.category-game-container {
+  transition: top 200ms ease-in-out, bottom 200ms ease-in-out, left 200ms ease-in-out, right 200ms ease-in-out, z-index 200ms ease-in-out;
+}
+.category-game-containter:hover {
+  background: radial-gradient(ellipse at top left, #5532db, #3d0e4e);
+  top: -24px;
+  bottom: -29px;
+  left: -18px;
+  right: -10px;
+  z-index: 5;
+}
+.category-game-containter:hover .category-game-image-containter {
+  flex-basis: 40%;
 }
 
+.category-game-containter:hover .game-year {
+  display: none;
+}
+.category-game-containter:hover .game-overview {
+  display: flex;
+}
+
+/*login*/
+.label {
+  margin: 0;
+  z-index: 1;
+  transform: translate(20px, 22px) scale(1);
+  line-height: 1.4;
+  pointer-events: none;
+  transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  color: rgba(255, 255, 255, 0.72);
+  display: block;
+  font-size: 0.875rem;
+  font-family: Brutal, sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  text-transform: unset;
+  transform-origin: top left;
+}
+
+.move-up {
+  transform: translate(20px, 10px) scale(1);
+}
+
+.input-field  {
+  transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+.login-btn {
+  padding: 5px 20px;
+  min-width: 40px;
+  box-sizing: border-box;
+  min-height: 60px;
+  text-align: center;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: Brutal, sans-serif;
+  line-height: 1rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.login-container {
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #32db55 0%, #5532db 100%);
+}
+
+/*new release section*/
+.gdk {
+  -webkit-font-smoothing: antialiased;
+}
+.slideInLeft--fast {
+  animation-duration: var(--animation-duration,.4s);
+  animation-iteration-count: 1;
+  animation-delay: 0s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  animation-direction: normal;
+}
+.game-grid { 
+  animation-delay: 0ms;
+  animation-name: fadeIn;
+  animation-iteration-count: 1;
+  animation-duration: var(5s,1s);
+  animation-delay: 0s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  animation-direction: normal;
+  transition: opacity 2s ease-in-out 25s
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.game-grid-v2 {
+  animation-delay: 350ms;
+  --shadow-color: var(rgb(0,0,0,0.8));
+  box-shadow: 0 2px 3px 0 rgb(0,0,0,0.8);
+  transition: transform .15s ease-in-out;
+  padding: 7px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  aspect-ratio: 0.82/1;
+}
+.media-block {
+  transition: all .25s ease-in-out;
+  pointer-events: none;
+}
+.media-image {
+  animation-name: fadeIn;
+  animation-iteration-count: 1;
+  animation-duration: var(5s,5s);
+  animation-delay: 0s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  animation-direction: normal;
+  object-position: center;
+}
+.carousel-grid {
+  grid-row-gap: 25px;
+}
+.game-grid-v2:hover {
+  transform: scale(1.025);
+  box-shadow: 0 4px 5px 1px rgb(0,0,0,0.8);
+}
+.not_hover {
+  opacity: .55!important;  
+}
 
 
 /* loading */

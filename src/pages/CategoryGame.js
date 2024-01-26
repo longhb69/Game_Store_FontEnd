@@ -14,7 +14,6 @@ export default function CategoryGame() {
         axios.get(url).then((response) => {
             setGames(response.data)
             setLoading(false)
-            console.log(response.data)
         })
     }, [])
     return (

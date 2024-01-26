@@ -80,7 +80,7 @@ export default function GameDLC(props) {
                             </div>
                             <div className='flex gap-5'>
                                 {libary && libary.items_name.includes(props.slug) ? (
-                                    <div className='text-center rounded n bg-[#32db8F]/[0.8] mt-3 select-none'>
+                                    <div className='text-center rounded n bg-[#32db8F]/[0.8] select-none'>
                                         <button className='p-3 w-full' style={{pointerEvents: 'none'}}>
                                             <span className=''>IN LIBARY</span>
                                         </button>

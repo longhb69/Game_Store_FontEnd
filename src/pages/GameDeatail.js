@@ -116,12 +116,24 @@ export default function GameDeatail() {
             return response.json();
         })
     }
+    function BuyNow(trigger) {
+        if(localStorage.getItem('access') !== null) {
+            setButonBuynow(trigger)
+        }
+        else {
+            navigate('/login', {
+                state: {
+                    previousUrl: location.pathname
+                }
+            });
+        }
+    }
     return (
         <>  
             { game && (
                 <>
                     <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
-                        <div className='text-white text-6xl mb-2'>
+                        <div className='text-white text-6xl mb-2 mt-8'>
                             {game.name}
                         </div>
                         <div className='flex'>
@@ -194,7 +206,7 @@ export default function GameDeatail() {
                                                 <div className='ml-auto'>
                                                     <div className='flex justify-end'>
                                                         <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-2'} bg-[#202020] rounded`}>
-                                                                {game.dlc.length < 5 || showAllDLC? 
+                                                                {(game.dlc.length < 5 && game.dlc.length !== 1) || showAllDLC? 
                                                                     <>
                                                                         <div className='flex items-center pl-3'>{totalDlcPrice}<span className='underline'>đ</span></div>
                                                                         <div className='ml-2 hover:brightness-110 text-[#d2efa9] hover:text-white'>
@@ -209,6 +221,10 @@ export default function GameDeatail() {
                                                                     </>
                                                                 :
                                                                 <>
+                                                                    {game.dlc.length === 1 ? 
+                                                                        null
+                                                                    : 
+                                                                    <>
                                                                     <div className='flex mr-3 items-center text-base text-cyan-500'>SHOWING 1-5 OF {game.dlc.length}</div>
                                                                     <div className='bg-[#202020] py-0.5 pl-6 pr-3 rounded-sm hover:brightness-110 cursor-pointer hover:bg-gradient-to-r from-[#06BFFF] to-[#2D73FF]'>
                                                                         <div className='pr-5 bg-[length:22px_22px] bg-[url(https://store.akamai.steamstatic.com/public/shared/images/popups/btn_arrow_down_padded.png)] bg-no-repeat bg-right'
@@ -219,6 +235,8 @@ export default function GameDeatail() {
                                                                             <span className='text-base'>SEE ALL</span>
                                                                         </div>
                                                                     </div>
+                                                                    </>
+                                                                    }
                                                                 </>
                                                                 }
                                                         </div>
@@ -250,13 +268,13 @@ export default function GameDeatail() {
                                                 <span className='basis-2/5 text-[#aaae]'>RELEASE DATE</span>
                                                 <span className='basis-3/5 text-end'>{game.year}</span>
                                             </div>
-                                            <div className='flex flex-nowrap pb-2 border-b border-[#fff]/[.1]'>
+                                            <div className='flex flex-nowrap pt-2 pb-2 border-b border-[#fff]/[.1]'>
                                                 <span className='basis-2/5 text-[#aaae]'>Developer</span>
-                                                <a href="#" className='basis-3/5 text-end'>null</a>
+                                                <a href="#" className='basis-3/5 text-end'>{game.developer ? game.developer.name : null}</a>
                                             </div>
-                                            <div className='flex flex-nowrap pb-2 border-b border-[#fff]/[.1]'>
+                                            <div className='flex flex-nowrap pt-2 pb-2 border-b border-[#fff]/[.1]'>
                                                 <span className='basis-2/5 text-[#aaae]'>Publisher</span>
-                                                <a href="#" className='basis-3/5 text-end'>null</a>
+                                                <a href="#" className='basis-3/5 text-end'>{game.publisher ? game.publisher.name : null}</a>
                                             </div>
                                         </div>
                                         <div className='text-base flex flex-col'>
@@ -272,7 +290,7 @@ export default function GameDeatail() {
                                             ) : 
                                                 <>
                                                     <div className='text-center rounded transition ease-in bg-[#5532db] mt-3 hover:bg-[#db55db] duration-[300ms] hover:font-semibold'>
-                                                        <button className='p-3 w-full' onClick={() => setButonBuynow(true)}>
+                                                        <button className='p-3 w-full' onClick={() => BuyNow(true)}>
                                                             <span className=''>BUY NOW</span>
                                                         </button>
                                                     </div>

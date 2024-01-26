@@ -50,12 +50,10 @@ export default function Search() {
 
     function fillter(game_name,  id) {
         if(tagIds.includes(id)) {
-            console.log("Include" , id)
             setTagIds((prevId) => prevId.filter((tagId) => tagId !== id ))
             setTags((prevTags) => prevTags.filter((name) => name != game_name))
         }
         else {
-            console.log("not include")
             setTagIds((prevId) => [...prevId || null, id]);
             setTags((prevTags) => [...prevTags || null, game_name]);
         }

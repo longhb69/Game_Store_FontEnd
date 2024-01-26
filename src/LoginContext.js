@@ -1,6 +1,6 @@
 import {useContext, useState, createContext, useEffect, useCallback} from "react";
 import { baseUrl } from './shared';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 
 const LoginContext = createContext();
 const AccountContext = createContext();
@@ -64,16 +64,18 @@ export function LoginProvider({children}) {
     })
     const getLibary = useCallback(() => {
       const url3 = baseUrl + 'api/account/game_in_libary'
-      axios.get(url3, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('access'), 
+        if(localStorage.access) {
+          axios.get(url3, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('access'), 
+            }
+          }).then((respone) => {
+            setLibary(respone.data)
+          }).catch((e) => {
+            console.log('Error can not get libary', e)
+          })
         }
-      }).then((respone) => {
-        setLibary(respone.data)
-      }).catch((e) => {
-        console.log('Error can not get libary', e)
-      })
     })
 
     useEffect(() => {

@@ -19,7 +19,7 @@ export default function FillterPage() {
     return (
         <>
             <div>
-                <section className='mb-[50px]'>
+                <section className='mb-[40px]'>
                     <div className='w-[75%] max-w-[none] mx-auto'>
                         <div className='flex w-full'>
                             <div className='flex flex-col items-start justify-center min-h-[100%] w-full'>
@@ -36,7 +36,7 @@ export default function FillterPage() {
                                     <>
                                     {games.map((game) => {
                                         return (
-                                            <li className='css-29 mb-[48px] basics-[25%] ml-4 mb-32'>
+                                            <li className='css-29 mb-[48px] basics-[25%] h-[400px] ml-4 mb-32'>
                                                 <div className='max-h-[450px] h-[330px] w-[270px] max-w-[270px]'>
                                                     <FillterGame
                                                         slug={game.slug}
