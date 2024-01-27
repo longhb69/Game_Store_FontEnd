@@ -629,25 +629,13 @@ input {
   animation-direction: normal;
 }
 .game-grid { 
-  animation-delay: 0ms;
-  animation-name: fadeIn;
-  animation-iteration-count: 1;
-  animation-duration: var(5s,1s);
-  animation-delay: 0s;
-  animation-timing-function: ease;
-  animation-fill-mode: both;
-  backface-visibility: hidden;
-  animation-direction: normal;
-  transition: opacity 2s ease-in-out 25s
+  transition: opacity 100ms ease-in-out 
 }
 @keyframes fadeIn {
   0% {
-    opacity: 0.5;
+    opacity: 0;
   }
-  70% {
-    opacity: 0.5;
-  }
-  100% {
+  to {
     opacity: 1;
   }
 }
@@ -669,7 +657,7 @@ input {
   z-index: 1;
   overflow: hidden;
   border-radius: 8px;
-  aspect-ratio: 0.82/1;
+  aspect-ratio: 0.95/1;
 }
 .media-block {
   transition: all .25s ease-in-out;
@@ -678,7 +666,7 @@ input {
 .media-image {
   animation-name: fadeIn;
   animation-iteration-count: 1;
-  animation-duration: var(5s,5s);
+  animation-duration: 2s;
   animation-delay: 0s;
   animation-timing-function: ease;
   animation-fill-mode: both;
@@ -695,6 +683,48 @@ input {
 }
 .not_hover {
   opacity: .55!important;  
+}
+.surface-card {
+  background: linear-gradient(rgb(23,24,26),rgb(31,32,36));
+  --shadow-color: rgb(0,0,0,0.6);
+  box-shadow: 0 2PX 3px 0 rgb(0,0,0,0.1);
+  transition: box-shadow .2s ease-in-out;
+}
+.surface-default-state{
+  --shadow-color: rgb(0,0,0,0.6);
+}
+.display-hidden {
+  display: block!important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: -9999;
+  opacity: 0;
+}
+
+.slideInLeft {
+  animation-name: none;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-duration: var(--animation-duration,1s);
+  animation-delay: 0s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  animation-direction: normal
+}
+
+.slideInLeft .game-grid {
+  animation-name: fadeIn;
+  animation-iteration-count: 1;
+  animation-duration: 1s;
+  animation-delay: 0s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  animation-direction: normal;
+  object-position: center;
 }
 
 

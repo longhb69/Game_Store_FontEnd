@@ -26,7 +26,6 @@ export default function Home() {
         axios.get(url2).then((response) => {
             setNewfeatured(response.data)
         });
-        getCartQuantity();
     }, [])
 
     return( 

@@ -54,7 +54,6 @@ export default function Header(props) {
         setAccount(null);
         setItemsInCart(null);
         setLibary(null);
-        
     }
     const handleSetUsername = (username) => {
         setUsername(username);

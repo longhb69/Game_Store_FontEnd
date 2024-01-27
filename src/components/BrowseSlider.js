@@ -106,9 +106,9 @@ export default function MostPopular(props) {
                                 <div>
                                     <SwiperSlide>
                                         <div className="h-full w-full font-normal font-inter">
-                                            <Link className='flex flex-col w-full' to={'/app/' + game.slug}>
+                                            <Link className=' flex flex-col w-full' to={'/app/' + game.slug}>
                                                 <div className='w-full h-[280px] rounded hover-affect relative'>
-                                                    <img className='w-full h-full rounded' src={game.cover} loading='lazy'/> 
+                                                    <img className='select-none w-full h-full rounded' src={game.cover} loading='lazy'/> 
                                                 </div>
                                                 <div className='text-base flex flex-col font-normal'>
                                                     <div className='overflow-hidden mt-2'>{game.name}</div>
