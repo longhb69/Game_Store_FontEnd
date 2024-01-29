@@ -145,7 +145,7 @@ h2.bb_tag {
 }
 .swiper_slide {
     max-width: 1100px;
-    height: 560px;
+    height: 590px;
     user-select: none;
 }
 .swiper_slide_category {
@@ -302,11 +302,17 @@ h2.bb_tag {
 }
 .carouselThumbnail {
   background-color: #121212;
-  transition: background-color 200ms cubic-bezier(0.17, 0.17, 0.23, 1.00);
+  transition: background-color 200ms cubic-bezier(0.17, 0.17, 0.23, 1.00) 0s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .carouselThumbnail:hover {
-  background-color: rgba(256,256,256, 0.1);
+  background-color: rgba(256, 256, 256, 0.1);
 }
+
 .carouselThumbnail::before {
   content: '';
   position: absolute;
@@ -315,15 +321,23 @@ h2.bb_tag {
   left: 0;
   right: 0;
   z-index: -1;
-  background-color: rgba(256,256,256, 0.2);
+  background-color: rgba(256, 256, 256, 0.1);
   border-radius: 1rem;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 8s ease-in-out;
   visibility: hidden;
 }
+
+.carouselThumbnail:hover::before {
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+
 .addbackground {
   background-color: rgba(256,256,256, 0.1);
+  border-radius: 1rem;
 }
 .carouselThumbnail.removebackground::before {
   transition: transform 0s; /* Cancel the transition */
@@ -338,7 +352,52 @@ h2.bb_tag {
   z-index: 1;
 }
 
+.game-logo {
+  margin-bottom: 20px;
+  opacity: 0;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.show {
+  animation: logo-show 300ms cubic-bezier(0.17, 0.17, 0.23, 1.00) 300ms forwards
+}
+.disappear {
+  animation: 200ms cubic-bezier(0.69, 0, 0.83, 0.83) 0s 1 normal none running logo-disappear;
+}
 
+.css-show {
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.25);
+  -webkit-transition: opacity 200ms cubic-bezier(0.42, 0, 0.58, 1);
+  transition: opacity 500ms cubic-bezier(0.42, 0, 0.58, 1);
+  opacity: 0;
+}
+.game-name-show {
+  opacity: 1!important;
+}
+
+
+@keyframes logo-show {
+  0% {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+@keyframes logo-disappear {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
 .wrapper-item {
   animation-name: hide;
   animation-duration: 0.6s;
@@ -397,7 +456,9 @@ body.overlay-active {
 .most-popular-swiper {
   width: calc(100%);
 }
-
+.developer-swiper {
+  width: calc(100%);
+}
 .css-17::before {
   content: ' ';
   transition: all 125ms ease-in-out;
@@ -436,7 +497,6 @@ body.overlay-active {
 }
 
 .hover-affect {
-  background: linear-gradient(to bottom, rgb(43,43,43), rgb(32,32,32));
 }
 .hover-affect::after {
   -webkit-transition: opacity 125ms ease-in-out;
@@ -457,7 +517,9 @@ body.overlay-active {
 .hover-affect:hover::after {
   opacity: 0.1;
 }
-
+.developer-slide:hover .hover-affect::after {
+  opacity: 0.1;
+}
 .slider-thumbs {
   background-color: hsla(202,60%,100%,0.2);
   transition: background-color 0.2s;
@@ -619,15 +681,6 @@ input {
 .gdk {
   -webkit-font-smoothing: antialiased;
 }
-.slideInLeft--fast {
-  animation-duration: var(--animation-duration,.4s);
-  animation-iteration-count: 1;
-  animation-delay: 0s;
-  animation-timing-function: ease;
-  animation-fill-mode: both;
-  backface-visibility: hidden;
-  animation-direction: normal;
-}
 .game-grid { 
   transition: opacity 100ms ease-in-out 
 }
@@ -640,7 +693,7 @@ input {
   }
 }
 .game-grid-v2 {
-  animation-delay: 350ms;
+  animation-delay: 0ms;
   --shadow-color: var(rgb(0,0,0,0.8));
   box-shadow: 0 2px 3px 0 rgb(0,0,0,0.8);
   transition: transform .15s ease-in-out;
@@ -657,8 +710,30 @@ input {
   z-index: 1;
   overflow: hidden;
   border-radius: 8px;
-  aspect-ratio: 0.95/1;
+  aspect-ratio: 1/1;
 }
+
+.game-grid-v3 {
+  animation-delay: 0ms;
+  --shadow-color: var(rgb(0,0,0,0.8));
+  box-shadow: 0 1px 1px 0 rgb(0,0,0,0.8);
+  transition: transform .15s ease-in-out;
+  padding: 7px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  aspect-ratio: 0.99/1;
+  z-index: 2;
+}
+
 .media-block {
   transition: all .25s ease-in-out;
   pointer-events: none;
@@ -672,7 +747,7 @@ input {
   animation-fill-mode: both;
   backface-visibility: hidden;
   animation-direction: normal;
-  object-position: center;
+  object-position: top;
 }
 .carousel-grid {
   grid-row-gap: 25px;
@@ -680,6 +755,11 @@ input {
 .game-grid-v2:hover {
   transform: scale(1.025);
   box-shadow: 0 4px 5px 1px rgb(0,0,0,0.8);
+}
+.game-grid-v3:hover {
+  transform: scale(1.025);
+  border-radius: 4px;
+  z-index: 2;
 }
 .not_hover {
   opacity: .55!important;  

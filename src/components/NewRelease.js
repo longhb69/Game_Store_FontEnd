@@ -68,7 +68,7 @@ export default function NewRelease(props) {
     }
     
     return (
-        <section className="w-full relative inline-block z-1 bg-[#121314] pb-5">
+        <section className="w-full relative inline-block z-1 bg-[#121314]">
             <div>
                 <div className="mb-14 gdk">
                     <header className="text-center mt-3 flex justify-between items-end ml-20">
@@ -78,7 +78,7 @@ export default function NewRelease(props) {
                     </header>
                     <div className="relative z-[50]">
                         <div className='mx-16'>
-                            <div className="flex px-5 pb-3 mt-3 z-[999] justify-center sticky top-[90px] ">
+                            <div className="flex px-5 pb-1 mt-3 z-[999] justify-center sticky top-[90px] ">
                                 <div className='select-none	 rounded-full inline-block font-medium p-1 shrink-0 cursor-pointer relative z-[29] surface-card text-sm'>
                                     <div className={`surface-default-state ${ActiveSection === 1 ? 'border-2 border-[#5532db] text-[#000]/[1] bg-[#fff]' : 'hover:text-[#32db55]'}  inline-flex gap-[2px] px-4 py-3 transition ease-in-out duration-[250ms] rounded-full`}    
                                         onClick={() => toNewReleases()}>
@@ -99,7 +99,7 @@ export default function NewRelease(props) {
                                                     {games.map((game,index) => {
                                                         const dynamticDelay = delay[index]
                                                         return (
-                                                            <a href={`/app/${game.slug}`} className={`game-grid max-w-[100%] ml-4 inline-flex flex-col shrink-0 w-[18%]`} style={{ animationDelay: `${dynamticDelay}ms` }}
+                                                            <a href={`/app/${game.slug}`} className={`game-grid max-w-[100%] ml-4 inline-flex flex-col shrink-0 w-[17%]`} style={{ animationDelay: `${dynamticDelay}ms` }}
                                                                 onMouseOver={() => {
                                                                     handleMouseOver(index)
                                                                 }}
@@ -109,14 +109,17 @@ export default function NewRelease(props) {
                                                                     <div className='absolute z-[-1] inset-0 media-block'>
                                                                         <div className='h-full relative'>
                                                                             <figure className='relative h-full w-full overflow-y-hidden flex'>
-                                                                                <img className='top-0 left-0 absolute w-full h-full media-image block' src={game.cover}/>
+                                                                                <img className='top-0 left-0 absolute object-cover w-full h-full media-image block' src={game.cover12x12}/>
                                                                             </figure>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div className='pt-2'>
-                                                                    <div className='text-sm font-normal	'>
+                                                                <div className='pt-2 text-sm font-normal'>
+                                                                    <div className=''>
                                                                         <p className='w-full overflow-hidden text-ellipsis whitespace-nowrap'>{game.name}</p>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <dv>{game.price}<span className='underline'>đ</span></dv>
                                                                     </div>
                                                                 </div>
                                                             </a>
@@ -144,7 +147,7 @@ export default function NewRelease(props) {
                                                                     <div className='absolute z-[-1] inset-0 media-block'>
                                                                         <div className='h-full relative'>
                                                                             <figure className='relative h-full w-full overflow-hidden flex'>
-                                                                                <img className='top-0 left-0 absolute w-full h-full media-image block' src={game.cover}/>
+                                                                                <img className='top-0 left-0 absolute object-cover w-full h-full media-image block' src={game.cover12x12}/>
                                                                             </figure>
                                                                         </div>
                                                                     </div>

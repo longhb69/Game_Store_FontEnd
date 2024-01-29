@@ -84,7 +84,7 @@ export default function MostPopular(props) {
                         ref={swiperRef}
                         modules={[]}
                         spaceBetween={20}
-                        speed={200}
+                        speed={300}
                         allowTouchMove={false}
                         slidesPerView={6}
                         slidesPerGroup={6}

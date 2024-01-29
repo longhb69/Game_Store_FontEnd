@@ -21,7 +21,7 @@ export default function TopSellers() {
             <div className='flex items-stretch w-full top-sellers-container h-full'>
                 {games ? (
                     <>
-                        {games.map((game, index) => {
+                        {games.slice(0,5).map((game, index) => {
                             return (
                                 <>
                                     <div className={`css-5a ${index===0 ? 'ml-0' : 'ml-4'}` }>
