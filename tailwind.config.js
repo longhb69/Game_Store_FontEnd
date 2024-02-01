@@ -10,6 +10,9 @@ module.exports = {
         'text-on-light-blue': '#D1D1D1', 
         'section-title-color': '#a3a3a3',
       },
+      fontFamily: {
+        'Brutal': ['Brutal', 'sans-serif'],
+      }
     },
   },
   plugins: [],

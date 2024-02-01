@@ -1,17 +1,11 @@
-import axios from 'axios';
-import { useEffect, useState } from "react";
 import { baseUrl } from "../shared";
 import Game from '../components/Game';
 import { Link } from 'react-router-dom';
+import useFetchData from '../useFetchData';
 
 export default function TopSellers() {
-    const [games, setGames] = useState();
-    useEffect(() => {
-        const url = baseUrl + 'api/top-sellers'
-        axios.get(url).then((response) => {
-            setGames(response.data)
-        })
-    }, [])
+    const url = baseUrl + 'api/top-sellers'
+    const {data: games, loading, error} = useFetchData(url)
     return(
         <>
             <div className='flex justify-between items-center mb-[15px]'>

@@ -1,21 +1,23 @@
 import { Swiper, SwiperSlide} from 'swiper/react';
-import { Link,useNavigate,useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import useFetchData from '../useFetchData';
 
 export default function DeveloperSlider(props) {
-    const [games, setGames] = useState();
-    const [publisher, setPublisher] = useState();
+    //const [games, setGames] = useState();
+    //const [publisher, setPublisher] = useState();
     const swiperRef = useRef(null);
     const [endSlide, setEndSlide] = useState(false);
     const [beginSlide, setBeginSlide] = useState(true);
-    useEffect(() => {
-        axios.get(props.url).then((response) => {
-            setGames(response.data.games)
-            setPublisher(response.data.publisher.name)
-            init();
-        })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(props.url).then((response) => {
+    //         setGames(response.data.games)
+    //         setPublisher(response.data.publisher.name)
+    //         init();
+    //     })
+    // }, [])
+    const {data:games, loading, error, publisher} = useFetchData(props.url)
+    init()
     function init() {
         if(swiperRef.current?.swiper.slides.length === 7) {
             setBeginSlide(true);
@@ -113,7 +115,7 @@ export default function DeveloperSlider(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='relative pt-3 pb-6 '>
+                                            <div className='relative pt-1.5 pb-6 '>
                                                 <div className='hover-affect pl-2 text-lg'>
                                                     <div className='font-semibold overflow-hidden whitespace-nowrap text-overflow-ellipsis'>{game.name}</div>
                                                     <div>{game.price}<span className='underline'>đ</span></div>

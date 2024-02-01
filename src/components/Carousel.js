@@ -1,14 +1,13 @@
 import { Swiper, SwiperSlide} from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
-import { Link,useLocation } from 'react-router-dom';
-import { useLayoutEffect,useEffect, useRef, useState } from 'react';
-import { useCart, useLogin } from '../LoginContext';
+import { Link } from 'react-router-dom';
+import {  useRef, useState } from 'react';
+import useFetchData from '../useFetchData';
 
 export default function Carousel(props) {
     const [activeSlide, setActiveSlide] = useState(0)
     const swiperRef = useRef(null);
-    const [loggedIn, setLoggedIn] = useLogin();
-    const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
+    const {data: games, loading, error} = useFetchData(props.url)
 
     function handSlideChange() {
         const gamelogosRef = document.querySelectorAll(".game-logo");
@@ -51,14 +50,14 @@ export default function Carousel(props) {
     }
     return (
         <>
-            {props.newfeatured && props.newfeatured.length > 0 ? 
+            {games && games.length > 0 ? 
                 <div className='mb-[50px] h-[600px]'>
                     <div className='flex w-full h-full'>
                         <div className="relative w-full h-full">
                             <Swiper
                                 ref={swiperRef}
                                 modules={[Autoplay]}
-                                autoplay={{ delay: 7200, disableOnInteraction: false }}
+                                autoplay={{ delay: 7600, disableOnInteraction: false }}
                                 //loop
                                 allowTouchMove={false}
                                 noSwiping={true}
@@ -68,18 +67,19 @@ export default function Carousel(props) {
                                     handSlideChange()
                                 }}
                             >
-                            {props.newfeatured.map((game, index) => {
+                            {games.map((game, index) => {
                                 return (
                                     <SwiperSlide>
                                         <div className='h-full w-full relative cursor-pointer rounded-xl'>
                                             <Link to={`/app/${game.slug}`} className='w-full h-full block rounded-xl'>
                                                     <img className='object-cover rounded-xl block h-full w-full' src={game.background}/>
+                                                    <div className='css-backlight'></div>
                                                 <div className={`absolute z-[1] left-[38px] w-[320px] bottom-[70px] flex flex-col items-start pointer-events-none transition-opacity duration-300 ease-in-out`}>
                                                     <div className='css-show game-name-show'>
                                                         <div>
                                                             <div className={`game-logo show w-[280px] h-[200px]`} style={{ backgroundImage: `url('${game.logo}')` }}></div>
-                                                            <div className='overflow-hidden break-words	text-lg mb-2 font-bold'>
-                                                                {game.name}
+                                                            <div className='mb-3 overflow-hidden break-words	text-base text-[#fff]/[.9] leading-5 mb-2 font-bold'>
+                                                                {game.overview_description}
                                                             </div>
                                                         </div>
                                                         <div className=''>
@@ -111,7 +111,7 @@ export default function Carousel(props) {
                         </div>
                         <div className='ml-[30px] basis-1/4 max-h-[100%]'>
                             <ul className='h-full w-full flex flex-col gap-1 relative'>
-                                {props.newfeatured.map((game, index) => {
+                                {games.map((game, index) => {
                                     return (
                                         <li className='rounded-2xl h-full flex overflow-hidden'>
                                             <div className='w-full h-full'>
@@ -119,7 +119,7 @@ export default function Carousel(props) {
                                                     <div className={`carouselThumbnail ${index === activeSlide ? ' slide addbackground' : 'removebackground'} p-4 rounded-2xl relative`}
                                                         onClick={(e) => Silde(index)}>
                                                         <div className='pr-[10px] w-full h-full relative flex justify-start  cursor-pointer'>
-                                                            <div className='min-w-[63px] my-auto h-[74px] w-[58px] rounded-lg overflow-hidden z-[1] mr-[15px] '>
+                                                            <div className='min-w-[60px] my-auto h-[74px] rounded-lg overflow-hidden z-[1] mr-[15px] '>
                                                                 <img className='thumbnail-image w-full h-full ' src={game.cover}/>
                                                             </div>
                                                             <div className='font-medium text-[16px] z-[1] leading-6'>

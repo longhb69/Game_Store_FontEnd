@@ -1,31 +1,18 @@
-import { Link,useNavigate,useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import { useRef, useState } from 'react';
 import { baseUrl } from '../shared';
+import useFetchData from '../useFetchData';
 
 export default function NewRelease(props) {
-    const [games, setGames] = useState();
-    const [commingGames, setCommingGames] = useState();
     const [activeIndex, setActivteIndex] = useState()
     const activeIndexRef = useRef();
     const NewReleaseRef = useRef();
     const CommingSoonRef = useRef();
     const [ActiveSection, setActivteSection] = useState(1);
-    const [delay, setDelay] = useState([]);
-    const newRelease = baseUrl + 'api/new-release'
-    const CommingSoonUrl = baseUrl + 'api/comming-soon';
+    //const [delay, setDelay] = useState([]);
 
-    useEffect(() => {
-        axios.get(newRelease).then((response) => {
-            setGames(response.data);
-            const delays = response.data.map((game, index) => (index) * 50);
-            setDelay(delays);
-        });
-        axios.get(CommingSoonUrl).then((response) => {
-            setCommingGames(response.data);
-        })
-
-    }, [])
+    const {data:games, loading, error } = useFetchData(props.newReleaseUrl);
+    const {data:commingGames, loading2, error2 } = useFetchData(props.CommingSoonUrl);
+  
     const handleMouseOver = (index) => {
         setActivteIndex(index)
         const images = document.querySelectorAll(".game-grid");
@@ -97,7 +84,7 @@ export default function NewRelease(props) {
                                             <div className="relative mx-[80px]">    
                                                 <div className="flex justify-center flex-wrap max-w-none w-auto overflow-hidden py-3 carousel-grid">
                                                     {games.map((game,index) => {
-                                                        const dynamticDelay = delay[index]
+                                                        const dynamticDelay = index * 50;
                                                         return (
                                                             <a href={`/app/${game.slug}`} className={`game-grid max-w-[100%] ml-4 inline-flex flex-col shrink-0 w-[17%]`} style={{ animationDelay: `${dynamticDelay}ms` }}
                                                                 onMouseOver={() => {
@@ -136,7 +123,7 @@ export default function NewRelease(props) {
                                             <div className="relative mx-[80px]">    
                                                 <div className="flex justify-center flex-wrap max-w-none w-auto overflow-hidden py-3 carousel-grid">
                                                     {commingGames.map((game,index) => {
-                                                        const dynamticDelay = delay[index]
+                                                        const dynamticDelay = index * 50;
                                                         return (
                                                             <a href={`/app/${game.slug}`} className={`game-grid max-w-[100%] ml-4 inline-flex flex-col shrink-0 w-[16%]`}
                                                                 style={{ animationDelay: `${dynamticDelay}ms` }}

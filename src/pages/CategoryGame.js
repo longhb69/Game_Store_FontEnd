@@ -4,18 +4,13 @@ import CategoryPageSlider from "../components/CategoryPageSlider";
 import axios from 'axios';
 import { baseUrl } from "../shared";
 import SaleSection from "../components/SaleSection";
+import useFetchData from "../useFetchData";
 
 export default function CategoryGame() {
     const slug = useParams().slug;
-    const [games, setGames] = useState();
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const url = baseUrl + `api/category/${slug}/`
-        axios.get(url).then((response) => {
-            setGames(response.data)
-            setLoading(false)
-        })
-    }, [])
+    const url = baseUrl + `api/category/${slug}/`;
+    const {data : games, loading, error} = useFetchData(url);
+    if(error) console.log(error )
     return (
         <>
             {loading ? (

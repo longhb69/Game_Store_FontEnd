@@ -88,7 +88,7 @@ export default function Header(props) {
     }
     return (
         <>
-            <div className='header flex sticky top-0 h-[85px] z-[900] bg-[#db8F32]'>
+            <div className='header flex sticky top-0 h-[85px] z-[900] bg-[#121212]'>
                 <div className='flex justify-between mx-auto w-[75%] max-w-[1600px] relative'>
                     <div className='flex justify-center items-center'>
                         <Link to={''}>
@@ -195,12 +195,12 @@ export default function Header(props) {
                         {loggedIn ? 
                             <>
                                 <div className='dropdown cursor-pointer relative'>
-                                    <p className='account-name text-xl text-[#121212] p-2 mr-2'>{account}</p> 
+                                    <p className='account-name text-xl text-[#fff] p-2 mr-2'>{account}</p> 
                                     <div className='friendly-box friendly-box-top'></div>
                                     <div className='friendly-box friendly-box-wide-adjust'></div>
                                     <div className= 'flex flex-col items-center rounded-lg dropdown-menu bg-[#202024] p-2 pr-3'>
-                                        <button className='dropdown-btn'>Wallet</button>
-                                        <button className='dropdown-btn'>Account</button>
+                                        <button className='dropdown-btn' onClick={() => navigate('/libary')}>Libary</button>
+                                        <button className='dropdown-btn' onClick={() => navigate('/account/transactions')}>Account</button>
                                         <button className='dropdown-btn'>Wishlist</button>
                                         <div className='flex dropdown-btn dropdown-logout-btn'>
                                             <button onClick={() => handleLogout(false)} className='logout-btn'>
@@ -214,7 +214,7 @@ export default function Header(props) {
                                     <div>
                                         <li className='flex whitespace-nowrap items-center'>
                                             <div>
-                                                <Link to={'/cart'} className='text-[#121212] hover:text-[#8F32db] text-xl flex items-center p-2'>Cart</Link>
+                                                <Link to={'/cart'} className='text-[#fff] hover:text-[#8F32db] text-xl flex items-center p-2'>Cart</Link>
                                             </div>
                                             {cartQuantity !== 0 && loggedIn ? 
                                                 <div id='cart-quantity-container' className='cart-quantity-container bg-[#fff] h-auto w-[30px] text-center rounded-xl ml-0.5'>

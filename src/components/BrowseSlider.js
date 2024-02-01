@@ -2,18 +2,18 @@ import { Swiper, SwiperSlide} from 'swiper/react';
 import { Link,useNavigate,useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import useFetchData from '../useFetchData';
+import { baseUrl } from '../shared';
 
 export default function MostPopular(props) {
-    const [games, setGames] = useState();
     const swiperRef = useRef(null);
     const [endSlide, setEndSlide] = useState(false);
     const [beginSlide, setBeginSlide] = useState(true);
-    useEffect(() => {
-        axios.get(props.url).then((response) => {
-            setGames(response.data)
-            init();
-        })
-    }, [])
+    const [url, setUrl] = useState(props.url);
+    
+    const { data: games, loading, error, refetch} = useFetchData(url);
+    init();
+
     function init() {
         if(swiperRef.current?.swiper.slides.length < 6) {
             setBeginSlide(true);
@@ -42,7 +42,7 @@ export default function MostPopular(props) {
     }
     return (
         <>
-            {games ? (
+            {games && games.length > 1 ? (
                 <>
                     <div className='flex justify-between items-center mb-5 text-lg'>
                         {props.linkable ? (
