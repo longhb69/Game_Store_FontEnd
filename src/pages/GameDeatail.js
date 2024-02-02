@@ -25,8 +25,10 @@ export default function GameDeatail() {
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const url = baseUrl + 'cart/'
-    const addCartRef = useRef()
+    const addCartRef = useRef();
     const lottieRef = useRef();
+    const [loading ,setLoading] = useState(true);
+    const loadingitems = Array.from({ length: 4 });
 
     useEffect(() => {
         if(buttonBuynow){
@@ -49,6 +51,8 @@ export default function GameDeatail() {
             setTotalDlcPrice(toalDLCPrice.toFixed(3))
         }).catch((e) => {
             console.log(e)
+        }).finally(() =>{
+            setLoading(false);
         });
         getItemInCart();
         getLibary();
@@ -130,6 +134,65 @@ export default function GameDeatail() {
     }
     return (
         <>  
+            {loading ? 
+                <div className='mx-auto w-[75%] mt-2'>
+                    <div className='flex flex-col w-full'>
+                        <div className='w-[200px] h-[50px] skeleton mb-2'></div>
+                        <div className='flex gap-2'>
+                            <div className='skeleton w-[70px] h-[20px]'></div>
+                            <div className='skeleton w-[70px] h-[20px]'></div>
+                        </div>
+                    </div>
+                    <div className='flex w-full h-[650px] mt-5'>
+                        <div className='basis-[75%] max-w-[1100px] h-full'>
+                            <div className='skeleton h-[90%] w-full'></div>
+                            <div className='flex justify-center gap-3 w-full h-full mt-5'>
+                                <div className='skeleton h-[10%] w-[10%]'></div>
+                                <div className='skeleton h-[10%] w-[10%]'></div>
+                                <div className='skeleton h-[10%] w-[10%]'></div>
+                            </div>
+                        </div>
+                        <div className='basis-[25%] ml-7 flex gap-3 flex-col w-full h-[750px]'>
+                            <div className='w-full h-[25%] skeleton'></div>
+                            <div className='border border-[#252410] rounded h-[15%] flex'>
+                                <div className='p-4 w-full h-full flex'>
+                                    <div className='basis-[20%] mr-2'>
+                                        <div className='w-full h-[50px] skeleton'></div>
+                                    </div>
+                                    <div className='basis-[80%] flex flex-col'>
+                                        <div className='w-full h-[15px] skeleton mb-2'></div>
+                                        <div className='w-full h-[15px] skeleton'></div>
+                                        <div className='w-full border-b my-3 border-[#252410]'></div>
+                                        <div className='w-full h-[15px] skeleton'></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='w-[150px] h-[4%] skeleton'></div>
+                            <div className='w-[100px] h-[4%] skeleton'></div>
+                            <div className='w-full h-[8%] skeleton'></div>
+                            <div className='w-full h-[8%] skeleton'></div>
+                            <div className='w-full h-[4%] skeleton'></div>
+                            <div className='h-[32%] w-full'>
+                                {loadingitems.map((item) => {
+                                    return (
+                                        <div className='w-full flex flex-col'>
+                                            <div className='w-full flex justify-between'>
+                                                <div className='basis-[25%] w-full h-[20px] skeleton'></div>
+                                                <div className='basis-[25%] w-full h-[20px] skeleton'></div>
+                                            </div>
+                                            <div className='border border-[#252410] my-2.5'></div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='w-[74%] h-[15px] mt-14 skeleton'></div>
+                    <div className='w-[74%] h-[15px] mt-5 skeleton'></div>
+                    <div className='w-[74%] h-[15px] mt-5 skeleton'></div>
+                </div>
+            :
+            <>
             { game && (
                 <>
                     <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
@@ -343,6 +406,7 @@ export default function GameDeatail() {
         <Checkout trigger={buttonBuynow}
                 setTrigger={setButonBuynow}
                 game={game}/>
+        </>}
         </>
     )
 }

@@ -822,6 +822,7 @@ input {
 /* loading */
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 4px;
 }
 @keyframes skeleton-loading {
   0%{
@@ -863,4 +864,8 @@ input {
   text-transform: uppercase;
   background-color: #e0e0e0;
   color: rgba(0, 0, 0, 0.87);
+}
+
+.show-div {
+  display: block;
 }

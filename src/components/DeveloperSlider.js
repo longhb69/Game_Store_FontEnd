@@ -51,7 +51,7 @@ export default function DeveloperSlider(props) {
                     {props.logo ? 
                         <div className='flex justify-center my-auto select-none'>
                             <div className='h-[60%] w-[60%]'>
-                                <img src={props.logo}/>
+                                <img src={props.logo} loading='lazy'/>
                             </div>
                         </div>
                     : null}

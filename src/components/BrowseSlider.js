@@ -10,6 +10,7 @@ export default function MostPopular(props) {
     const [endSlide, setEndSlide] = useState(false);
     const [beginSlide, setBeginSlide] = useState(true);
     const [url, setUrl] = useState(props.url);
+    const loadingitems = Array.from({ length: 5 });
     
     const { data: games, loading, error, refetch} = useFetchData(url);
     init();
@@ -42,6 +43,57 @@ export default function MostPopular(props) {
     }
     return (
         <>
+            {loading ? 
+                <>
+                <div className='flex justify-between items-center mb-5 text-lg'>
+                    {props.linkable ? (
+                        <>
+                            <Link to={`fillter/${props.slug}`}>
+                                <h2 className='flex items-center link-title'>
+                                    {props.title}
+                                    <span className='ml-1.5 w-2.5 h-2.5 flex link-arrow'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>     
+                                    </span>
+                                </h2>
+                            </Link>
+                        </>
+                    )
+                    : <>
+                        <h2 className='text-lg'>{props.title}</h2>
+                    </>
+                    }
+                    <div className='flex'>
+                            <div className={`ml-[10px] cursor-default`}>
+                                <button className={`relative w-[30px] h-[30px] flex items-center justify-center`}>
+                                    <span className={`lock w-[12px] h-[12px] scale-x-[-1]`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <div className={`ml-[10px]`}>
+                                <button className={`relative w-[30px] h-[30px] flex items-center justify-center`}>
+                                    <span className={`block w-[12px] h-[12px] z-[1]`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class={`w-full h-full`} viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+                <div className="flex">
+                    <ul className='list-none content-stretch flex flex-nowrap w-full items-stretch gap-10'>
+                        {loadingitems.map((item) => (
+                            <li className='mb-[90px] transition ease-in-out duration-[125ms] w-[20%]'>
+                                <div className='rounded w-full h-[270px] skeleton'></div>
+                                <div className='mt-5 rounded-md w-full h-[20px] skeleton rounded-md'></div>
+                                <div className='mt-2 w-full h-[20px]  skeleton rounded-md'></div>
+                                <div className='mt-5 w-[30%] h-[20px] mr-auto skeleton rounded-md'></div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                </>
+            :
+            <>
             {games && games.length > 1 ? (
                 <>
                     <div className='flex justify-between items-center mb-5 text-lg'>
@@ -126,6 +178,7 @@ export default function MostPopular(props) {
                 </>
             )
             : null}
+            </>}
         </>
     );
 }

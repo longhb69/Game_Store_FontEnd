@@ -1,3 +1,4 @@
+import { faL } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -28,7 +29,6 @@ export default function useFetchData(url, authToken = null) {
                     setPre(response.data.pre)
                 } else {
                     setData(response.data)
-                    console.log(response.data)
                 }
             }
             if(response.data.publisher) setPublisher(response.data.publisher.name)
@@ -42,7 +42,6 @@ export default function useFetchData(url, authToken = null) {
     }
 
     useEffect(() => {
-        console.log("Change")
         fetchData(url);
     }, [url]);
 

@@ -5,6 +5,9 @@ import TopSellers from '../components/TopSellers';
 import BrowseSlider from '../components/BrowseSlider';
 import NewRelease from '../components/NewRelease';
 import DeveloperSlider from '../components/DeveloperSlider';
+import { useEffect, useRef, useState } from 'react';
+import Lottie from "lottie-react";
+import * as animationData from "../loading.json";
 
 //Analogous #5532db #7032db #8F32db  ||Split-Complementary  #db5532 #db8F32   || Tetradic #32db55 #db5532  
 //||Split-Tetradic #5532db #db8F32  #32db55  ||#5532db #32db8F #db55db #8F32db, 
@@ -17,7 +20,35 @@ export default function Home() {
     const DeveloperUrl1 = baseUrl + 'api/developer/electronic-arts';
     const DeveloperUrl2 = baseUrl + 'api/developer/playstation-pc-llc';
     const EAlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551414/Electronic-Arts-Logo.svg_yfzi4s.png';
-    const PSlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551730/2560px-PlayStation_logo.svg_j6cdu8.png';    
+    const PSlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551730/2560px-PlayStation_logo.svg_j6cdu8.png';  
+    const [loading ,setLoading] = useState([true,true]);
+    const lazyLoadRefs = [useRef(), useRef()];
+
+    const lazyLoadCallBack = (entries, observer) => {
+        entries.forEach((entry, index) => {
+            if(entry.isIntersecting) {
+                const index = lazyLoadRefs.findIndex((ref) => ref.current === entry.target);
+                setLoading((prevLoadingList) => {
+                    const newLoadingList = [...prevLoadingList];
+                    newLoadingList[index] = false;
+                    return newLoadingList;
+                })
+                observer.unobserve(entry.target);
+            }
+        });
+    }
+    useEffect(() => {
+        const options = {
+            threshold: 1,
+        }
+        const observer = new IntersectionObserver (lazyLoadCallBack, options);
+        lazyLoadRefs.forEach((ref) => {
+            if (ref.current) {
+                observer.observe(ref.current);
+            }
+        });
+    }, [])
+
     return ( 
         <div className='mx-auto w-full relative'>
             <div className='w-[75%] mt-10 mx-auto'>
@@ -32,18 +63,26 @@ export default function Home() {
                     linkable={true}
                     slug={'most-popular'}/>
             </div>
-            <div className={`w-full bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
-                <DeveloperSlider 
-                    url={DeveloperUrl1}
-                    logo={EAlogo}
-                />
-            </div>
-            <div className={`w-full bg-gradient-to-r from-[#006FCC] to-[#00AC9F] pb-4 mb-4`}>
-               <DeveloperSlider 
-                    url={DeveloperUrl2}
-                    logo={PSlogo}
-                />
-            </div>
+            {loading[0] ? 
+                <div ref={lazyLoadRefs[0]} className='mx-auto flex justify-center my-10'>
+                    <Lottie className='h-[60px] w-[60px]' animationData={animationData} loop={true}/>
+                </div>
+            :
+                <>
+                    <div className={`section-load w-full bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
+                        <DeveloperSlider 
+                            url={DeveloperUrl1}
+                            logo={EAlogo}
+                        />
+                    </div>
+                    <div className={`w-full bg-gradient-to-r from-[#006FCC] to-[#00AC9F] pb-4 mb-4`}>
+                    <DeveloperSlider 
+                            url={DeveloperUrl2}
+                            logo={PSlogo}
+                        />
+                    </div>
+                </>
+            }
             {/* <div className='mt-5'>
             //     <BrowseSlider 
             //         url={newRelease}
@@ -57,9 +96,17 @@ export default function Home() {
                     CommingSoonUrl={CommingSoonUrl}
                 />
             </div>
-            <div className='mt-5 w-[75%] mx-auto'>
-                <TopSellers/>
-            </div>
+            {loading[1] ? 
+                <div  ref={lazyLoadRefs[1]} className=' mx-auto flex justify-center my-10'>
+                    <Lottie className='h-[60px] w-[60px]' animationData={animationData} loop={true}/>
+                </div>
+            :
+                <>
+                <div className='mt-5 w-[75%] mx-auto'>
+                    <TopSellers/>
+                </div>
+                </>
+            }
             <div className='flex flex-col items-center justify-center mt-5'>
                 <Slider/>
             </div>

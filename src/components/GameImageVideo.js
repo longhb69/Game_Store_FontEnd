@@ -102,18 +102,18 @@ export default function GameImageVideo(props) {
                     </button>
                 </Swiper>
             </div>
-            <div className='flex items-center justify-between mt-[20px] overflow-hidden '>
+            <div className='flex items-center justify-between mt-[20px] text-center overflow-hidden '>
                 {props.game_image && props.game_image.length > 3 ?
-                    <div className='flex'>
-                        <button className='w-[18px] h-[18px] rotate-180'  onClick={() => prev()}>
+                    <div className='flex justify-center items-center px-2 rounded-full'>
+                        <button className='w-[18px] h-[18px] pb-10 rotate-180'  onClick={() => prev()}>
                             <span className=''>
                                 <svg className='rotate-180 w-[20px] h-[20px]' 
-                                    xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                                    xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
                             </span>
                         </button>
                     </div>
                 : <div></div>}
-                <div className='max-w-[800px] h-[110px]'>
+                <div className='max-w-[800px]'>
                 {props.game_image && props.game_image.length > 0 ? 
                     <Swiper
                         ref={miniSwiperRef}
@@ -152,14 +152,15 @@ export default function GameImageVideo(props) {
                 : null}
                 </div>
                 {props.game_image && props.game_image.length > 3 ?
-                    <div className='flex justify-center items-center px-2 py-1 rounded-full'>
-                        <button className='w-[18px] h-[18px] pb-10' onClick={() => next()}>
+                    <div className='flex justify-center items-center px-2 rounded-full'>
+                        <button className='w-[18px] h-[18px] pb-10'  onClick={() => next()}>
                             <span className=''>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
+                                <svg className='w-[20px] h-[20px]' 
+                                    xmlns="http://www.w3.org/2000/svg" class="" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
                             </span>
                         </button>
                     </div>
-                :<div></div>}
+                : <div></div>}
             </div>
             
         </>
