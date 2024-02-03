@@ -34,7 +34,7 @@ export default function Checkout(props) {
         }
         else {
             const url = baseUrl + 'cart/checkout'
-            const data = {game_id: props.game.id}
+            const data = {type:props.type, game_id: props.game.id}
             Checkout(url,data)
         }
     }

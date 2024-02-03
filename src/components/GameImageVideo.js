@@ -13,7 +13,7 @@ export default function GameImageVideo(props) {
     const [currentSlide, setCurrentSlide] = useState(0);
     useEffect(() => {
         swiperContainerRef.current.swiper.slideTo(currentSlide)
-        miniSwiperRef.current.swiper.slideTo(currentSlide)
+        if(miniSwiperRef.current) miniSwiperRef.current.swiper.slideTo(currentSlide)
     }, [currentSlide])
     function playvideo(play) {
         if(play) {
@@ -82,12 +82,14 @@ export default function GameImageVideo(props) {
                             <svg xmlns="http://www.w3.org/2000/svg" class="svg css-uwwqev" viewBox="0 0 5 9"><path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path></svg>
                         </span>
                     </button>
-                    <SwiperSlide>
-                        <video ref={videoRef} className="h-full w-full rounded object-cover" controls autoPlay muted>
-                            <source src={props.video} type="video/webm" />
-                            <span>Your browser does not support the video tag.</span>
-                        </video>
-                    </SwiperSlide>
+                    {props.video ? 
+                        <SwiperSlide>
+                            <video ref={videoRef} className="h-full w-full rounded object-cover" controls autoPlay muted>
+                                <source src={props.video} type="video/webm" />
+                                <span>Your browser does not support the video tag.</span>
+                            </video>
+                        </SwiperSlide>
+                    : null}
                     {props.game_image && props.game_image.length > 0 ? 
                         props.game_image.map((image, index) => (
                             <SwiperSlide key={index}>

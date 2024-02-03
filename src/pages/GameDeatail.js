@@ -22,6 +22,7 @@ export default function GameDeatail() {
     const location = useLocation();
     const [showAllDLC, setShowAllDLC] = useState(false); 
     const [loggedIn, setLoggedIn] = useLogin();
+    const [specialColor, setSpecialColor] = useState('');
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
     const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const url = baseUrl + 'cart/'
@@ -29,6 +30,7 @@ export default function GameDeatail() {
     const lottieRef = useRef();
     const [loading ,setLoading] = useState(true);
     const loadingitems = Array.from({ length: 4 });
+    const originalBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
 
     useEffect(() => {
         if(buttonBuynow){
@@ -49,6 +51,7 @@ export default function GameDeatail() {
                 toalDLCPrice += parseFloat(dlc.price)
             });
             setTotalDlcPrice(toalDLCPrice.toFixed(3))
+            setSpecialColor(response.data.specialColor)
         }).catch((e) => {
             console.log(e)
         }).finally(() =>{
@@ -58,8 +61,20 @@ export default function GameDeatail() {
         getLibary();
     }, []);
 
+    useEffect(() => {
+        const originalBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
+        if(specialColor) {
+            document.body.style.background = specialColor;
+            document.querySelector('.header').style.background = specialColor;
+        }
+        return () => {
+            document.body.style.backgroundColor = originalBackgroundColor;
+            document.querySelector('.header').style.background = originalBackgroundColor;
+          };
+    }, [specialColor])
+
     function addCart(game_id) {
-        const data = {type:'game', base_game_id: game_id}
+        const data = {type:'game', game_id: game_id}
         fetch(url,{
             method: 'POST',
             headers: {
@@ -93,7 +108,6 @@ export default function GameDeatail() {
             game_id: dlc.id
         }))
         const data = {type:'game', base_game_id:game_id, add_on:add_on}
-        console.log(data)
         fetch(url,{
             method: 'POST',
             headers: {
@@ -102,7 +116,6 @@ export default function GameDeatail() {
             },
             body: JSON.stringify(data),
         }).then((response) => {
-            console.log(localStorage.getItem('access'))
             if (response.status === 403 || response.status === 401) {
                 setLoggedIn(false);
                 navigate('/login', {
@@ -357,22 +370,33 @@ export default function GameDeatail() {
                                                             <span className=''>BUY NOW</span>
                                                         </button>
                                                     </div>
-                                                    <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>
-                                                        <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/>
-                                                        <button
+                                                    {itemsInCart && itemsInCart.items_name.includes(game.slug) ? (
+                                                        <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>
+                                                            <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/>    
+                                                            <button
                                                             className='p-3 w-full'
                                                             onClick={(e) => {
-                                                                e.preventDefault()
-                                                                addCart(game.id)
+                                                                e.preventDefault();
+                                                                navigate('/cart');
                                                             }}
-                                                        >
-                                                            {itemsInCart && itemsInCart.items_name.includes(game.slug) ? (
+                                                            >
                                                                 <span className='cart-text'>IN CART</span>
-                                                            ) : (
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>
+                                                            <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/> 
+                                                            <button
+                                                                className='p-3 w-full'
+                                                                onClick={(e) => {
+                                                                    e.preventDefault()
+                                                                    addCart(game.id)
+                                                                }}
+                                                            > 
                                                                 <span className='cart-text'>ADD TO CART</span>
-                                                            )}
-                                                        </button>
-                                                    </div>
+                                                            </button>
+                                                        </div>
+                                                    )}
                                                     <div className='rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms]'>
                                                         <button className='p-3 w-full'>
                                                             <span>ADD TO WISHLIST</span>
@@ -405,7 +429,8 @@ export default function GameDeatail() {
             )};
         <Checkout trigger={buttonBuynow}
                 setTrigger={setButonBuynow}
-                game={game}/>
+                game={game}
+                type={"game"}/>
         </>}
         </>
     )

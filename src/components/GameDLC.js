@@ -18,7 +18,7 @@ export default function GameDLC(props) {
 
     function addCart(game_id) {
         const url = baseUrl + 'cart/'
-        const data = {type: "dlc", base_game_id: game_id}
+        const data = {type: "dlc", game_id: game_id}
         fetch(url,{
             method: 'POST',
             headers: {
@@ -87,26 +87,33 @@ export default function GameDLC(props) {
                                     </div>
                                 ) : (
                                     <>
-                                    <div ref={addCartRef} className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] min-w-[80px] max-h-[60px]'>
-                                        <Lottie className='lottie-dlc' lottieRef={lottieRef} animationData={animationData} loop={true}/>
-                                        <button 
-                                            className='p-1.5'
-                                            onClick={(e) => {
-                                                e.preventDefault()
-                                                addCart(props.id)
-                                            }}>
-                                            {itemsInCart && itemsInCart.items_name.includes(props.slug) ? 
-                                                <span className='cart-text'>IN CART</span>
-                                            : <span className='cart-text'>ADD TO CART</span>}
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <div className='rounded border border-[245_245_245_0.6] hover:bg-white/[.07] transition ease-out duration-[150ms] mr-2'>
-                                            <button className='p-1.5'>
-                                                <span>ADD TO WISHLIST</span>
-                                            </button>
-                                        </div>
-                                    </div>                
+                                        {itemsInCart && itemsInCart.items_name.includes(props.slug) ? (
+                                            <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>
+                                                <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/>    
+                                                <button
+                                                className='p-3 w-full'
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    navigate('/cart');
+                                                }}
+                                                >
+                                                    <span className='cart-text'>IN CART</span>
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div ref={addCartRef} className='flex flex-col justify-items-center rounded border border-[245_245_245_0.6] mt-3 hover:bg-white/[.07] transition ease-out duration-[200ms] w-full max-h-[50px]'>
+                                                <Lottie className='lottie' lottieRef={lottieRef} animationData={animationData} loop={true}/> 
+                                                <button
+                                                    className='p-3 w-full'
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        addCart(props.id)
+                                                    }}
+                                                > 
+                                                    <span className='cart-text'>ADD TO CART</span>
+                                                </button>
+                                            </div>
+                                        )}      
                                     </>
                                 )}
                             </div>
