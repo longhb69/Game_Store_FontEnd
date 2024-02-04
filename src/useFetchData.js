@@ -1,4 +1,3 @@
-import { faL } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 

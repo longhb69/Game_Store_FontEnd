@@ -2,22 +2,23 @@ import { Swiper, SwiperSlide} from 'swiper/react';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import useFetchData from '../useFetchData';
+import { baseUrl } from '../shared';
 
-export default function DeveloperSlider(props) {
-    // const [games, setGames] = useState();
-    // const [publisher, setPublisher] = useState();
+export default function DeveloperSlider2(props) {
+    const [games, setGames] = useState();
+    const [publisher, setPublisher] = useState();
     const swiperRef = useRef(null);
     const [endSlide, setEndSlide] = useState(false);
     const [beginSlide, setBeginSlide] = useState(true);
-    // useEffect(() => {
-    //     const url = props.url
-    //     axios.get(url).then((response) => {
-    //         setGames(response.data.games)
-    //         setPublisher(response.data.publisher.name)
-    //         init();
-    //     })
-    // }, [])
-    const {data:games, loading, error, publisher} = useFetchData(props.url)
+   
+    useEffect(() => {
+        const url = baseUrl + 'api/developer/ubisoft';
+        axios.get(url).then((response) => {
+            setGames(response.data.games)
+            setPublisher(response.data.publisher.name)
+            init();
+        })
+    }, [])
     init()
     function init() {
         if(swiperRef.current?.swiper.slides.length === 7) {

@@ -5,6 +5,7 @@ import TopSellers from '../components/TopSellers';
 import BrowseSlider from '../components/BrowseSlider';
 import NewRelease from '../components/NewRelease';
 import DeveloperSlider from '../components/DeveloperSlider';
+import DeveloperSlider2 from '../components/DeveloperSlider2';
 import { useEffect, useRef, useState } from 'react';
 import Lottie from "lottie-react";
 import * as animationData from "../loading.json";
@@ -17,12 +18,15 @@ export default function Home() {
     const newReleaseUrl = baseUrl + 'api/new-release';
     const CommingSoonUrl = baseUrl + 'api/comming-soon';
     const newFeaturedUrl = baseUrl + 'api/newfeatured/';
-    const DeveloperUrl1 = baseUrl + 'api/developer/electronic-arts';
+    const PicksForYouUrl = baseUrl + 'api/picks-for-you';
+    const DeveloperUrl3 = baseUrl + 'api/developer/electronic-arts';
     const DeveloperUrl2 = baseUrl + 'api/developer/playstation-pc-llc';
-    const DeveloperUrl3 = baseUrl + 'api/developer/ubisoft'
+    const DeveloperUrl1 = baseUrl + 'api/developer/ubisoft';
 
     const EAlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551414/Electronic-Arts-Logo.svg_yfzi4s.png';
     const PSlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551730/2560px-PlayStation_logo.svg_j6cdu8.png';  
+    const Ubilogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1707063821/pngaaa.com-374032_gmwonz.png';
+    const UbiBg = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1707062851/cropped-1920-1080-1189033_oxlfgg.jpg';
     const [loading ,setLoading] = useState([true,true]);
     const lazyLoadRefs = [useRef(), useRef()];
 
@@ -71,13 +75,13 @@ export default function Home() {
                 </div>
             :
                 <>
-                    <div className={`section-load w-full bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
+                    <div className={`section-load w-full min-h-[350px] bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
                         <DeveloperSlider 
-                            url={DeveloperUrl1}
+                            url={DeveloperUrl3}
                             logo={EAlogo}
                         />
                     </div>
-                    <div className={`w-full bg-gradient-to-r from-[#006FCC] to-[#00AC9F] pb-4 mb-4`}>
+                    <div className={`w-full min-h-[350px] bg-gradient-to-r from-[#006FCC] to-[#00AC9F] pb-4 mb-4`}>
                     <DeveloperSlider 
                             url={DeveloperUrl2}
                             logo={PSlogo}
@@ -93,17 +97,22 @@ export default function Home() {
             </div>
             <div className='p-7'>
                 <BrowseSlider
-                    url={newReleaseUrl}
+                    url={PicksForYouUrl}
                     title={'Picks for you'}
                     linkable={false}
                     slideperview={8}
                 />
             </div> 
-            <div className={`section-load w-full bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
-                <DeveloperSlider 
-                    url={DeveloperUrl3}
-                    logo={EAlogo}
-                />
+            <div className='section-load w-full mt-8 pb-4 min-h-[350px]' style={{backgroundImage: `url('${UbiBg}')`}}>
+                {loading[1] ? 
+                    <div  ref={lazyLoadRefs[1]} className=' mx-auto flex justify-center my-10'>
+                        <Lottie className='h-[60px] w-[60px]' animationData={animationData} loop={true}/>
+                    </div>
+                : 
+                    <DeveloperSlider 
+                        url={DeveloperUrl1}
+                        logo={Ubilogo}/>
+                }
             </div>
             {loading[1] ? 
                 <div  ref={lazyLoadRefs[1]} className=' mx-auto flex justify-center my-10'>
@@ -111,9 +120,9 @@ export default function Home() {
                 </div>
             :
                 <>
-                <div className='mt-5 w-[75%] mx-auto'>
-                    <TopSellers/>
-                </div>
+                    <div className='mt-5 w-[75%] mx-auto'>
+                        <TopSellers/>
+                    </div>
                 </>
             }
             <div className='flex flex-col items-center justify-center mt-5'>
