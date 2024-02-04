@@ -45,7 +45,7 @@ export default function MostPopular(props) {
         <>
             {loading ? 
                 <>
-                <div className='flex justify-between items-center mb-5 text-lg'>
+                <div className='flex justify-between items-center mb-5'>
                     {props.linkable ? (
                         <>
                             <Link to={`fillter/${props.slug}`}>
@@ -59,7 +59,7 @@ export default function MostPopular(props) {
                         </>
                     )
                     : <>
-                        <h2 className='text-lg'>{props.title}</h2>
+                        <h2 className='text-xl'>{props.title}</h2>
                     </>
                     }
                     <div className='flex'>
@@ -138,8 +138,8 @@ export default function MostPopular(props) {
                         spaceBetween={20}
                         speed={300}
                         allowTouchMove={false}
-                        slidesPerView={6}
-                        slidesPerGroup={6}
+                        slidesPerView={props.slideperview ? props.slideperview : 6}
+                        slidesPerGroup={props.slideperview ? props.slideperview : 6}
                         noSwiping={true}
                         className='most-popular-swiper'
                         onSlideChange={() => {

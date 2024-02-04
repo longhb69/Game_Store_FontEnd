@@ -100,7 +100,7 @@ export default function Carousel(props) {
                                                         <div className='css-show game-name-show'>
                                                             <div>
                                                                 <div className={`game-logo show w-[280px] h-[200px]`} style={{ backgroundImage: `url('${game.logo}')` }}></div>
-                                                                <div className='mb-3 overflow-hidden break-words	text-base text-[#fff]/[.9] leading-5 mb-2 font-bold'>
+                                                                <div className='mb-3 overflow-hidden break-words text-base text-[#fff]/[.9] leading-5 mb-2 font-bold'>
                                                                     {game.overview_description}
                                                                 </div>
                                                             </div>

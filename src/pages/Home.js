@@ -19,6 +19,8 @@ export default function Home() {
     const newFeaturedUrl = baseUrl + 'api/newfeatured/';
     const DeveloperUrl1 = baseUrl + 'api/developer/electronic-arts';
     const DeveloperUrl2 = baseUrl + 'api/developer/playstation-pc-llc';
+    const DeveloperUrl3 = baseUrl + 'api/developer/ubisoft'
+
     const EAlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551414/Electronic-Arts-Logo.svg_yfzi4s.png';
     const PSlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551730/2560px-PlayStation_logo.svg_j6cdu8.png';  
     const [loading ,setLoading] = useState([true,true]);
@@ -83,17 +85,24 @@ export default function Home() {
                     </div>
                 </>
             }
-            {/* <div className='mt-5'>
-            //     <BrowseSlider 
-            //         url={newRelease}
-            //         title={'New Release'}
-            //         linkable={false}
-            //     />
-            // </div> */}
-            <div className='mt-8 '>
+            <div className='mt-8'>
                 <NewRelease
                     newReleaseUrl={newReleaseUrl}
                     CommingSoonUrl={CommingSoonUrl}
+                />
+            </div>
+            <div className='p-7'>
+                <BrowseSlider
+                    url={newReleaseUrl}
+                    title={'Picks for you'}
+                    linkable={false}
+                    slideperview={8}
+                />
+            </div> 
+            <div className={`section-load w-full bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
+                <DeveloperSlider 
+                    url={DeveloperUrl3}
+                    logo={EAlogo}
                 />
             </div>
             {loading[1] ? 

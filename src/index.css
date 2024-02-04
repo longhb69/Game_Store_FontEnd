@@ -724,11 +724,11 @@ input {
   aspect-ratio: 1/1;
 }
 
-.game-grid-v3 {
+.game-grid-v3, .game-grid-v4 {
   animation-delay: 0ms;
   --shadow-color: var(rgb(0,0,0,0.8));
   box-shadow: 0 1px 1px 0 rgb(0,0,0,0.8);
-  transition: transform .15s ease-in-out;
+  transition: transform .2s ease-in-out;
   padding: 7px;
   display: -ms-flexbox;
   display: flex;
@@ -739,10 +739,14 @@ input {
   -ms-flex-pack: justify;
   justify-content: space-between;
   position: relative;
+  vertical-align: middle;
   z-index: 1;
   overflow: hidden;
   aspect-ratio: 0.98/1;
   z-index: 2;
+}
+.game-grid-v4 {
+  transition: transform .15s ease-out;
 }
 
 .media-block {
@@ -771,6 +775,10 @@ input {
   transform: scale(1.025);
   border-radius: 4px;
   z-index: 2;
+}
+.game-grid-v4:hover {
+  transform: scale(1.07);
+  z-index: 1;
 }
 .not_hover {
   opacity: .55!important;  

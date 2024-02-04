@@ -57,7 +57,7 @@ export default function NewRelease(props) {
     return (
         <section className="w-full relative inline-block z-1 bg-[#121314]">
             <div>
-                <div className="mb-14 gdk">
+                <div className="mb-5 gdk">
                     <header className="text-center mt-3 flex justify-between items-end ml-20">
                         <div className="text-center">
                             <h2 className="text-[40px] font-[300px] mb-3">Great games out now or comming soon</h2>
@@ -96,7 +96,7 @@ export default function NewRelease(props) {
                                                                     <div className='absolute z-[-1] inset-0 media-block'>
                                                                         <div className='h-full relative'>
                                                                             <figure className='relative h-full w-full overflow-y-hidden flex'>
-                                                                                <img className='top-0 left-0 absolute object-cover w-full h-full media-image block' src={game.cover12x12}/>
+                                                                                <img className='top-0 left-0 absolute object-cover w-full h-full media-image block' loading="lazy" src={game.cover12x12}/>
                                                                             </figure>
                                                                         </div>
                                                                     </div>
