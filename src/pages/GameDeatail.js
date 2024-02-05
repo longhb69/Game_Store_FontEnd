@@ -10,6 +10,7 @@ import Lottie from "lottie-react";
 import * as animationData from "../loading.json";
 import SystemRequirements from '../components/SystemRequirements';
 import Checkout from '../components/Checkout';
+import Review from '../components/Review';
 
 
 export default function GameDeatail() {
@@ -18,6 +19,7 @@ export default function GameDeatail() {
     const [categories, setCategories] = useState();
     const [totalDlcPrice, setTotalDlcPrice] = useState();
     const [buttonBuynow, setButonBuynow] = useState(false);
+    const [showMore, setShowMore] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const [showAllDLC, setShowAllDLC] = useState(false); 
@@ -51,7 +53,10 @@ export default function GameDeatail() {
                 toalDLCPrice += parseFloat(dlc.price)
             });
             setTotalDlcPrice(toalDLCPrice.toFixed(3))
-            setSpecialColor(response.data.specialColor)
+            if(response.data.specialColor)
+                setSpecialColor(response.data.specialColor)
+            else 
+                setSpecialColor('#121212')
         }).catch((e) => {
             console.log(e)
         }).finally(() =>{
@@ -250,16 +255,16 @@ export default function GameDeatail() {
                                             <div className='flex flex-wrap flex-col gap-4'>
                                                     {game.dlc.slice(0,5).map((dlc) => {
                                                         return (
-                                                            <div className='flex flew-row w-full max-h-[140px]'>
-                                                                <GameDLC
-                                                                    key={dlc.id}
-                                                                    id={dlc.id}
-                                                                    name={dlc.name}
-                                                                    slug={dlc.slug}
-                                                                    price={dlc.price}
-                                                                    cover={dlc.cover}
-                                                                    image={dlc.image}/>
-                                                            </div>
+                                                            <GameDLC
+                                                                key={dlc.id}
+                                                                id={dlc.id}
+                                                                name={dlc.name}
+                                                                slug={dlc.slug}
+                                                                price={dlc.price}
+                                                                cover={dlc.cover}
+                                                                image={dlc.image}
+                                                                overview_description={dlc.overview_description}
+                                                            />
                                                         )
                                                     })}
                                                     {game.dlc.slice(5).map((dlc) => {
@@ -273,66 +278,78 @@ export default function GameDeatail() {
                                                                     price={dlc.price}
                                                                     cover={dlc.cover}
                                                                     image={dlc.image}
-                                                                    />
+                                                                    overview_description={dlc.overview_description}
+                                                                />
                                                             </div>
                                                         )
                                                     })}
                                             </div>
-                                            <div className='flex flew-row '>
-                                                <div className='ml-auto'>
-                                                    <div className='flex justify-end'>
-                                                        <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-2'} bg-[#202020] rounded`}>
-                                                                {(game.dlc.length < 5 && game.dlc.length !== 1) || showAllDLC? 
+                                            {game.dlc.length > 5 ?
+                                                <div className='flex flex-row '>
+                                                    <div className='ml-auto'>
+                                                        <div className='flex justify-end'>
+                                                            <div className={`flex ${showAllDLC ? 'mt-2 p-1 pl-3 rounded bg-[#202020]' : 'mt-2'} bg-[#202020] rounded`}>
+                                                                    {(game.dlc.length < 5 && game.dlc.length !== 1) || showAllDLC? 
+                                                                        <>
+                                                                            <div className='flex items-center pl-3'>{totalDlcPrice}<span className='underline'>đ</span></div>
+                                                                            <div className='ml-2 hover:brightness-110 text-[#d2efa9] hover:text-white'>
+                                                                                <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
+                                                                                        onClick={(e) => {
+                                                                                            e.preventDefault()
+                                                                                            addAllDlcToCart(game.id)
+                                                                                        }}>
+                                                                                    <span className=''>Add all DLC to Cart</span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </>
+                                                                    :
                                                                     <>
-                                                                        <div className='flex items-center pl-3'>{totalDlcPrice}<span className='underline'>đ</span></div>
-                                                                        <div className='ml-2 hover:brightness-110 text-[#d2efa9] hover:text-white'>
-                                                                            <button className='bg-gradient-to-r from-[#75b022] to-[#588a1b] py-1 px-3 rounded'
+                                                                        {game.dlc.length === 1 ? 
+                                                                            null
+                                                                        : 
+                                                                        <>
+                                                                        <div className='flex mr-3 items-center text-base text-cyan-500'>SHOWING 1-5 OF {game.dlc.length}</div>
+                                                                        <div className='bg-[#202020] py-0.5 pl-6 pr-3 rounded-sm hover:brightness-110 cursor-pointer hover:bg-gradient-to-r from-[#06BFFF] to-[#2D73FF]'>
+                                                                            <div className='pr-5 bg-[length:22px_22px] bg-[url(https://store.akamai.steamstatic.com/public/shared/images/popups/btn_arrow_down_padded.png)] bg-no-repeat bg-right'
                                                                                     onClick={(e) => {
                                                                                         e.preventDefault()
-                                                                                        addAllDlcToCart(game.id)
+                                                                                        setShowAllDLC(true)
                                                                                     }}>
-                                                                                <span className=''>Add all DLC to Cart</span>
-                                                                            </button>
+                                                                                <span className='text-base'>SEE ALL</span>
+                                                                            </div>
                                                                         </div>
-                                                                    </>
-                                                                :
-                                                                <>
-                                                                    {game.dlc.length === 1 ? 
-                                                                        null
-                                                                    : 
-                                                                    <>
-                                                                    <div className='flex mr-3 items-center text-base text-cyan-500'>SHOWING 1-5 OF {game.dlc.length}</div>
-                                                                    <div className='bg-[#202020] py-0.5 pl-6 pr-3 rounded-sm hover:brightness-110 cursor-pointer hover:bg-gradient-to-r from-[#06BFFF] to-[#2D73FF]'>
-                                                                        <div className='pr-5 bg-[length:22px_22px] bg-[url(https://store.akamai.steamstatic.com/public/shared/images/popups/btn_arrow_down_padded.png)] bg-no-repeat bg-right'
-                                                                                onClick={(e) => {
-                                                                                    e.preventDefault()
-                                                                                    setShowAllDLC(true)
-                                                                                }}>
-                                                                            <span className='text-base'>SEE ALL</span>
-                                                                        </div>
-                                                                    </div>
+                                                                        </>
+                                                                        }
                                                                     </>
                                                                     }
-                                                                </>
-                                                                }
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>                  
-                                                <div className='space'></div> 
-                                            </div>
+                                                    </div>                  
+                                                    <div className='space'></div> 
+                                                </div>
+                                            :null  } 
                                         </>
                                     ) : null}
                                 </div>
                                 <div className='flex mt-5 w-full'>
                                     <div className='w-full'>
                                         <h2 className='text-lg border-b'>ABOUT THIS GAME</h2>
-                                        <p className='mt-5' dangerouslySetInnerHTML={{ __html: game.detail_description }}></p>
+                                        <p className={`mt-5 ${showMore ? '' : 'max-h-[400px]'} overflow-hidden`} dangerouslySetInnerHTML={{ __html: game.detail_description }}></p>
+                                        <div className={`relative bg-[${specialColor}] flex flex-col opacity-1`}>
+                                            <button className='showmore-btn hover:bg-[#fff]/[.3]' onClick={() => {setShowMore(!showMore)}}>
+                                                <span className='text-center text-sm uppercase'>{showMore ? 'Show less' : 'Show more'}</span>
+                                                <span className={`block w-[20px] h-[20px] ${showMore ? 'rotate-180' : ''}`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 1024 1024"><path fill="currentColor" d="M255.583 340.917c-23.562.006-42.66 19.108-42.66 42.671 0 11.987 4.942 22.819 12.9 30.57l256.009 256.009c7.721 7.718 18.387 12.492 30.167 12.492s22.445-4.774 30.167-12.492l256-256c8.091-7.778 13.118-18.692 13.118-30.781 0-23.567-19.104-42.671-42.671-42.671-12.089 0-23.003 5.027-30.767 13.104l-.013.014L512 579.666 286.167 353.833c-7.76-7.971-18.594-12.916-30.583-12.917z"></path></svg>
+                                                </span>
+                                            </button>
+                                            <div className={`${showMore ? 'hidden' : 'absolute'} -top-[100px] h-[100px] w-full bg-gradient-to-b from-[${specialColor}]/[.0] to-[${specialColor}]`}></div>
+                                        </div>
                                     </div>             
                                 </div>
                             </div>
                             <aside className='max-w-[350px]'>
                                 <div className='flex sticky top-[100px] mt-5 flex-nowrap w-full'>
-                                    <div className=' text-white ml-7 w-[100%]'>
+                                    <div className='text-white ml-7 w-[100%]'>
                                         <div className='mb-3 '>
                                             <img className='rounded' src={game.image}/>
                                         </div>
@@ -409,7 +426,11 @@ export default function GameDeatail() {
                                 </div>
                             </aside>
                         </div>
-                        
+                        <div className='w-[75%]'>
+                            <Review 
+                                name={game.name}
+                                specialColor={specialColor}/>
+                        </div>
                         <div className='text-white text-lg w-[75%]'>
                             <SystemRequirements
                                 os_min={game.os_min}
@@ -426,7 +447,7 @@ export default function GameDeatail() {
                         </div>
                     </div>
                 </>
-            )};
+            )}
         <Checkout trigger={buttonBuynow}
                 setTrigger={setButonBuynow}
                 game={game}

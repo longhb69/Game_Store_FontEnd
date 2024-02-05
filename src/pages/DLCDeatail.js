@@ -29,6 +29,7 @@ export default function DLCDeatail() {
     useEffect(() => {
         getItemInCart();
         getLibary();
+        console.log("game", game)
     }, [])
 
     useEffect(() => {
@@ -154,7 +155,7 @@ export default function DLCDeatail() {
                 </div>
             :
             <>
-                {game && (
+                {game ?
                     <>
                         <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
                             <div className='text-white text-6xl mb-2 mt-8'>
@@ -283,7 +284,7 @@ export default function DLCDeatail() {
                             </div>
                         </div>
                     </>
-                )};      
+                :null};      
             <Checkout trigger={buttonBuynow}
                 setTrigger={setButonBuynow}
                 game={game}

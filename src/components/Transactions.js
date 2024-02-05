@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { baseUrl } from "../shared";
 import useFetchData from "../useFetchData"
 
 export default function Transactions() {
     const url = baseUrl + 'api/account/transactions';
     const {data, loading, error, refetch, next, pre} = useFetchData(url, localStorage.getItem('access'));
+    var count = 10;
     function showMoreInfo(index) {
         var tableBody = document.getElementById(index);
         var sibling = tableBody.firstElementChild;
@@ -20,8 +22,14 @@ export default function Transactions() {
         }
     }
     function handleShowMore() {
-        refetch(next, localStorage.getItem('access'));
+        for(let i=0;i<10;i++) {
+            if(next) refetch(next, localStorage.getItem('access'));
+        }
     }
+    useEffect(() => {
+        if(data.length < 10 && next) refetch(next, localStorage.getItem('access'));
+    }, [data])
+
 
     return (
         <div className="basis-[75%] max-w-[75%] p-2.5 ">

@@ -5,7 +5,6 @@ import TopSellers from '../components/TopSellers';
 import BrowseSlider from '../components/BrowseSlider';
 import NewRelease from '../components/NewRelease';
 import DeveloperSlider from '../components/DeveloperSlider';
-import DeveloperSlider2 from '../components/DeveloperSlider2';
 import { useEffect, useRef, useState } from 'react';
 import Lottie from "lottie-react";
 import * as animationData from "../loading.json";
@@ -120,7 +119,7 @@ export default function Home() {
                 </div>
             :
                 <>
-                    <div className='mt-5 w-[75%] mx-auto'>
+                    <div className='mt-5 w-[75%] mx-auto mt-5'>
                         <TopSellers/>
                     </div>
                 </>
