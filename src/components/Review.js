@@ -5,6 +5,8 @@ import { Swiper, SwiperSlide} from 'swiper/react';
 
 export default function Review(props) {
     const [reviews, setReviews] = useState();
+    const [loading, setLoading] = useState(true);
+    const loadingitems = Array.from({ length: 3 });
     const game_search = {
         method: 'GET',
         url: 'https://opencritic-api.p.rapidapi.com/game/search',
@@ -39,6 +41,8 @@ export default function Review(props) {
                     })
                 }).catch((err) => {
                     console.log(err)
+                }).finally(() => {
+                    setLoading(false)
                 })
             } catch(err) {
                 console.log(err)
@@ -65,6 +69,19 @@ export default function Review(props) {
                     <span>{props.name} Ratings & Reviews</span>
                 </h2>
             </div>
+            {loading ? 
+                <div className="flex flex-col w-full overflow-hidden">
+                    <div className="mt-11 w-full">
+                        <div className="w-full relative flex gap-4">
+                            {loadingitems.map((loading) => {
+                                return (
+                                    <div className="h-[400px] w-[400px] skeleton"></div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            :
             <div className="flex flex-col w-full overflow-hidden">
                 <div className="mt-11 w-full">
                     <div className="w-full h-full relative flex flex-col justify-between">
@@ -126,6 +143,7 @@ export default function Review(props) {
                     </div>
                 </div>
             </div>
+            }
         </div>
     );
 }
