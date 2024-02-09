@@ -161,7 +161,7 @@ export default function Transactions() {
                                 </div>
                                 {next ? 
                                     <div className="flex justify-center mt-[15px]">
-                                        <button className="showmore-btn hover:bg-[#aaa6a6]" onClick={() => handleShowMore()}>
+                                        <button className="showmore-btn2 hover:bg-[#aaa6a6]" onClick={() => handleShowMore()}>
                                             <span className="w-full">SHOW MORE</span>
                                         </button>
                                     </div>

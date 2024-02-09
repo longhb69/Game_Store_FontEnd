@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide} from 'swiper/react';
 
 
 export default function Review(props) {
-    const [gameId, setGameId] = useState();
     const [reviews, setReviews] = useState();
     const game_search = {
         method: 'GET',
@@ -33,10 +32,8 @@ export default function Review(props) {
         const fetchData = async () => {
             try {
                 axios.request(game_search).then((response) => {
-                    setGameId(response.data[0].id)
                     axios.request(get_review(response.data[0].id)).then((response2) => {
                         setReviews(response2.data)
-                        console.log(response2.data)
                     }).catch((err) => {
                         console.log(err)
                     })

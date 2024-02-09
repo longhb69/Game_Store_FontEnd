@@ -855,7 +855,7 @@ input {
 .table-hidden {
   display: none;
 }
-.showmore-btn {
+.showmore-btn2 {
   color: #141414;
   padding: 5px 20px;
   font-size: 0.75rem;
@@ -923,6 +923,3 @@ input {
   opacity: 0;
 }
 
-.css-flex {
-  
-}

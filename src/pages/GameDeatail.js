@@ -11,6 +11,7 @@ import * as animationData from "../loading.json";
 import SystemRequirements from '../components/SystemRequirements';
 import Checkout from '../components/Checkout';
 import Review from '../components/Review';
+import Comments from '../components/Comments';
 
 
 export default function GameDeatail() {
@@ -445,6 +446,11 @@ export default function GameDeatail() {
                                 storage_rec={game.storage_rec}
                             />
                         </div>
+                        {game.comments && game.comments.length > 0 ? 
+                        <div className='w-[75%]'>
+                            <Comments comments={game.comments}/>
+                        </div>
+                        : null}
                     </div>
                 </>
             )}
