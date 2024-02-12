@@ -85,7 +85,6 @@ export function LoginProvider({children}) {
               axios.post(url, {
                 refresh: localStorage.refresh,
               }).then((respone) => {
-                console.log(respone.data.access)
                 localStorage.access = respone.data.access
                 localStorage.refresh = respone.data.refresh
                 setAccount(localStorage.account)

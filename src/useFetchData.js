@@ -27,6 +27,7 @@ export default function useFetchData(url, authToken = null) {
                     setNext(response.data.next)
                     setPre(response.data.pre)
                 } else {
+                    console.log(response)
                     setData(response.data)
                 }
             }

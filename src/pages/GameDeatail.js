@@ -27,13 +27,14 @@ export default function GameDeatail() {
     const [loggedIn, setLoggedIn] = useLogin();
     const [specialColor, setSpecialColor] = useState('');
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
+    const [inLibary, setInlibary] = useState(false);
     const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const url = baseUrl + 'cart/'
     const addCartRef = useRef();
     const lottieRef = useRef();
     const [loading ,setLoading] = useState(true);
     const loadingitems = Array.from({ length: 4 });
-    const originalBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
+    //const originalBackgroundColor = window.getComputedStyle(document.body).backgroundColor;
 
     useEffect(() => {
         if(buttonBuynow){
@@ -47,6 +48,9 @@ export default function GameDeatail() {
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
         axios.get(url).then((response) => {
+            // if(libary.items_name.includes(slug)) {
+            //     setInlibary(true)
+            // }
             setGame(response.data)
             setCategories(response.data.category)
             var toalDLCPrice = 0
@@ -446,18 +450,25 @@ export default function GameDeatail() {
                                 storage_rec={game.storage_rec}
                             />
                         </div>
-                        {game.comments && game.comments.length > 0 ? 
-                        <div className='w-[75%]'>
-                            <Comments comments={game.comments}/>
-                        </div>
-                        : null}
+                        {game.comments ? 
+                            <div className='w-[75%]'>
+                                <Comments 
+                                    comments={game.comments} 
+                                    inLibary={true}
+                                    game={game.name}
+                                    loggedIn={loggedIn}
+                                    type={"game"}
+                                    game_id={game.id}/>
+                            </div>
+                            : null}
                     </div>
                 </>
             )}
         <Checkout trigger={buttonBuynow}
                 setTrigger={setButonBuynow}
                 game={game}
-                type={"game"}/>
+                type={"game"}
+                />
         </>}
         </>
     )

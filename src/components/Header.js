@@ -18,7 +18,9 @@ export default function Header(props) {
     const location = useLocation();
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [onHover, setOnHover] = useState(true);
+    const [searching, setSearching] = useState(false);
     const searchRef = useRef();
+    const loadingitems = Array.from({ length: 4 });
 
     useEffect(() => {
         const handleKeyPress = (event) => {
@@ -37,9 +39,19 @@ export default function Header(props) {
           };
     }, [query])
 
-    const handleInputChange = (event) => {
+    const handleInputChange = debounce((event) => {
         setQuery(event.target.value);
-    };
+    }); 
+    function debounce(cb, delay = 1000) {
+        let timeout 
+        return(...args) => {
+            clearTimeout(timeout);
+            setSearching(true)
+            timeout = setTimeout(() => {
+                cb(...args)
+            }, delay)
+        }
+    }
     const GoToSearch = (query) => {
         navigate(`search/${query}`);
     };
@@ -67,13 +79,13 @@ export default function Header(props) {
     }
     useEffect(() => {
         if(query.trim() !== "") {
-            console.log("fetch")
             fetchData();
-            setTyping(true)
+            setTyping(true);
         } 
         else {
             setTyping(false)
         }
+        setSearching(false);
     }, [query])
     const fetchData = async() => {
         const url = baseUrl + `search?q=${query}`
@@ -112,7 +124,7 @@ export default function Header(props) {
                                         <input 
                                             ref={typeFieldRef}
                                             name="query"
-                                            onChange={handleInputChange}
+                                            onChange={(event) => {handleInputChange(event)}}
                                             className={`mr-[13.62px] text-[#F5F5F5] border-none overflow-hidden whitespace-nowrap w-full outline-0 ${isInputFocused ? 'bg-transparent' : 'bg-[#202020] transition ease-in-out duration-100'}`}
                                             placeholder='Search Store'
                                             onFocus={() => setIsInputFocused(true)}
@@ -132,6 +144,22 @@ export default function Header(props) {
                                                 <span className='transition'>
                                                     <div className='h-full w-[490px] max-w-[490px] text-left'>
                                                         <ul className='p-0 m-0 list-none ml-3.5'>
+                                                            {searching ? 
+                                                                <>
+                                                                    {loadingitems.map((loading) => {
+                                                                        return (
+                                                                            <li className='w-full mb-3'>
+                                                                                <div className='h-[46px] max-h-[46px] flex gap-4'>
+                                                                                    <div className='w-[8%] h-full skeleton'></div>
+                                                                                    <div className='flex items-center w-[92%] pr-1'>
+                                                                                        <div className='skeleton h-[20px] w-full'></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        );
+                                                                    })}
+                                                                </>
+                                                            : <>
                                                             {result && result.length > 0 ? 
                                                                     <>
                                                                     {result.map((game) => {
@@ -179,6 +207,7 @@ export default function Header(props) {
                                                                     </div>
                                                                 </li>
                                                             }
+                                                            </>}
                                                         </ul>
                                                     </div>
                                                 </span>

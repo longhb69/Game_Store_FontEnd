@@ -923,3 +923,34 @@ input {
   opacity: 0;
 }
 
+.recommended-icon {
+  padding-top: 0.25rem; 
+  padding-bottom: 0.25rem; 
+  padding-left: 1rem; 
+  padding-right: 1rem; 
+  display: flex; 
+  align-items: center; 
+  gap: 3px; 
+  cursor: pointer; 
+  border-radius: 4px;
+  transition-property: color, background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.recommended-icon:hover {
+  background-color: #5532db;
+}
+.ico16 {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  background: url(https://store.cloudflare.steamstatic.com/public/shared/images/buttons/icons_16.png?v=5);
+}
+.ico16.thumb_upv6 {
+  background-position: -112px -16px;
+}
+
+.ico16.thumb_downv6 {
+  background-position: -64px -16px;
+}

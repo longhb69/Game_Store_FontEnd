@@ -1,10 +1,103 @@
+import axios from "axios";
+import { baseUrl } from "../shared";
+import useFetchData from "../useFetchData";
+import { useEffect, useRef, useState } from 'react';
+
 export default function Comments(props) {
+    const url = baseUrl + 'api/account/'
+    const [comments, setComments] = useState(props.comments);
+    const {data:account, loading, error} = useFetchData(url, localStorage.getItem('access'));
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const  postComment = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target); 
+        const text = formData.get('comment');
+        const type = props.type;
+        const recommended = selectedOption !== null ? selectedOption : 1; 
+        const game_id = props.game_id;
+        const url = baseUrl + '/api/comment'
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json', 
+                    Authorization: 'Bearer ' + localStorage.getItem('access'), 
+                }
+            };
+            const response = await axios.post(url, {
+                text,
+                recommended,
+                type,
+                game_id,
+            },config);
+            if(response.status === 201) {
+                const newComment = response.data
+                setComments(prevComments => [ newComment, ...prevComments])
+            }
+            e.target.reset();
+            setSelectedOption(null);
+        } catch (error) {
+            console.error('Error posting comment:', error);
+        }
+    }
+    function recommendedChoice(choice) {
+        if(choice === 1) {
+            setSelectedOption(1);
+        }
+        else if(choice === 0) {
+            setSelectedOption(0);
+        }
+    }
+
     return (
         <>
             <div className="border-[#000] border-b pb-5 mb-5"></div>
             <div className="text-[#c6d4df]">
                 <div className="uppercase text-[#fff] pb-2">User Reviews</div>
-                {props.comments.map((comment) => {
+                {props.inLibary && props.loggedIn ? 
+                    <>
+                        <div className="w-full h-full bg-[#000]/[0.3]">
+                            <div className="w-full h-full p-3 mb-4">
+                                <h2 className="text-xl mb-3">Write a review for {props.game}</h2>
+                                <div className="flex">
+                                    <div className="flex basis-[10%]">
+                                        <div className="w-[80px] h-[80px] relative bg-gradient-to-r from-[#5532db] to-[#32db55]">
+                                            <img className="w-full h-full p-[2px]" src={account.user_avatar} alt='avatar'></img>
+                                        </div>
+                                    </div>
+                                    <div className="basis-[90%] flex flex-col">
+                                        <form className="w-full h-full" onSubmit={postComment}>
+                                            <textarea id="comment" className=" p-1.5 w-full bg-[#ffe0b3] text-[#121212]" name="comment" rows="5" required></textarea>
+                                            <div className="flex justify-between mt-1.5">
+                                                <div className="flex flex-col">
+                                                    <h1 className="text-sm mb-1.5">Do you recommended this game?</h1>
+                                                    <div className="flex gap-1.5">
+                                                        <div className={`recommended-icon ${selectedOption === 1 ? 'bg-[#5532db]' : 'bg-[#fff]/[.1]'}`} onClick={() => recommendedChoice(1)}>
+                                                            <i class="ico16 thumb_upv6"></i>
+                                                            <span>
+                                                                Yes
+                                                            </span>
+                                                        </div>
+                                                        <div className={`recommended-icon ${selectedOption === 0 ? 'bg-[#5532db]' : 'bg-[#fff]/[.1]'}`} onClick={() => recommendedChoice(0)}>
+                                                            <i class="ico16 thumb_downv6"></i>
+                                                            <span>
+                                                                No
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <button className={`min-w-[40px] mt-2 px-4 py-2 bg-[#5532db] text-[#fff] rounded transition hover:bg-[#32db55]/[.9] hover:text-[#fff]`} type="submit">Post review</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                : null}
+                {comments.map((comment) => {
                     return (
                         <div className="mb-6 bg-[#000]/[.2]">
                             <div className="py-4 px-2 flex">
