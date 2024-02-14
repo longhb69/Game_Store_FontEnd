@@ -1,11 +1,11 @@
 import GameDeatail from './pages/GameDeatail';
 import './index.css';
 import Home from './pages/Home';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CategoryGame from './pages/CategoryGame';
 import Header from './components/Header';
 import Login from './pages/Login';
-import { createContext, useEffect, useState } from 'react';
+import { createContext} from 'react';
 import { LoginProvider } from './LoginContext';
 import DLCDeatail from './pages/DLCDeatail';
 import Cart from './pages/Cart';
@@ -18,12 +18,14 @@ import Libary from './pages/Libary';
 import Account from './pages/Account';
 import Transactions from './components/Transactions';
 import Password from './components/Password';
+import ScrollToTop from './components/ScrollToTop';
 export const UserContext = createContext();
 
 function App() {
   return (
     <LoginProvider>
-        <BrowserRouter>
+        <Router>
+         <ScrollToTop />
             <Header>
               <Routes>
                   <Route path="" element={<Home/>}/>
@@ -44,7 +46,7 @@ function App() {
                   </Route>
               </Routes>
             </Header>
-        </BrowserRouter>
+        </Router>
     </LoginProvider>
   );
 }

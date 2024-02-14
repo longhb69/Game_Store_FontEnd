@@ -27,7 +27,6 @@ export default function GameDeatail() {
     const [loggedIn, setLoggedIn] = useLogin();
     const [specialColor, setSpecialColor] = useState('');
     const [itemsInCart, setItemsInCart,getItemInCart, cartQuantity, setCartQuantity, getCartQuantity] = useCart();
-    const [inLibary, setInlibary] = useState(false);
     const [account, setAccount, libary, setLibary, getLibary] = useAccount();
     const url = baseUrl + 'cart/'
     const addCartRef = useRef();
@@ -48,9 +47,6 @@ export default function GameDeatail() {
     useEffect(() => {
         const url = baseUrl + 'api/game/' + slug
         axios.get(url).then((response) => {
-            // if(libary.items_name.includes(slug)) {
-            //     setInlibary(true)
-            // }
             setGame(response.data)
             setCategories(response.data.category)
             var toalDLCPrice = 0
@@ -218,7 +214,7 @@ export default function GameDeatail() {
             <>
             { game && (
                 <>
-                    <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay ${buttonBuynow ? '' : 'active'}`}>
+                    <div className={`mx-auto w-[75%] mt-2 text-nowrap overlay mb-10 ${buttonBuynow ? '' : 'active'}`}>
                         <div className='text-white text-6xl mb-2 mt-8'>
                             {game.name}
                         </div>
@@ -450,17 +446,14 @@ export default function GameDeatail() {
                                 storage_rec={game.storage_rec}
                             />
                         </div>
-                        {game.comments ? 
-                            <div className='w-[75%]'>
-                                <Comments 
-                                    comments={game.comments} 
-                                    inLibary={true}
-                                    game={game.name}
-                                    loggedIn={loggedIn}
-                                    type={"game"}
-                                    game_id={game.id}/>
-                            </div>
-                            : null}
+                        <div className='w-[75%]'>
+                            <Comments 
+                                inLibary={libary && libary.items_name.includes(game.slug) ? true : false}
+                                game={game.name}
+                                loggedIn={loggedIn}
+                                type={"game"}
+                                game_id={game.id}/>
+                        </div>
                     </div>
                 </>
             )}

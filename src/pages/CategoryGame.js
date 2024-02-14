@@ -8,9 +8,28 @@ import useFetchData from "../useFetchData";
 
 export default function CategoryGame() {
     const slug = useParams().slug;
+    const [games, setGames] = useState();
+    const [loading, setLoading] = useState(true);
+    const [next, setNext] = useState();
+    const [pre, setPre] = useState();
     const url = baseUrl + `api/category/${slug}/`;
-    const {data : games, loading, error} = useFetchData(url);
-    if(error) console.log(error )
+    useEffect(() => {
+        axios.get(url).then(response => {
+            setGames(response.data.results);
+            setNext(response.data.next);
+            setPre(response.data.pre);
+        }).finally(() => {
+            setLoading(false);
+        })
+    }, [])
+
+    function showMore() {
+        axios.get(next).then(response => {
+            setGames(prevComments => [...prevComments, ...response.data.results]);
+            setNext(response.data.next);
+            setPre(response.data.pre);
+        })
+    }
     return (
         <>
             {loading ? (
@@ -21,10 +40,13 @@ export default function CategoryGame() {
                     <CategoryPageSlider 
                         name={slug}
                         games={games}
+                        count={games.length}
                     />
                     <div className="mx-auto mb-5 w-[60%] mt-[90px] z-[99] max-w-[950px]">
                         <SaleSection 
                             games={games}
+                            showMore={showMore}
+                            next={next?.length > 0}
                         />
                     </div>
                 </div>

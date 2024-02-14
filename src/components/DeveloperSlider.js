@@ -86,8 +86,8 @@ export default function DeveloperSlider(props) {
                             spaceBetween={25}
                             speed={300}
                             allowTouchMove={false}
-                            slidesPerView={7}
-                            slidesPerGroup={7}
+                            slidesPerView={6}
+                            slidesPerGroup={6}
                             noSwiping={true}
                             className='developer-swiper'
                             onSlideChange={() => {

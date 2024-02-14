@@ -507,8 +507,6 @@ body.overlay-active {
   transform: translateX(4px)
 }
 
-.hover-affect {
-}
 .hover-affect::after {
   -webkit-transition: opacity 125ms ease-in-out;
   transition: opacity 125ms ease-in-out;
@@ -953,4 +951,22 @@ input {
 
 .ico16.thumb_downv6 {
   background-position: -64px -16px;
+}
+
+.pagination {
+  transition-property: left, right;
+  transition-duration: .4s;
+}
+
+.btn-5 {
+  border: none;
+  line-height: 32px;
+  color: #dfe3e6;
+  text-align: center;
+  border-radius: 2px;
+  cursor: pointer;
+  min-width: 40%;
+  white-space: nowrap;
+  padding: 0 10px;
+  background-color: rgba(255,255,255,.2);
 }

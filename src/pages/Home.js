@@ -26,6 +26,7 @@ export default function Home() {
     const PSlogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1706551730/2560px-PlayStation_logo.svg_j6cdu8.png';  
     const Ubilogo = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1707063821/pngaaa.com-374032_gmwonz.png';
     const UbiBg = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1707062851/cropped-1920-1080-1189033_oxlfgg.jpg';
+    const PSBg = 'https://res.cloudinary.com/dfo61m8dy/image/upload/v1707912181/d3667b280ac3b39031d345f8a038f953_qv4te7.jpg';
     const [loading ,setLoading] = useState([true,true]);
     const lazyLoadRefs = [useRef(), useRef()];
 
@@ -44,7 +45,7 @@ export default function Home() {
     }
     useEffect(() => {
         const options = {
-            threshold: 1,
+            threshold: 0.6,
         }
         const observer = new IntersectionObserver (lazyLoadCallBack, options);
         lazyLoadRefs.forEach((ref) => {
@@ -74,13 +75,13 @@ export default function Home() {
                 </div>
             :
                 <>
-                    <div className={`section-load w-full min-h-[350px] bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
+                    <div className={`section-load w-[75%] mx-auto min-h-[350px] bg-gradient-to-r from-[#0d1042] to-[#792844] mt-8 pb-4`}>
                         <DeveloperSlider 
                             url={DeveloperUrl3}
                             logo={EAlogo}
                         />
                     </div>
-                    <div className={`w-full min-h-[350px] bg-gradient-to-r from-[#006FCC] to-[#00AC9F] pb-4 mb-4`}>
+                    <div className={`w-[75%] mx-auto min-h-[350px]`} style={{backgroundImage: `url('${PSBg}')`}}>
                     <DeveloperSlider 
                             url={DeveloperUrl2}
                             logo={PSlogo}
@@ -94,15 +95,15 @@ export default function Home() {
                     CommingSoonUrl={CommingSoonUrl}
                 />
             </div>
-            <div className='p-7'>
+            <div className='p-7 w-[75%] mx-auto'>
                 <BrowseSlider
                     url={PicksForYouUrl}
                     title={'Picks for you'}
                     linkable={false}
-                    slideperview={8}
+                    slideperview={6}
                 />
             </div> 
-            <div className='section-load w-full mt-8 pb-4 min-h-[350px]' style={{backgroundImage: `url('${UbiBg}')`}}>
+            <div className='section-load w-[75%] mx-auto mt-8 pb-4 min-h-[350px]' style={{backgroundImage: `url('${UbiBg}')`}}>
                 {loading[1] ? 
                     <div  ref={lazyLoadRefs[1]} className=' mx-auto flex justify-center my-10'>
                         <Lottie className='h-[60px] w-[60px]' animationData={animationData} loop={true}/>
@@ -124,9 +125,9 @@ export default function Home() {
                     </div>
                 </>
             }
-            <div className='flex flex-col items-center justify-center mt-5'>
+            {/* <div className='flex flex-col items-center justify-center mt-5'>
                 <Slider/>
-            </div>
+            </div> */}
         </div>
     )
 }

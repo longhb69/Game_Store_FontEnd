@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 export default function CategoryPageSlider(props) {
     const swiperContainerRef = useRef();
     const backgroundRef = useRef();
+    const pagination = useRef()
    
     useEffect(() => {
         handleBackgroundChange();
@@ -22,7 +23,19 @@ export default function CategoryPageSlider(props) {
         let currentIndex = swiperContainerRef.current.swiper.activeIndex
         if(props.games) {
             backgroundRef.current.style.backgroundImage = `url(${props.games[currentIndex].hero})`;
-        }        
+        }  
+        
+        pagination.current.style.left = `${(currentIndex/props.count)*100}%`
+        pagination.current.style.right = `${((props.count-currentIndex)/props.count-1/props.count)*100}%`
+
+        if (swiperContainerRef.current.swiper.isBeginning) {
+            pagination.current.style.left = `0%`
+            pagination.current.style.right = `91.6667%`
+        } else if (swiperContainerRef.current.swiper.isEnd) {
+            pagination.current.style.left = `91.6667%`
+            pagination.current.style.right = `0%`
+        }
+
     }
     return (
         <>
@@ -57,7 +70,7 @@ export default function CategoryPageSlider(props) {
                 >
                     {props.games ? 
                         <>
-                            {props.games.map((game) => {
+                            {props.games.slice(0,props.count).map((game) => {
                                 return (
                                     <SwiperSlide>
                                         <div className="w-full max-w-[1100px] h-[400px] flex bg-[#0000004f] info-container">
@@ -111,6 +124,13 @@ export default function CategoryPageSlider(props) {
                             <polygon fill="#ffffff" points="0,0.093 0,25.702 24.323,50.026 0,74.349 0,99.955 49.929,50.026 "></polygon>
                     </svg>
                 </button>
+            </div>
+            <div className="max-w-[1050px] w-full mx-auto flex h-[35px] text-[#c6d4df]">
+                <div className="relative h-full grow">
+                    <div className="absolute left-0 top-[17px] bottom-[17px] right-0 bg-[#fff]/[.13]"></div>
+                    <div ref={pagination} className="pagination absolute top-[16px] bottom-[16px] bg-[#fff]/[.35]">
+                    </div>
+                </div>
             </div>
         </div>
         </>

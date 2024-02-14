@@ -43,9 +43,6 @@ export default function SaleSection(props) {
             <div className="pb-2">
                 <div className="flex px-[16px] py-[4px] w-full items-center text-[#c6d4df]">
                     <div className="border-b-2 p-[4px] mb-[4px] mr-[8px] whitespace-nowrap cursor-pointer text-[#fff]">All ITEMS</div>
-                    <div className='p-[4px] mb-[4px] mr-[8px] ml-[8px] whitespace-nowrap cursor-pointer'>TOP SELLERS</div>
-                    <div className='p-[4px] mb-[4px] mr-[8px] ml-[8px] whitespace-nowrap cursor-pointer'>TOP RATED</div>
-                    <div className='p-[4px] mb-[4px] mr-[8px] ml-[8px] whitespace-nowrap cursor-pointer'>POPULAR UPCOMING</div>
                 </div>
                 <div className="px-[16px] mt-5 relative">
                     {props.games ? 
@@ -117,6 +114,12 @@ export default function SaleSection(props) {
                             })}
                         </>
                     : null}
+                    {props.next ?
+                        <div className="flex justify-center mt-[14px]">
+                            <button className="btn-5 relative hover-affect"
+                            onClick={props.showMore}>Show more</button>
+                        </div>
+                    :null}
                 </div>
             </div>
             
